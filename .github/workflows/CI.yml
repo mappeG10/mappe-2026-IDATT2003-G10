@@ -2,9 +2,9 @@ name: Java CI
 
 on:
   push:
-    branches: [ "main", "feat/setup-ci-pipeline" ]
+    branches: [ "main"]
   pull_request:
-    branches: [ "main", "feat/setup-ci-pipeline" ]
+    branches: [ "main"]
 
 permissions:
   contents: read
