@@ -1,4 +1,31 @@
 package edu.ntnu.idi.idatt.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Portfolio {
+  private final List<Share> shares;
+
+  public Portfolio() {
+    shares = new ArrayList<>();
+  }
+
+  public boolean addShare(Share share) {
+    return shares.add(share);
+  }
+
+  public boolean removeShare(Share share) {
+    return shares.remove(share);
+  }
+  public List<Share> getShares() {
+    return shares;
+  }
+  public List<Share> getShares(String symbol){
+    return this.shares.stream().filter(
+        share -> share.getStock().getSymbol().equals(symbol)
+    ).toList();
+  }
+  public boolean contatins(Share share) {
+    return shares.contains(share);
+  }
 }
