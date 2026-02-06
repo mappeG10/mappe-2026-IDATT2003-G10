@@ -38,7 +38,7 @@ jobs:
         mkdir -p page
         cp -r target/reports/apidocs page/
         cp -r target/site/jacoco page/
-        cp index.html page/
+        cp page/index.html page/
 
 
 
