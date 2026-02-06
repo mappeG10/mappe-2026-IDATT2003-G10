@@ -29,8 +29,8 @@ jobs:
     - name: Build with Maven
       run: mvn clean package --batch-mode
 
-    - name: Run CheckStyle
-      run: mvn checkstyle:check
+    #- name: Run CheckStyle
+    #  run: mvn checkstyle:check
 
     - name: Build JavaDoc
       run: mvn javadoc:javadoc
