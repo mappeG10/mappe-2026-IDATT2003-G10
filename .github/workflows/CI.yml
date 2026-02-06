@@ -33,6 +33,14 @@ jobs:
     #- name: Run CheckStyle
     #  run: mvn checkstyle:check
 
+    - name: Prepare Pages folder
+      run: |
+        mkdir -p page
+        cp -r target/site/apidocs page/
+        cp -r target/site/jacoco page/
+        cp index.html page/
+
+
 
 
     - name: Upload reports
@@ -40,10 +48,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: github-pages
-        path: |
-          target/jacoco/coverage-reports/
-          target/reports/apidocs/
-          page/index.html
+        path: page/
 
   deploy-docs:
     needs: build-and-verify
