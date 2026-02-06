@@ -36,8 +36,9 @@ jobs:
     - name: Prepare Pages folder
       run: |
         mkdir -p page
-          cp -r target/reports/apidocs page/
-          cp -r target/jacoco/coverage-reports page/jacoco
+        cp -r target/reports/apidocs page/
+        cp -r target/jacoco/coverage-reports page/jacoco
+
 
 
 
