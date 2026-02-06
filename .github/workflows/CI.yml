@@ -47,7 +47,7 @@ jobs:
   deploy-docs:
     needs: build-and-verify
     
-    if: github.ref == 'refs/heads/main'
+  #  if: github.ref == 'refs/heads/main'
     
     environment:
       name: github-pages
