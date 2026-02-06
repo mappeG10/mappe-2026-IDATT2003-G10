@@ -41,8 +41,8 @@ jobs:
       with:
         name: reports
         path: |
-          target/site/jacoco/
-          target/reports/apidocs/
+          target/jacoco/coverage-reports/
+          target/site/apidocs/
 
   deploy-docs:
     needs: build-and-verify
