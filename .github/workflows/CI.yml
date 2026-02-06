@@ -42,7 +42,7 @@ jobs:
         name: reports
         path: |
           target/jacoco/coverage-reports/
-          target/site/apidocs/
+          target/reports/apidocs/
 
   deploy-docs:
     needs: build-and-verify
@@ -59,3 +59,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          path: |
+            target/site/apidocs
+            target/site/jacoco
+            page/index.html   
