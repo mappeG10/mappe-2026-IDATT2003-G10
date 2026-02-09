@@ -70,10 +70,13 @@
           </execution>
           <execution>
             <id>report</id>
-            <phase>test</phase>
+            <phase>verify</phase>
             <goals>
               <goal>report</goal>
             </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/jacoco/coverage-reports/</outputDirectory>
+            </configuration>
           </execution>
         </executions>
         </plugin>
