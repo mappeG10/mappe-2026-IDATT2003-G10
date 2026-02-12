@@ -1,20 +1,22 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 public class Exchange {
 
-  private String name;
+  private final String name;
   private int week;
-  private Map<String, Stock> stockMap;
-  private Random random;
+  private final Map<String, Stock> stockMap;
+  private final Random random;
 
   public Exchange(String name, List<Stock> stocks) {
     this.name = name;
     this.week = 1;
+    this.stockMap = new HashMap<>();
     for (Stock stock : stocks) {
       stockMap.put(stock.getSymbol(), stock);
     }

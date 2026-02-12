@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 public class PurchaseCalculator implements TransactionCalculator {
 
 
-  private BigDecimal purchasePrice;
-  private BigDecimal quantity;
+  private final BigDecimal purchasePrice;
+  private final BigDecimal quantity;
 
 
   public PurchaseCalculator(Share share) {
