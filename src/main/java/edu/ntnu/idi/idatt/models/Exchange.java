@@ -48,16 +48,49 @@ public class Exchange {
   }
 
   public Transaction buy(String symbol, BigDecimal quantity, Player player) {
-    return null; // TODO: implement buy functionalities
+
+    if (!hasStock(symbol)) {
+      return null; // TODO: add custom exceptions here?
+    }
+
+    Stock stock = getStock(symbol);
+
+    Share share = new Share(stock, quantity, stock.getSalesPrice());
+
+    Purchase purchase = new Purchase(share, week);
+
+    purchase.commit(player);
+
+    return purchase;
+
   }
 
   public Transaction sell(Share share, Player player) {
-    return null; // TODO: implement sell functionalities
+
+    Sale sale = new Sale(share, week);
+
+    sale.commit(player);
+
+    return sale;
+
   }
 
   public void advance() {
     week ++;
 
-    // TODO: implement price updating mechanics
+    for (Stock stock : stockMap.values()) {
+      BigDecimal oldStockPrice = stock.getSalesPrice();
+
+      // Should make a random value between 7.5% and -7.5%
+      BigDecimal randomPriceChangeConstant = BigDecimal.valueOf((random.nextDouble() * 0.15) - 0.075);
+
+
+      BigDecimal newStockPrice = oldStockPrice.add(oldStockPrice.multiply(randomPriceChangeConstant));
+      // TODO: depending on the format of the prices we might need to round the decimals of the new price
+
+      stock.addNewSalesPrice(newStockPrice);
+
+
+    }
   }
 }
