@@ -8,7 +8,22 @@ public class Purchase extends Transaction {
 
   @Override
   public void commit(Player player) {
-    // TODO: implement commit logic
+
+    if (isCommitted()) {
+      return; // TODO: add custom exceptions here?
+    }
+
+    if (player.getMoney().compareTo(getCalculator().calculateTotal()) < 0) {
+      return; // TODO: add custom exceptions here?
+    }
+
+    player.withdrawMoney(getCalculator().calculateTotal());
+    player.getPortfolio().addShare(getShare());
+    player.getTransactionArchive().add(this);
+
+    // TODO: change committed flag to true if purchase is completed
+
+
   }
 
 }
