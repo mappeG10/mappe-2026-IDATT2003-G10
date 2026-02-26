@@ -30,8 +30,9 @@ public abstract class Transaction {
     return committed;
   }
 
-  // TODO: setCommitted method here?
-
+  public void setCommitted() {
+    this.committed = true;
+  }
 
   public abstract void commit(Player player);
 }
