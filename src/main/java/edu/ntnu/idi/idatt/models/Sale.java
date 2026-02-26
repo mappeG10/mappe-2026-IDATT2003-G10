@@ -17,14 +17,12 @@ public class Sale extends Transaction {
       return; // TODO: add custom exceptions here?
     }
 
-
     player.addMoney(getCalculator().calculateTotal());
-
     player.getPortfolio().removeShare(getShare());
-
     player.getTransactionArchive().add(this);
 
-    // TODO: change committed flag to true if sale is completed
+    this.setCommitted();
+
   }
 
 }
