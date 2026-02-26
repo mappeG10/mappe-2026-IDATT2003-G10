@@ -34,7 +34,6 @@ public abstract class Transaction {
     this.committed = true;
   }
 
-
   public abstract void commit(Player player);
 }
 
