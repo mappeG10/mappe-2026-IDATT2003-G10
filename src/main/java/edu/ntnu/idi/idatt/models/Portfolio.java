@@ -11,6 +11,9 @@ public class Portfolio {
   }
 
   public boolean addShare(Share share) {
+    if (share == null) {
+      return false;
+    } // TODO: Should we check if share already exists in the portfolio?
     return shares.add(share);
   }
 
