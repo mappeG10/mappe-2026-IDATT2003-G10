@@ -14,6 +14,12 @@ public class Exchange {
   private final Random random;
 
   public Exchange(String name, List<Stock> stocks) {
+    if (name == null || name.isBlank()) {
+      throw new IllegalArgumentException("Name cannot be null or blank");
+    }
+    if (stocks == null || stocks.isEmpty()) {
+      throw new IllegalArgumentException("Stocks cannot be null or empty");
+    }
     this.name = name;
     this.week = 1;
     this.stockMap = new HashMap<>();
