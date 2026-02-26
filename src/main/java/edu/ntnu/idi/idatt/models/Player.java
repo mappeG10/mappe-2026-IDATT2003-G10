@@ -11,7 +11,12 @@ public class Player {
   private final TransactionArchive transactionArchive;
 
   public Player(String name, BigDecimal startingMoney) {
-    // TODO: implemement guard conditions
+    if (name == null || name.isBlank()) {
+      throw new IllegalArgumentException("Player name cannot be null or blank");
+    }
+    if (startingMoney == null || startingMoney.compareTo(BigDecimal.ZERO) < 0) {
+      throw new IllegalArgumentException("Start money cannot be negative");
+    }
     this.name = name;
     this.startingMoney = startingMoney;
     this.money = startingMoney;
@@ -28,11 +33,17 @@ public class Player {
   }
 
   public void addMoney(BigDecimal amount) {
-    money = money.add(amount); // TODO: handle potential illegal operations
+    if (amount == null  || amount.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("You cannot add negative money or zero");
+    } // TODO: migrate over to custom exceptions later
+    money = money.add(amount);
   }
 
   public void withdrawMoney(BigDecimal amount) {
-    money = money.subtract(amount); // TODO: handle potential illegal operations
+    if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("You cannot withdraw negative money or zero");
+    } // TODO: migrate over to custom exceptions later
+    money = money.subtract(amount);
   }
 
   public Portfolio getPortfolio() {
