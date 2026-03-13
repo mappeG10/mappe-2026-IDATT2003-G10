@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,4 +32,17 @@ public class Portfolio {
   public boolean contatins(Share share) {
     return shares.contains(share);
   }
+
+
+  public BigDecimal getNetWorth() {
+    BigDecimal netWorth = BigDecimal.ZERO;
+
+    for (Share share : shares) {
+      netWorth.add(share.getPurchasePrice());
+    }
+
+    return netWorth;
+  }
+
+
 }
