@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,4 +100,24 @@ public class Exchange {
 
     }
   }
+
+  public List<Stock> getGainers(int limit) {
+    return stockMap.values().stream()
+        .sorted(Comparator.comparing(Stock::getLatestPriceChange))
+        .limit(limit)
+        .toList();
+
+    // TODO: Make unit tests to make sure this works
+
+  }
+
+  public List<Stock> getLosers(int limit) {
+    return stockMap.values().stream()
+        .sorted(Comparator.comparing(Stock::getLatestPriceChange))
+        .sorted()
+        .limit(limit)
+        .toList()
+        .reversed();
+  }
+
 }

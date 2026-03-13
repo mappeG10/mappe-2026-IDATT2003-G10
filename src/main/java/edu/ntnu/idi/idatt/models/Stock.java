@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,4 +44,23 @@ public class Stock {
     }
     prices.add(price);
   }
+
+  // TODO: Make unit tests for methods below
+
+  public List<BigDecimal> getHistoricalPrices() {
+    return prices;
+  }
+
+  public BigDecimal getHighestPrice() {
+    return Collections.max(prices);
+  }
+
+  public BigDecimal getLowestPrice() {
+    return Collections.min(prices);
+  }
+
+  public BigDecimal getLatestPriceChange() {
+    return prices.getLast().subtract(prices.get(prices.size() - 2));
+  }
+
 }
