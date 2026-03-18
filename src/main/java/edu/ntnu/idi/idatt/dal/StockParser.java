@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public class StockParser {
 
+  private StockParser() {}
+
   public static List<Stock> parseStocks(String fileName) {
     List<Stock> stocks = new ArrayList<>();
     String line;
