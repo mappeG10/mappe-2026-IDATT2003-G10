@@ -39,7 +39,7 @@ public class StockParser {
     try {
       String[] data = line.split(",");
 
-      if (data.length < 3) {
+      if (data.length != 3) {
         return Optional.empty();
       }
 
