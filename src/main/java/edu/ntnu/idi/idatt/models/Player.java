@@ -69,7 +69,7 @@ public class Player {
     int weeks = this.transactionArchive.countDistinctWeeks();
 
     BigDecimal profitPercent = money.subtract(startingMoney)
-        .divide(money, MathContext.DECIMAL128)
+        .divide(startingMoney, MathContext.DECIMAL128)
         .multiply(new BigDecimal(100))
         .setScale(2, RoundingMode.HALF_UP);
 
