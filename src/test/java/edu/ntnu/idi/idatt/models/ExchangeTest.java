@@ -94,9 +94,8 @@ class ExchangeTest {
   @Test
   void testBuy() {
     BigDecimal quantity = new BigDecimal("10");
-    BigDecimal cost = stock1.getSalesPrice().multiply(quantity);
-
     Transaction purchase = exchange.buy("APPL", quantity, player);
+    BigDecimal cost = purchase.getCalculator().calculateTotal();
 
     assertNotNull(purchase, "Purchase transaction should not be null");
     assertInstanceOf(Purchase.class, purchase, "Transaction should be an instance of Purchase");
@@ -127,9 +126,10 @@ class ExchangeTest {
     player.getPortfolio().addShare(shareToSell);
     player.withdrawMoney(stock1.getSalesPrice().multiply(quantity));
     BigDecimal moneyBeforeSale = player.getMoney();
-    BigDecimal saleValue = stock1.getSalesPrice().multiply(quantity);
 
     Transaction sale = exchange.sell(shareToSell, player);
+    BigDecimal saleValue = sale.getCalculator().calculateTotal();
+
 
     assertNotNull(sale, "Sale transaction should not be null");
     assertInstanceOf(Sale.class, sale, "Transaction should be an instance of Sale");
@@ -144,9 +144,9 @@ class ExchangeTest {
 
     assertEquals(3, gainersList.size(),
     "Gainers list should only have 3 stocks");
-    assertEquals(stock1, gainersList.getFirst());
-    assertEquals(stock2, gainersList.get(1));
-    assertEquals(stock3, gainersList.get(2));
+    assertEquals(stock1, gainersList.getFirst(), "Stock 1 should be first");
+    assertEquals(stock2, gainersList.get(1), "Stock 2 should be second");
+    assertEquals(stock3, gainersList.get(2), "Stock 3 should be third");
   }
 
   @Test
