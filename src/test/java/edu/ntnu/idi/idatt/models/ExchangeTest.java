@@ -137,4 +137,115 @@ class ExchangeTest {
     //assertEquals(moneyBeforeSale.add(saleValue), player.getMoney(), "Player's money should increase by sale value"); //TODO: fix rounding numbers
     assertTrue(player.getPortfolio().getShares("APPL").isEmpty(), "Player's portfolio should no longer contain the sold share");
   }
+
+  @Test
+  void testGetGainers() {
+    Stock stock3 = new Stock("TEST", "TestAS", new ArrayList<>(List.of(new BigDecimal("1500.00"))));
+    Exchange exchange = new Exchange("NASDAQ", new ArrayList<>(List.of(stock1, stock2, stock3)));
+
+    stock1.addNewSalesPrice(new BigDecimal("160.00"));
+    stock1.addNewSalesPrice(new BigDecimal("165.00"));
+
+    stock2.addNewSalesPrice(new BigDecimal("2505.00"));
+    stock2.addNewSalesPrice(new BigDecimal("2505.50"));
+
+    stock3.addNewSalesPrice(new BigDecimal("1501.00"));
+    stock3.addNewSalesPrice(new BigDecimal("1400.00"));
+
+
+    List<Stock> gainersList = exchange.getGainers(3);
+
+
+    assertEquals(stock1, gainersList.getFirst());
+    assertEquals(stock2, gainersList.get(1));
+    assertEquals(stock3, gainersList.get(2));
+
+  }
+
+  @Test
+  void testGetLosers() {
+    Stock stock3 = new Stock("TEST", "TestAS", new ArrayList<>(List.of(new BigDecimal("1500.00"))));
+    Exchange exchange = new Exchange("NASDAQ", new ArrayList<>(List.of(stock1, stock2, stock3)));
+
+    stock1.addNewSalesPrice(new BigDecimal("160.00"));
+    stock1.addNewSalesPrice(new BigDecimal("165.00"));
+
+    stock2.addNewSalesPrice(new BigDecimal("2505.00"));
+    stock2.addNewSalesPrice(new BigDecimal("2505.50"));
+
+    stock3.addNewSalesPrice(new BigDecimal("1501.00"));
+    stock3.addNewSalesPrice(new BigDecimal("1400.00"));
+
+
+    List<Stock> losersList = exchange.getLosers(3);
+
+
+    assertEquals(stock3, losersList.getFirst());
+    assertEquals(stock2, losersList.get(1));
+    assertEquals(stock1, losersList.get(2));
+
+  }
+
+  @Test
+  void testGetGainersLimit() {
+    Stock stock3 = new Stock("TEST", "TestAS", new ArrayList<>(List.of(new BigDecimal("1500.00"))));
+    Exchange exchange = new Exchange("NASDAQ", new ArrayList<>(List.of(stock1, stock2, stock3)));
+
+    stock1.addNewSalesPrice(new BigDecimal("160.00"));
+    stock1.addNewSalesPrice(new BigDecimal("165.00"));
+
+    stock2.addNewSalesPrice(new BigDecimal("2505.00"));
+    stock2.addNewSalesPrice(new BigDecimal("2505.50"));
+
+    stock3.addNewSalesPrice(new BigDecimal("1501.00"));
+    stock3.addNewSalesPrice(new BigDecimal("1400.00"));
+
+
+    List<Stock> gainersList = exchange.getGainers(2);
+
+
+    assertEquals(2, gainersList.size()); 
+    assertEquals(stock2, gainersList.getFirst());
+    assertEquals(stock1, gainersList.get(1));
+
+  }
+
+  @Test
+  void testGetLosersLimit() {
+    Stock stock3 = new Stock("TEST", "TestAS", new ArrayList<>(List.of(new BigDecimal("1500.00"))));
+    Exchange exchange = new Exchange("NASDAQ", new ArrayList<>(List.of(stock1, stock2, stock3)));
+
+    stock1.addNewSalesPrice(new BigDecimal("160.00"));
+    stock1.addNewSalesPrice(new BigDecimal("165.00"));
+
+    stock2.addNewSalesPrice(new BigDecimal("2505.00"));
+    stock2.addNewSalesPrice(new BigDecimal("2505.50"));
+
+    stock3.addNewSalesPrice(new BigDecimal("1501.00"));
+    stock3.addNewSalesPrice(new BigDecimal("1400.00"));
+
+
+    List<Stock> losersList = exchange.getLosers(2);
+
+
+    assertEquals(2, losersList.size());
+    assertEquals(stock3, losersList.getFirst());
+    assertEquals(stock2, losersList.get(1));
+
+  }
+
+  @Test
+  void testGetGainersAndLosersThrowOnInvalidLimit() {
+    assertThrows(IllegalArgumentException.class, () -> exchange.getGainers(-2));
+    assertThrows(IllegalArgumentException.class, () -> exchange.getGainers(0));
+    assertThrows(IllegalArgumentException.class, () -> exchange.getLosers(-2));
+    assertThrows(IllegalArgumentException.class, () -> exchange.getLosers(0));
+
+  }
+
+  @Test
+  void testGetGainersAndLosersLimitExceedingStockList() {
+    List<Stock> result = exchange.getGainers(10);
+    assertEquals(2, result.size(), "Should return all stocks when limit exceeds stock count");
+  }
 }
