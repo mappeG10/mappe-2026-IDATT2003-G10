@@ -106,7 +106,7 @@ public class Exchange {
       throw new IllegalArgumentException("The limit can not be less than 1");
     }
     return stockMap.values().stream()
-        .sorted(Comparator.comparing(Stock::getLatestPriceChange))
+        .sorted(Comparator.comparing(Stock::getLatestPriceChange).reversed())
         .limit(limit)
         .toList();
 
@@ -120,10 +120,8 @@ public class Exchange {
     }
     return stockMap.values().stream()
         .sorted(Comparator.comparing(Stock::getLatestPriceChange))
-        .sorted()
         .limit(limit)
-        .toList()
-        .reversed();
+        .toList();
   }
 
 }
