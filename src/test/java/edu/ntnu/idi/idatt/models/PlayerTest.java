@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -79,11 +81,37 @@ class PlayerTest {
   @Test
   void testGetPortfolio() {
     assertNotNull(player.getPortfolio());
+    assertTrue(player.getPortfolio().getShares().isEmpty(),
+        "Portfolio should be empty for new player");
   }
 
   @Test
   void testGetTransactionArchive() {
     assertNotNull(player.getTransactionArchive());
+  }
+
+  @Test
+  void testGetNetWorth() {
+    Stock stock1 = new Stock("APPL", "Apple", new ArrayList<>(List.of(new BigDecimal("182.5"))));
+    Stock stock2 = new Stock("GOOG", "Alphabet ", new ArrayList<>(List.of(new BigDecimal("310.2"))));
+
+    Share share1 = new Share(stock1, new BigDecimal(1), new BigDecimal("182.5"));
+    Share share2 = new Share(stock2, new BigDecimal(1), new BigDecimal("310.2"));
+
+    player.getPortfolio().addShare(share1);
+    player.getPortfolio().addShare(share2);
+
+    BigDecimal expectedNetWorth = new BigDecimal("10492.7");
+
+    assertEquals(0, expectedNetWorth.compareTo(player.getNetWorth()),
+        "Player net worth should be 10492.7; starting money plus value of shares");
+
+  }
+
+  @Test
+  void testGetEmptyPortfolioReturnsStartingMoney() {
+    assertEquals(0, startingMoney.compareTo(player.getNetWorth()),
+        "Player net worth should only be starting money when owning no shares");
   }
 
 
