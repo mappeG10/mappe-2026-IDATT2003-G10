@@ -102,6 +102,9 @@ public class Exchange {
   }
 
   public List<Stock> getGainers(int limit) {
+    if (limit < 1) {
+      throw new IllegalArgumentException("The limit can not be less than 1");
+    }
     return stockMap.values().stream()
         .sorted(Comparator.comparing(Stock::getLatestPriceChange))
         .limit(limit)
@@ -112,6 +115,9 @@ public class Exchange {
   }
 
   public List<Stock> getLosers(int limit) {
+    if (limit < 1) {
+      throw new IllegalArgumentException("The limit can not be less than 1");
+    }
     return stockMap.values().stream()
         .sorted(Comparator.comparing(Stock::getLatestPriceChange))
         .sorted()
