@@ -53,10 +53,16 @@ public class Stock {
   }
 
   public BigDecimal getHighestPrice() {
+    if (prices.isEmpty()) {
+      throw new IllegalStateException("Prices can not be empty");
+    }
     return Collections.max(prices);
   }
 
   public BigDecimal getLowestPrice() {
+    if (prices.isEmpty()) {
+      throw new IllegalStateException("Prices can not be empty");
+    }
     return Collections.min(prices);
   }
 
