@@ -1,10 +1,9 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class Stock {
   private final String symbol;
@@ -24,7 +23,7 @@ public class Stock {
 
     this.symbol = symbol;
     this.company = company;
-    this.prices = prices;
+    this.prices = new ArrayList<>(prices);
   }
 
   public String getSymbol() {
@@ -35,6 +34,9 @@ public class Stock {
   }
 
   public BigDecimal getSalesPrice() {
+    if (prices.isEmpty()) {
+      throw new IllegalStateException("The stock " + symbol + " has no prices registered");
+    }
     return prices.getLast();
   }
 
@@ -45,10 +47,9 @@ public class Stock {
     prices.add(price);
   }
 
-  // TODO: Make unit tests for methods below
 
   public List<BigDecimal> getHistoricalPrices() {
-    return prices;
+    return Collections.unmodifiableList(prices);
   }
 
   public BigDecimal getHighestPrice() {
@@ -60,6 +61,9 @@ public class Stock {
   }
 
   public BigDecimal getLatestPriceChange() {
+    if (prices.size() < 2) {
+      throw new IllegalStateException("There are not enough data to retrieve a price change");
+    }
     return prices.getLast().subtract(prices.get(prices.size() - 2));
   }
 
