@@ -116,9 +116,6 @@ class PlayerTest {
         "Player net worth should only be starting money when owning no shares");
   }
 
-    assertNotNull(player.getNetWorth());
-  }
-
   @Test
   void testInitialStatusIsNovice(){
     assertEquals(Player.Status.NOVICE, player.getStatus());
