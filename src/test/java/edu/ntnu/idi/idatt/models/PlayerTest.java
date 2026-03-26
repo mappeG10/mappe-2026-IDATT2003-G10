@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -114,5 +116,45 @@ class PlayerTest {
         "Player net worth should only be starting money when owning no shares");
   }
 
+    assertNotNull(player.getNetWorth());
+  }
+
+  @Test
+  void testInitialStatusIsNovice(){
+    assertEquals(Player.Status.NOVICE, player.getStatus());
+    player.updateStatus();
+    assertEquals(Player.Status.NOVICE, player.getStatus());
+  }
+
+  @Test
+  void testUpdateStatusToInvestor() {
+    player.addMoney(new BigDecimal("2000"));  // Update corresponding to startMoney
+                                                  // (should be around 20% of startMoney)
+    addDummyTransactions(10);
+    player.updateStatus();
+    assertEquals(Player.Status.INVESTOR, player.getStatus());
+  }
+
+  @Test
+  void testUpdateStatusToSpeculator() {
+    player.addMoney(new BigDecimal("10000")); // Update corresponding to startMoney (should be half the amount)
+    addDummyTransactions(20);
+    player.updateStatus();
+    assertEquals(Player.Status.SPECULATOR, player.getStatus());
+  }
+
+  /**
+   * Helper method to populate the archive with transactions across X weeks.
+   */
+  private void addDummyTransactions(int weeks) {
+    for (int i = 1; i <= weeks; i++) {
+      Stock stock = new Stock("APPL", "Apple", new ArrayList<>());
+      Share dummyShare =
+          new Share(stock,
+              new BigDecimal(1),
+              new BigDecimal(120 + i));
+      player.getTransactionArchive().add(new Purchase(dummyShare, i));
+    }
+  }
 
 }
