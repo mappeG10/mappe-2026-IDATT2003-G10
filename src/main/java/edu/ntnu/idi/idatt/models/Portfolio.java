@@ -38,7 +38,7 @@ public class Portfolio {
     BigDecimal netWorth = BigDecimal.ZERO;
 
     for (Share share : shares) {
-      netWorth.add(share.getPurchasePrice());
+      netWorth = netWorth.add(share.getStock().getSalesPrice().multiply(share.getQuantity()));
     }
 
     return netWorth;

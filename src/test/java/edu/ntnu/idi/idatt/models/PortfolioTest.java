@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.models;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,8 @@ class PortfolioTest {
 
   Portfolio portfolio;
 
-  Stock stock1 = new Stock("APPL", "Apple", new ArrayList<>());
-  Stock stock2 = new Stock("GOOG", "Alphabet ", new ArrayList<>());
+  Stock stock1 = new Stock("APPL", "Apple", new ArrayList<>(List.of(new BigDecimal("182.5"))));
+  Stock stock2 = new Stock("GOOG", "Alphabet ", new ArrayList<>(List.of(new BigDecimal("310.2"))));
 
   Share share1 = new Share(stock1, new BigDecimal(1), new BigDecimal("182.5"));
   Share share2 = new Share(stock2, new BigDecimal(1), new BigDecimal("310.2"));
@@ -81,6 +82,35 @@ class PortfolioTest {
         "Share 3 should not exist in portfolio");
   }
 
+  @Test
+  void testGetNetWorth() {
+    BigDecimal expectedNetWorth = new BigDecimal("492.7");
+
+    BigDecimal actualNetWorth = portfolio.getNetWorth();
+
+    assertEquals(0, expectedNetWorth.compareTo(actualNetWorth), "Net worth should be 492.7");
+  }
 
 
+  @Test
+  void testEmptyPortfolioReturnsZeroNetWorth() {
+    Portfolio emptyPortfolio = new Portfolio();
+
+    BigDecimal emptyNetWorth = emptyPortfolio.getNetWorth();
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(emptyNetWorth), "Empty portfolio should return zero net worth");
+  }
+
+  @Test
+  void testMultipleQuantityNetWorth() {
+    Share share = new Share(stock1, new BigDecimal("2"), new BigDecimal("100"));
+    portfolio.addShare(share);
+
+
+    BigDecimal expectedNetWorth = new BigDecimal("857.7");
+
+    BigDecimal actualNetWorth = portfolio.getNetWorth();
+
+    assertEquals(0, expectedNetWorth.compareTo(actualNetWorth), "Net worth should be 857.7");
+  }
 }

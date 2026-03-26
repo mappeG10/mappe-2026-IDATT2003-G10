@@ -70,4 +70,87 @@ class StockTest {
       stock.addNewSalesPrice(null);
     }, "addNewSalesPrice should throw IllegalArgumentException");
   }
+
+  @Test
+  void testGetHistoricalPrices() {
+    List<BigDecimal> salesPrices = stock.getHistoricalPrices();
+
+    assertEquals(prices.size(), salesPrices.size());
+
+    assertEquals(0, salesPrices.getFirst().compareTo(prices.getFirst()),
+        "Should contain the price from initialization list");
+    assertEquals(0, salesPrices.get(1).compareTo(prices.get(1)),
+        "Should contain the price from initialization list");
+    assertEquals(0, salesPrices.get(2).compareTo(prices.get(2)),
+        "Should contain the price from initialization list");
+
+  }
+
+  @Test
+  void testGetSalesPriceWithEmptyPricesListThrowsException() {
+    List<BigDecimal> emptyPrices = new ArrayList<>();
+    Stock stockWithEmptyPrices = new Stock(symbol, company, emptyPrices);
+
+    assertThrows(IllegalStateException.class, stockWithEmptyPrices::getSalesPrice,
+        "The getSalesPrice method should throw exception when prices is empty");
+  }
+
+  @Test
+  void testGetHighestPrice() {
+    BigDecimal expectedPrice = new BigDecimal("183.75");
+
+    BigDecimal actualPrice = stock.getHighestPrice();
+
+    assertEquals(0, expectedPrice.compareTo(actualPrice), "Highest price should be 183.75");
+  }
+
+  @Test
+  void testGetLowestPrice() {
+    BigDecimal expectedPrice = new BigDecimal("181.20");
+
+    BigDecimal actualPrice = stock.getLowestPrice();
+
+    assertEquals(0, expectedPrice.compareTo(actualPrice), "Lowest price should be 181.20");
+  }
+
+  @Test
+  void testGetLatestPriceChangeDecrease() {
+    BigDecimal expectedPriceChange = new BigDecimal("-2.55");
+
+    BigDecimal actualPriceChange = stock.getLatestPriceChange();
+
+    assertEquals(0, expectedPriceChange.compareTo(actualPriceChange),
+        "The price change between the last two prices should be -2.55");
+  }
+
+  @Test
+  void testGetLatestPriceChangeIncrease() {
+    stock.addNewSalesPrice(new BigDecimal("183.75"));
+    BigDecimal expectedPriceChange = new BigDecimal("2.55");
+
+    BigDecimal actualPriceChange = stock.getLatestPriceChange();
+
+    assertEquals(0, expectedPriceChange.compareTo(actualPriceChange),
+        "The price change between the last two prices should be 2.55");
+  }
+
+  @Test
+  void testGetLatestPriceChangeThrowsWhenPricesListToSmall() {
+    List<BigDecimal> listWithOnePrice = new ArrayList<>(List.of(new BigDecimal("180.20")));
+    Stock stockWithOnePrice = new Stock(symbol, company, listWithOnePrice);
+
+    assertThrows(IllegalStateException.class, stockWithOnePrice::getLatestPriceChange,
+        "The getLatestPriceChange method should throw exception when prices list is too small");
+  }
+
+  @Test
+  void testGetHighestAndLowestPriceOnEmptyListThrowsException() {
+    Stock stockWithEmptyPrices = new Stock(symbol, company, List.of());
+
+    assertThrows(IllegalStateException.class, stockWithEmptyPrices::getHighestPrice,
+        "GetHighestPrice should throw exception when prices list is empty");
+    assertThrows(IllegalStateException.class, stockWithEmptyPrices::getLowestPrice,
+        "GetLowestPrice should throw exception when prices list is empty");
+  }
+
 }
