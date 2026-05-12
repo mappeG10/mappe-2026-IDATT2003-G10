@@ -1,10 +1,14 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.view.GameObserver;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Player {
+public class Player implements GameSubject {
 
   public enum Status {
     NOVICE, INVESTOR, SPECULATOR
@@ -17,6 +21,27 @@ public class Player {
   private final TransactionArchive transactionArchive;
 
   private Status status;
+
+  private final List<GameObserver> observers = new ArrayList<>();
+
+  @Override
+  public void register(GameObserver observer) {
+    if (!observers.contains(observer)) {
+      observers.add(observer);
+    }
+    //TODO: Unit test or integration test this function
+  }
+
+  @Override
+  public void unregister(GameObserver observer) {
+    observers.remove(observer);
+    //TODO: Unit test or integration test this function
+  }
+
+  private void notifyObservers() {
+    observers.forEach(GameObserver::update);
+    //TODO: Unit test or integration test this function
+  }
 
   public Player(String name, BigDecimal startingMoney) {
 
@@ -54,6 +79,8 @@ public class Player {
       throw new IllegalArgumentException("You cannot add negative money or zero");
     } // TODO: migrate over to custom exceptions later
     money = money.add(amount);
+
+    notifyObservers();
   }
 
   public void withdrawMoney(BigDecimal amount) {
@@ -61,6 +88,8 @@ public class Player {
       throw new IllegalArgumentException("You cannot withdraw negative money or zero");
     } // TODO: migrate over to custom exceptions later
     money = money.subtract(amount);
+
+    notifyObservers();
   }
 
   public void updateStatus() {
@@ -82,6 +111,8 @@ public class Player {
       status = Status.INVESTOR;
 
     else status = Status.NOVICE;
+
+    notifyObservers();
   }
 
   public Portfolio getPortfolio() {

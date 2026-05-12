@@ -1,18 +1,37 @@
 package edu.ntnu.idi.idatt.models;
 
-import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import edu.ntnu.idi.idatt.view.GameObserver;
 
-public class Exchange {
+import java.math.BigDecimal;
+import java.util.*;
+
+public class Exchange implements GameSubject {
 
   private final String name;
   private int week;
   private final Map<String, Stock> stockMap;
   private final Random random;
+
+  private final List<GameObserver> observers = new ArrayList<>();
+
+  @Override
+  public void register(GameObserver observer) {
+    if (!observers.contains(observer)) {
+      observers.add(observer);
+    }
+    //TODO: Unit test or integration test this function
+  }
+
+  @Override
+  public void unregister(GameObserver observer) {
+    observers.remove(observer);
+    //TODO: Unit test or integration test this function
+  }
+
+  private void notifyObservers() {
+    observers.forEach(GameObserver::update);
+    //TODO: Unit test or integration test this function
+  }
 
   public Exchange(String name, List<Stock> stocks) {
     if (name == null || name.isBlank()) {
@@ -45,6 +64,11 @@ public class Exchange {
 
   public Stock getStock(String symbol) {
     return stockMap.get(symbol);
+  }
+
+  public List<Stock> getAllStocks() {
+    return new ArrayList<>(stockMap.values()) {
+    };
   }
 
   public List<Stock> findStock(String searchTerm) {
@@ -97,8 +121,8 @@ public class Exchange {
 
       stock.addNewSalesPrice(newStockPrice);
 
-
     }
+    notifyObservers();
   }
 
   public List<Stock> getGainers(int limit) {
