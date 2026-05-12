@@ -66,6 +66,11 @@ public class Exchange implements GameSubject {
     return stockMap.get(symbol);
   }
 
+  public List<Stock> getStocks() {
+    return new ArrayList<>(stockMap.values()) {
+    };
+  }
+
   public List<Stock> findStock(String searchTerm) {
     return stockMap.values().stream()
         .filter(stock -> stock.getSymbol().equalsIgnoreCase(searchTerm.toLowerCase()) ||
