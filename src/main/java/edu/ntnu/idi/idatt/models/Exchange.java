@@ -92,6 +92,8 @@ public class Exchange implements GameSubject {
 
     purchase.commit(player);
 
+    notifyObservers();
+
     return purchase;
 
   }
@@ -101,6 +103,8 @@ public class Exchange implements GameSubject {
     Sale sale = new Sale(share, week);
 
     sale.commit(player);
+
+    notifyObservers();
 
     return sale;
 
