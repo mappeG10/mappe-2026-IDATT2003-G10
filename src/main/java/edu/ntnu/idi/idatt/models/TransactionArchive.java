@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TransactionArchive {
@@ -18,6 +19,10 @@ public class TransactionArchive {
 
   public boolean isEmpty() {
     return transactions.isEmpty();
+  }
+
+  public List<Transaction> getAllTransactions() {
+    return Collections.unmodifiableList(transactions);
   }
 
   public List<Transaction> getTransactions(int week) {

@@ -66,7 +66,7 @@ public class Exchange implements GameSubject {
     return stockMap.get(symbol);
   }
 
-  public List<Stock> getStocks() {
+  public List<Stock> getAllStocks() {
     return new ArrayList<>(stockMap.values()) {
     };
   }
