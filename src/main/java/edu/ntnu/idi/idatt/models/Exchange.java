@@ -137,6 +137,7 @@ public class Exchange implements GameSubject {
       throw new IllegalArgumentException("The limit can not be less than 1");
     }
     return stockMap.values().stream()
+        .filter(Stock::hasPriceHistory)
         .sorted(Comparator.comparing(Stock::getLatestPriceChange).reversed())
         .limit(limit)
         .toList();
@@ -150,6 +151,7 @@ public class Exchange implements GameSubject {
       throw new IllegalArgumentException("The limit can not be less than 1");
     }
     return stockMap.values().stream()
+        .filter(Stock::hasPriceHistory)
         .sorted(Comparator.comparing(Stock::getLatestPriceChange))
         .limit(limit)
         .toList();

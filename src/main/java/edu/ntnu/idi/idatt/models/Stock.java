@@ -73,4 +73,8 @@ public class Stock {
     return prices.getLast().subtract(prices.get(prices.size() - 2));
   }
 
+  public boolean hasPriceHistory() {
+    return prices.size() > 1;
+  }
+
 }
