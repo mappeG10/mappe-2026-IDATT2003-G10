@@ -51,7 +51,7 @@ class PurchaseCalculatorTest {
 
   @Test
   void testCalculateTotal() {
-    BigDecimal expectedTotal = new BigDecimal("995.00");
+    BigDecimal expectedTotal = new BigDecimal("1005.00");
 
     assertEquals(0, expectedTotal.compareTo(calculator.calculateTotal()),
         "Total should correctly combine gross, commission, and tax");

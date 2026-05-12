@@ -45,6 +45,6 @@ public class PurchaseCalculator implements TransactionCalculator {
    */
   @Override
   public BigDecimal calculateTotal() {
-    return calculateGross().subtract(calculateCommission()).subtract(calculateTax());
+    return calculateGross().add(calculateCommission()).add(calculateTax());
   }
 }
