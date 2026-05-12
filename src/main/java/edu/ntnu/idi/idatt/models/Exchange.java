@@ -67,8 +67,7 @@ public class Exchange implements GameSubject {
   }
 
   public List<Stock> getAllStocks() {
-    return new ArrayList<>(stockMap.values()) {
-    };
+    return new ArrayList<>(stockMap.values());
   }
 
   public List<Stock> findStock(String searchTerm) {
@@ -92,6 +91,10 @@ public class Exchange implements GameSubject {
 
     purchase.commit(player);
 
+    if (purchase.isCommitted()) {
+      notifyObservers();
+    }
+
     return purchase;
 
   }
@@ -101,6 +104,10 @@ public class Exchange implements GameSubject {
     Sale sale = new Sale(share, week);
 
     sale.commit(player);
+
+    if (sale.isCommitted()) {
+      notifyObservers();
+    }
 
     return sale;
 

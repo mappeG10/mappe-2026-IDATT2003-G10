@@ -80,7 +80,6 @@ public class Player implements GameSubject {
     } // TODO: migrate over to custom exceptions later
     money = money.add(amount);
 
-    notifyObservers();
   }
 
   public void withdrawMoney(BigDecimal amount) {
@@ -89,7 +88,6 @@ public class Player implements GameSubject {
     } // TODO: migrate over to custom exceptions later
     money = money.subtract(amount);
 
-    notifyObservers();
   }
 
   public void updateStatus() {
