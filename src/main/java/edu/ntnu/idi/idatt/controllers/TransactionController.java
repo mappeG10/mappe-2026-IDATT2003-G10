@@ -30,6 +30,10 @@ public class TransactionController {
     return player.getTransactionArchive().getTransactions(week);
   }
 
+  public List<Transaction> getAllTransactions() {
+    return player.getTransactionArchive().getAllTransactions();
+  }
+
 
 
 
