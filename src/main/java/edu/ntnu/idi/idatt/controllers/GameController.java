@@ -59,7 +59,12 @@ public class GameController {
     return player.getNetWorth();
   }
 
+  public Player.Status getStatus() {
+    return player.getStatus();
+  }
+
   public void advanceWeek() {
     exchange.advance();
+    player.updateStatus();
   }
 }
