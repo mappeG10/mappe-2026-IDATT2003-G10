@@ -73,6 +73,8 @@ public class Stock {
     return prices.getLast().subtract(prices.get(prices.size() - 2));
   }
 
+  //TODO: Add a get function for change in percentage
+
   public boolean hasPriceHistory() {
     return prices.size() > 1;
   }
