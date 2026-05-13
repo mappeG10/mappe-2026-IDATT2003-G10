@@ -35,7 +35,7 @@ public class MarketController {
     return exchange.getAllStocks();
   }
 
-  public List<Stock> FindStocks(String searchTerm) {
+  public List<Stock> findStocks(String searchTerm) {
     return exchange.findStock(searchTerm);
   }
 
