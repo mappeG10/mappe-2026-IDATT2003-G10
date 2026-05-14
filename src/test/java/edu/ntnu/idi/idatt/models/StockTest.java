@@ -162,4 +162,26 @@ class StockTest {
         "GetLowestPrice should throw exception when prices list is empty");
   }
 
+  @Test
+  void testHasPriceChangeReturnsFalseWithOnePrice() {
+    List<BigDecimal> listWithOnePrice = new ArrayList<>(List.of(new BigDecimal("180.20")));
+    Stock stockWithOnePrice = new Stock(symbol, company, listWithOnePrice);
+
+    assertFalse(stockWithOnePrice.hasPriceHistory());
+  }
+
+
+  @Test
+  void testHasPriceChangeReturnsTrueWithMultiplePrices() {
+    List<BigDecimal> listWithTwoPrices = new ArrayList<>(List.of(
+        new BigDecimal("180.20"),
+        new BigDecimal("200.20")
+    ));
+    Stock stockWithTwoPrices = new Stock(symbol, company, listWithTwoPrices);
+
+    assertTrue(stock.hasPriceHistory());
+    assertTrue(stockWithTwoPrices.hasPriceHistory());
+
+  }
+
 }
