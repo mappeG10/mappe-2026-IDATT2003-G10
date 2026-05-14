@@ -48,4 +48,20 @@ class ShareTest {
       new Share(stock, new BigDecimal(0), purchasePrice);
     }, "Constructor didn't throw IllegalArgumentException when quantity is invalid");
   }
+
+  @Test
+  void testGetCurrentValue() {
+    BigDecimal excpectedValue = new BigDecimal("18120");
+
+    assertEquals(0, excpectedValue.compareTo(share.getCurrentValue()));
+  }
+
+  @Test
+  void testGetCurrentValueIncreasesWithNewPrice() {
+    share.getStock().addNewSalesPrice(new BigDecimal("190.90"));
+
+    BigDecimal excpectedValue = new BigDecimal("19090");
+
+    assertEquals(0, excpectedValue.compareTo(share.getCurrentValue()));
+  }
 }
