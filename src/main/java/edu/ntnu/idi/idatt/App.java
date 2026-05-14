@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt;
 
+import edu.ntnu.idi.idatt.view.Navigator;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -8,10 +10,15 @@ public class App extends Application {
 
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage primaryStage) throws Exception {
+
+    primaryStage.setTitle("Millions");
+    Navigator navigator = new Navigator(primaryStage);
+    navigator.toStart();
+    primaryStage.show();
 
   }
-  static void main() {
-
+  public static void main(String[] args) {
+    launch(args);
   }
 }
