@@ -135,12 +135,21 @@ class StockTest {
   }
 
   @Test
-  void testGetLatestPriceChangeThrowsWhenPricesListToSmall() {
+  void testGetLatestPriceChangeThrowsWhenPricesListIsEmpty() {
+    List<BigDecimal> emptyList = new ArrayList<>();
+    Stock stockWithNoPrices = new Stock(symbol, company, emptyList);
+
+    assertThrows(IllegalStateException.class, stockWithNoPrices::getLatestPriceChange,
+        "The getLatestPriceChange method should throw exception when prices list is empty");
+  }
+
+  @Test
+  void testGetLatestPriceChangeReturnsZeroWhenPricesHasOnePrice() {
     List<BigDecimal> listWithOnePrice = new ArrayList<>(List.of(new BigDecimal("180.20")));
     Stock stockWithOnePrice = new Stock(symbol, company, listWithOnePrice);
 
-    assertThrows(IllegalStateException.class, stockWithOnePrice::getLatestPriceChange,
-        "The getLatestPriceChange method should throw exception when prices list is too small");
+    assertEquals(0, BigDecimal.ZERO.compareTo(stockWithOnePrice.getLatestPriceChange()),
+        "The getLatestPriceChange method should return ZERO when there only is one price");
   }
 
   @Test
