@@ -70,6 +70,10 @@ public class Player implements GameSubject {
     return money;
   }
 
+  public BigDecimal getStartingMoney() {
+    return startingMoney;
+  }
+
   public Status getStatus() {
     return status;
   }
