@@ -44,5 +44,11 @@ public class Portfolio {
     return netWorth;
   }
 
+  public BigDecimal getTotalInvested() {
+    return shares.stream()
+        .map(share -> share.getPurchasePrice().multiply(share.getQuantity()))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+
 
 }
