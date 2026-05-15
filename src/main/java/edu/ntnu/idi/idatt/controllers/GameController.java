@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.controllers;
 
 import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;
+import edu.ntnu.idi.idatt.models.Player.Status;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import java.math.BigDecimal;
 
@@ -9,6 +10,7 @@ public class GameController {
 
   private final Exchange exchange;
   private final Player player;
+  private final DashboardController dashboardController;
   private final MarketController marketController;
   private final TransactionController transactionController;
   private final PortfolioController portfolioController;
@@ -16,9 +18,11 @@ public class GameController {
   public GameController(Exchange exchange, Player player) {
     this.exchange = exchange;
     this.player = player;
+    this.dashboardController = new DashboardController(exchange, player);
     this.marketController =  new MarketController(exchange, player);
     this.transactionController = new TransactionController(exchange, player);
     this.portfolioController = new PortfolioController(exchange, player);
+
   }
 
   public void registerObserver(GameObserver observer) {
@@ -29,6 +33,10 @@ public class GameController {
   public void unregisterObserver(GameObserver observer) {
     exchange.unregister(observer);
     player.unregister(observer);
+  }
+
+  public DashboardController getDashboardController() {
+    return dashboardController;
   }
 
   public MarketController getMarketController() {
@@ -55,16 +63,8 @@ public class GameController {
     return player.getMoney();
   }
 
-  public BigDecimal getNetWorth() {
-    return player.getNetWorth();
+  public String getPlayerStatus() {
+    return player.getStatus().name();
   }
 
-  public Player.Status getStatus() {
-    return player.getStatus();
-  }
-
-  public void advanceWeek() {
-    exchange.advance();
-    player.updateStatus();
-  }
 }
