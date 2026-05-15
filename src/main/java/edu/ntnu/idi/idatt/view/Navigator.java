@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controllers.GameController;
 import edu.ntnu.idi.idatt.controllers.GameFactory;
+import edu.ntnu.idi.idatt.view.viewcontent.MarketView;
 import javafx.scene.control.Label;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -36,8 +37,10 @@ public class Navigator {
   }
 
   public void toGame(GameController gameController) {
-    Label welcomeLabel = new Label("Welcome to the game, " + gameController.getPlayerName());
-    stage.setScene(new Scene(welcomeLabel, WIDTH, HEIGHT));
+    MainView mainView = new MainView(gameController);
+    MarketView marketView = new MarketView(gameController.getMarketController());
+    mainView.setContent(marketView);
+    stage.setScene(new Scene(mainView, WIDTH, HEIGHT));
   }
 
 }
