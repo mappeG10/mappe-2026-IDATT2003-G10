@@ -34,4 +34,8 @@ public class Share {
     return purchasePrice;
   }
 
+  public BigDecimal getCurrentValue() {
+    return stock.getSalesPrice().multiply(quantity);
+  }
+
 }

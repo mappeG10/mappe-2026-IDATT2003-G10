@@ -67,8 +67,11 @@ public class Stock {
   }
 
   public BigDecimal getLatestPriceChange() {
-    if (prices.size() < 2) {
-      throw new IllegalStateException("There are not enough data to retrieve a price change");
+    if (prices.isEmpty()) {
+      throw new IllegalStateException("Stock can not have empty price list");
+    }
+    if (prices.size() == 1) {
+      return BigDecimal.ZERO;
     }
     return prices.getLast().subtract(prices.get(prices.size() - 2));
   }

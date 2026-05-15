@@ -113,4 +113,30 @@ class PortfolioTest {
 
     assertEquals(0, expectedNetWorth.compareTo(actualNetWorth), "Net worth should be 857.7");
   }
+
+  @Test
+  void testGetTotalInvested() {
+    BigDecimal expectedTotalInvested = new BigDecimal("492.70");
+    assertEquals(0, expectedTotalInvested.compareTo(portfolio.getTotalInvested()),
+        "Total invested amount should be 492.70");
+  }
+
+  @Test
+  void testEmptyPortfolioReturnsZeroTotalInvested() {
+    Portfolio emptyPortfolio = new Portfolio();
+
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(emptyPortfolio.getTotalInvested()),
+        "Empty portfolio should return zero total invested amount");
+  }
+
+  @Test
+  void testMultipleQuantityTotalInvested() {
+    BigDecimal expectedTotalInvested = new BigDecimal("592.70");
+    Share shareWithMultipleQuantity = new Share(stock1, new BigDecimal(2), new BigDecimal("50"));
+
+    portfolio.addShare(shareWithMultipleQuantity);
+
+    assertEquals(0, expectedTotalInvested.compareTo(portfolio.getTotalInvested()));
+  }
 }
