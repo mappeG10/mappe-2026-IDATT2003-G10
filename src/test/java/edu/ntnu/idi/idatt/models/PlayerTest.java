@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,6 +75,12 @@ class PlayerTest {
     assertThrows(IllegalArgumentException.class, () -> {
       player.withdrawMoney(new BigDecimal("0"));
     },  "Constructor should throw IllegalArgumentException when withdrawing zero money.");
+  }
+
+  @Test
+  void testGetStartingCapital() {
+    BigDecimal expectedStartingCapital = new BigDecimal("10000");
+    assertEquals(expectedStartingCapital, player.getStartingMoney());
   }
 
   @Test
