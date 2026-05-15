@@ -35,7 +35,21 @@ public class PortfolioController {
   }
 
   public BigDecimal getNetWorth() {
-    return player.getNetWorth();
+    return player.getPortfolio().getNetWorth();
+  }
+
+  public BigDecimal getTotalInvested() {
+    return player.getPortfolio().getTotalInvested();
+  }
+
+  public BigDecimal getUnrealisedPnL() {
+    return player.getPortfolio().getNetWorth().subtract(
+        player.getPortfolio().getTotalInvested()
+    );
+  }
+
+  public int getPositionsCount() {
+    return player.getPortfolio().getShares().size();
   }
 
   public TransactionPreview previewSell(Share share) {
