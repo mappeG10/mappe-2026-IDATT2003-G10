@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.function.Consumer;
+
 public class MainView extends BorderPane implements GameObserver {
 
   private final GameController gameController;
@@ -17,7 +19,7 @@ public class MainView extends BorderPane implements GameObserver {
   private final Label statusLabel;
 
 
-  public MainView(GameController gameController) {
+  public MainView(GameController gameController, Consumer<GameTab> onTabSelected) {
     this.gameController = gameController;
 
 
