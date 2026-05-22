@@ -52,9 +52,15 @@ public class PortfolioView extends VBox implements GameObserver {
     TableColumn<Share, String> currentCol = new TableColumn<>("Current");
     currentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getCurrentValue())));
 
+    TableColumn<Share, String> gainLossCol = new TableColumn<>("Gain/Loss");
+    gainLossCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getGainLoss())));
+
+    TableColumn<Share, String> gainLossPercentCol = new TableColumn<>("Gain %");
+    gainLossPercentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getGainLossPercent())));
+
 
     TableView<Share> portfolioTable = new TableView<>();
-    portfolioTable.getColumns().addAll(symbolCol, companyCol, quantityCol, currentCol);
+    portfolioTable.getColumns().addAll(symbolCol, companyCol, quantityCol, currentCol, gainLossCol, gainLossPercentCol);
     return portfolioTable;
   }
 
