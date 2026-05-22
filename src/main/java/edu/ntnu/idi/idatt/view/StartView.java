@@ -19,46 +19,61 @@ public class StartView extends VBox {
   private final Label fileLabel = new Label("No file selected");
   private String csvPath;
 
-  public StartView(Consumer<GameSetup> onStartRequested) {
-    //Style later
+  private final Consumer<GameSetup> onStartRequested;
 
-    this.setSpacing(10);
+  public StartView(Consumer<GameSetup> consumer) {
+    //Style later
     this.setAlignment(Pos.CENTER);
+    this.setSpacing(20);
+
+    this.onStartRequested = consumer;
+    this.getChildren().addAll(buildForm());
+  }
+
+  private VBox buildForm() {
+    VBox form = new VBox(10);
+    form.setAlignment(Pos.CENTER);
+    form.setMaxWidth(300);
 
     Button browseButton = new Button("Choose a Stock file");
 
-    browseButton.setOnAction(event -> {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.getExtensionFilters().addAll(
-          new FileChooser.ExtensionFilter("CSV File", "*.csv"),
-          new FileChooser.ExtensionFilter("All Files", "*.*")
-      );
-      File file = fileChooser.showOpenDialog(this.getScene().getWindow());
-      if (file != null) {
-        this.csvPath = file.getAbsolutePath();
-        this.fileLabel.setText(file.getName());
-      }
+    browseButton.setOnAction(event -> handleBrowseFile());
+    startButton.setOnAction(event -> handleStartGame());
 
-    });
-
-    this.getChildren().addAll(
+    form.getChildren().addAll(
         new Label("Player Name:"), nameField,
-        new Label("Starting Capital: "), capitalField,
+        new Label("Starting Capital:"), capitalField,
         browseButton, fileLabel,
-        startButton);
+        startButton
+    );
+    return form;
+  }
 
-    this.startButton.setOnAction(event -> {
-      try {
-        GameSetup setup = new GameSetup(
-            nameField.getText(),
-            new BigDecimal(capitalField.getText()),
-            csvPath
-        );
+  private void handleBrowseFile() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().addAll(
+        new FileChooser.ExtensionFilter("CSV File", "*.csv"),
+        new FileChooser.ExtensionFilter("All Files", "*.*")
+    );
+    File file = fileChooser.showOpenDialog(this.getScene().getWindow());
+    if (file != null) {
+      this.csvPath = file.getAbsolutePath();
+      this.fileLabel.setText(file.getName());
+    }
+  }
 
-        onStartRequested.accept(setup);
-      }  catch (Exception e) {
-        ViewUtils.showErrorAlert("Input error", e.getMessage() + " Please verify your inputs");
-      }
-    });
+
+  private void handleStartGame() {
+    try {
+      GameSetup setup = new GameSetup(
+          nameField.getText(),
+          new BigDecimal(capitalField.getText()),
+          csvPath
+      );
+
+      onStartRequested.accept(setup);
+    }  catch (Exception e) {
+      ViewUtils.showErrorAlert("Input error", e.getMessage() + " Please verify your inputs");
+    }
   }
 }
