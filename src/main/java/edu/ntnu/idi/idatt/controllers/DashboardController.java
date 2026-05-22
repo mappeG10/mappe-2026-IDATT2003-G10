@@ -59,6 +59,14 @@ public class DashboardController {
     return exchange.getLosers(limit);
   }
 
+  public BigDecimal getTotalGainLoss() {
+    return player.getNetWorth().subtract(player.getStartingMoney());
+  }
+
+  public BigDecimal getTotalGainLossPercent() {
+    return player.getTotalGainLossPercent();
+  }
+
   public void advanceWeek() {
     exchange.advance();
     player.updateStatus();

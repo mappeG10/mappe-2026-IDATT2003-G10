@@ -163,6 +163,33 @@ class StockTest {
   }
 
   @Test
+  void testGetLatestPriceChangePercent() {
+    BigDecimal expectedPercent = new BigDecimal("-1.39");
+
+    assertEquals(0, expectedPercent.compareTo(stock.getLatestPriceChangePercent()),
+        "Price change percent should be -1.39% for a decrease from 183.75 to 181.20");
+  }
+
+  @Test
+  void testGetLatestPriceChangePercentReturnsZeroWithOnePrice() {
+    List<BigDecimal> listWithOnePrice = new ArrayList<>(List.of(new BigDecimal("180.20")));
+    Stock stockWithOnePrice = new Stock(symbol, company, listWithOnePrice);
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(stockWithOnePrice.getLatestPriceChangePercent()),
+        "Price change percent should return zero when there is only one price");
+  }
+
+  @Test
+  void testGetLatestPriceChangePercentThrowsWhenPricesListIsEmpty() {
+    List<BigDecimal> emptyList = new ArrayList<>();
+    Stock stockWithNoPrices = new Stock(symbol, company, emptyList);
+
+    assertThrows(IllegalStateException.class, stockWithNoPrices::getLatestPriceChangePercent,
+        "getLatestPriceChangePercent should throw IllegalStateException when prices list is empty");
+  }
+
+
+  @Test
   void testHasPriceChangeReturnsFalseWithOnePrice() {
     List<BigDecimal> listWithOnePrice = new ArrayList<>(List.of(new BigDecimal("180.20")));
     Stock stockWithOnePrice = new Stock(symbol, company, listWithOnePrice);

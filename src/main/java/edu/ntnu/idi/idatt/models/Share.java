@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Share {
   private final Stock stock;
@@ -32,6 +33,20 @@ public class Share {
   }
   public BigDecimal getPurchasePrice() {
     return purchasePrice;
+  }
+
+  public BigDecimal getGainLoss() {
+    return getCurrentValue().subtract(purchasePrice.multiply(quantity));
+  }
+
+  public BigDecimal getGainLossPercent() {
+    BigDecimal purchaseValue = purchasePrice.multiply(quantity);
+    if (purchaseValue.compareTo(BigDecimal.ZERO) == 0) {
+      return BigDecimal.ZERO;
+    }
+    return getCurrentValue().subtract(purchaseValue)
+        .divide(purchaseValue, 4, RoundingMode.HALF_UP)
+        .multiply(new BigDecimal("100"));
   }
 
   public BigDecimal getCurrentValue() {
