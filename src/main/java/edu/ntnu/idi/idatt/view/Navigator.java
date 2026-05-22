@@ -43,7 +43,7 @@ public class Navigator {
       case MARKET -> new MarketView(gameController.getMarketController());
       case PORTFOLIO ->  new PortfolioView(gameController.getPortfolioController());
       case HISTORY ->  new MarketView(gameController.getMarketController()); //TODO: Change this with the correct page
-      default -> new MarketView(gameController.getMarketController()); //TODO: Change this with the correct page
+      case DASHBOARD -> new MarketView(gameController.getMarketController()); //TODO: Change this with the correct page
     };
 
     mainView.setContent(content);

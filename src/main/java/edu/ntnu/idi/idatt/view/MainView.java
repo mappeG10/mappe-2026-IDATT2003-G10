@@ -30,7 +30,7 @@ public class MainView extends BorderPane implements GameObserver {
 
 
     setTop(buildNavbar());
-    setLeft(buildSidebar());
+    setLeft(buildSidebar(onTabSelected));
     gameController.registerObserver(this);
     update();
   }
@@ -39,13 +39,20 @@ public class MainView extends BorderPane implements GameObserver {
     setCenter(content);
   }
 
-  private VBox buildSidebar() {
+  private VBox buildSidebar(Consumer<GameTab> onTabSelected) {
     Button dashboardBtn = new Button("Dashboard");
     Button marketBtn = new Button("Market");
     Button portfolioBtn = new Button("Portfolio");
     Button historyBtn = new Button("History");
 
+    dashboardBtn.setOnAction(event -> onTabSelected.accept(GameTab.DASHBOARD));
+    marketBtn.setOnAction(event -> onTabSelected.accept(GameTab.MARKET));
+    portfolioBtn.setOnAction(event -> onTabSelected.accept(GameTab.PORTFOLIO));
+    historyBtn.setOnAction(event -> onTabSelected.accept(GameTab.HISTORY));
+
     VBox sidebar = new VBox();
+
+
 
     sidebar.getChildren().addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn);
 
