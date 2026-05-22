@@ -11,9 +11,9 @@ public class GameFactory {
 
   private static final String EXCHANGE_NAME = "Millions Exchange";
 
-  public static GameController createController(String playerName, BigDecimal startingCapital, String csvFilePath) {
-    Player player = new Player(playerName, startingCapital);
-    List<Stock> stockList = StockParser.parseStocks(csvFilePath);
+  public static GameController createController(GameSetup setup) {
+    Player player = new Player(setup.playerName(), setup.startingCapital());
+    List<Stock> stockList = StockParser.parseStocks(setup.csvPath());
     Exchange exchange = new Exchange(EXCHANGE_NAME, stockList);
     return new GameController(exchange, player);
   }
