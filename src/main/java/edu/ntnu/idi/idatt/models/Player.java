@@ -128,4 +128,13 @@ public class Player implements GameSubject {
   public BigDecimal getNetWorth() {
     return money.add(portfolio.getNetWorth());
   }
+
+  public BigDecimal getTotalGainLossPercent() {
+    if (startingMoney.compareTo(BigDecimal.ZERO) == 0) {
+      return BigDecimal.ZERO;
+    }
+    return getNetWorth().subtract(startingMoney)
+        .divide(startingMoney, 4, RoundingMode.HALF_UP)
+        .multiply(new BigDecimal("100"));
+  }
 }

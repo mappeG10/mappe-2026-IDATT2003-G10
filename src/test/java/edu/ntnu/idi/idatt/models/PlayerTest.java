@@ -143,6 +143,50 @@ class PlayerTest {
     assertEquals(Player.Status.SPECULATOR, player.getStatus());
   }
 
+  @Test
+  void testGetTotalGainLossPercentIsZero() {
+    BigDecimal expectedPercent = BigDecimal.ZERO;
+
+    assertEquals(0, expectedPercent.compareTo(player.getTotalGainLossPercent()),
+        "Gain/loss percent should be 0% when net worth equals starting capital");
+  }
+
+  @Test
+  void testGetTotalGainLossPercent() {
+    player.addMoney(new BigDecimal("1000"));
+
+    BigDecimal expectedPercent = new BigDecimal("10");
+
+    assertEquals(0, expectedPercent.compareTo(player.getTotalGainLossPercent()),
+        "Gain/loss percent should be 10% after gaining 1000 on a 10000 start");
+  }
+
+  @Test
+  void testGetTotalGainLossPercentWithZeroStartingCapital() {
+    Player brokePlayer = new Player("Broke", BigDecimal.ZERO);
+
+    BigDecimal expectedPercent = BigDecimal.ZERO;
+
+    assertEquals(0, expectedPercent.compareTo(brokePlayer.getTotalGainLossPercent()),
+        "Gain/loss percent should be 0% when starting capital is zero");
+  }
+
+  @Test
+  void testGetTotalGainLossPercentWithPortfolioValue() {
+    List<BigDecimal> prices = new ArrayList<>(List.of(
+        new BigDecimal("100"),
+        new BigDecimal("150")));
+    Stock stock = new Stock("AAPL", "Apple", prices);
+
+    player.getPortfolio().addShare(new Share(stock, new BigDecimal("10"), new BigDecimal("100")));
+
+    BigDecimal expectedPercent = new BigDecimal("15");
+
+    assertEquals(0, expectedPercent.compareTo(player.getTotalGainLossPercent()),
+        "Gain/loss percent should reflect appreciated portfolio value");
+  }
+
+
   /**
    * Helper method to populate the archive with transactions across X weeks.
    */
