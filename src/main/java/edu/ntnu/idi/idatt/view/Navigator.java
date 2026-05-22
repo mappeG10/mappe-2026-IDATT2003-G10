@@ -23,19 +23,9 @@ public class Navigator {
   }
 
   public void toStart(){
-    StartView startView = new StartView();
-
-    startView.getStartButton().setOnAction(event -> {
-      try {
-        String name = startView.getPlayerName();
-        BigDecimal capital = new BigDecimal(startView.getCapital());
-        String csvPath = startView.getCsvPath();
-
-        gameController = GameFactory.createController(name, capital, csvPath);
-        this.toGame(gameController);
-      } catch (Exception e) {
-        ViewUtils.showErrorAlert("Setup Error", e.getMessage());
-      }
+    StartView startView = new StartView(gameSetup -> {
+      GameController gc = GameFactory.createController(gameSetup);
+      this.toGame(gc);
     });
     stage.setScene(new Scene(startView, WIDTH, HEIGHT));
   }
