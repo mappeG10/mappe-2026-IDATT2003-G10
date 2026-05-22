@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,6 +75,19 @@ public class Stock {
       return BigDecimal.ZERO;
     }
     return prices.getLast().subtract(prices.get(prices.size() - 2));
+  }
+
+  public BigDecimal getLatestPriceChangePercent() {
+    if (prices.isEmpty()) {
+      throw new IllegalStateException("Stock can not have empty price list");
+    }
+    if (prices.size() == 1) {
+      return BigDecimal.ZERO;
+    }
+    BigDecimal previousPrice = prices.get(prices.size() - 2);
+    return getLatestPriceChange()
+        .divide(previousPrice, 4, RoundingMode.HALF_UP)
+        .multiply(new BigDecimal("100"));
   }
 
   //TODO: Add a get function for change in percentage
