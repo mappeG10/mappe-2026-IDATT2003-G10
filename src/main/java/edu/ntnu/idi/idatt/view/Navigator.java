@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controllers.GameController;
 import edu.ntnu.idi.idatt.controllers.GameFactory;
+import edu.ntnu.idi.idatt.view.viewcontent.DashboardView;
 import edu.ntnu.idi.idatt.view.viewcontent.MarketView;
 import edu.ntnu.idi.idatt.view.viewcontent.PortfolioView;
 import javafx.scene.Parent;
@@ -43,7 +44,7 @@ public class Navigator {
       case MARKET -> new MarketView(gameController.getMarketController());
       case PORTFOLIO ->  new PortfolioView(gameController.getPortfolioController());
       case HISTORY ->  new MarketView(gameController.getMarketController()); //TODO: Change this with the correct page
-      case DASHBOARD -> new MarketView(gameController.getMarketController()); //TODO: Change this with the correct page
+      case DASHBOARD -> new DashboardView(gameController.getDashboardController());
     };
 
     mainView.setContent(content);
