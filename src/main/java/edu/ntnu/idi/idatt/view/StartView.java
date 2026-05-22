@@ -72,7 +72,7 @@ public class StartView extends VBox {
       );
 
       onStartRequested.accept(setup);
-    }  catch (Exception e) {
+    }  catch (Exception e) { //TODO: Add a less generic exception catch here.
       ViewUtils.showErrorAlert("Input error", e.getMessage() + " Please verify your inputs");
     }
   }
