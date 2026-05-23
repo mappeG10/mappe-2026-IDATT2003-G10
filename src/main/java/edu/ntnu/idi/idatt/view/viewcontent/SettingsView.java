@@ -16,7 +16,6 @@ public class SettingsView extends VBox {
     VBox headerContainer = new VBox(titleLabel, subtitleLabel);
     headerContainer.setSpacing(5);
 
-    // 2. Options Cards Row
     HBox cardsContainer = new HBox();
     cardsContainer.setSpacing(20);
 
