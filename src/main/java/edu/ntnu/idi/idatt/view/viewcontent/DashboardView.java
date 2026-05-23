@@ -84,7 +84,7 @@ public class DashboardView extends VBox implements GameObserver {
     companyCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStock().getCompany()));
 
     TableColumn<Share, String> quantityCol = new TableColumn<>("Quantity");
-    quantityCol.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getQuantity())));
+    quantityCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatBigDecimalToString(data.getValue().getQuantity())));
     // TODO: Implement utility method to format quantity
 
     TableColumn<Share, String> currentCol = new TableColumn<>("Current");

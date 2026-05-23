@@ -49,7 +49,7 @@ public class PortfolioView extends VBox implements GameObserver {
 
     TableColumn<Share, String> quantityCol = new TableColumn<>("Quantity");
     quantityCol.setCellValueFactory(data -> new SimpleStringProperty(
-        ViewUtils.formatCurrency(data.getValue().getQuantity())));
+        ViewUtils.formatBigDecimalToString(data.getValue().getQuantity())));
 
     TableColumn<Share, String> currentCol = new TableColumn<>("Current");
     currentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getCurrentValue())));
