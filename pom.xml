@@ -26,6 +26,13 @@
         <artifactId>junit-jupiter</artifactId>
         <version>6.0.1</version>
       </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/com.yahoofinance-api/YahooFinanceAPI -->
+        <dependency>
+            <groupId>com.yahoofinance-api</groupId>
+            <artifactId>YahooFinanceAPI</artifactId>
+            <version>3.17.0</version>
+            <scope>compile</scope>
+        </dependency>
   </dependencies>
 
   <build>
