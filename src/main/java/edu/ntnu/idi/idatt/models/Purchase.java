@@ -20,6 +20,7 @@ public class Purchase extends Transaction {
     player.withdrawMoney(getCalculator().calculateTotal());
     player.getPortfolio().addShare(getShare());
     player.getTransactionArchive().add(this);
+    player.updateStatus();
 
     this.setCommitted();
 

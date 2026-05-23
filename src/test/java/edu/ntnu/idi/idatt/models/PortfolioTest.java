@@ -139,4 +139,44 @@ class PortfolioTest {
 
     assertEquals(0, expectedTotalInvested.compareTo(portfolio.getTotalInvested()));
   }
+
+  @Test
+  void testReduceShareFull() {
+    assertTrue(portfolio.reduceShare(share1, share1.getQuantity()),
+        "Reducing by full quantity should succeed");
+    assertFalse(portfolio.contatins(share1),
+        "Share should be removed after reducing by full quantity");
+  }
+
+  @Test
+  void testReduceSharePartial() {
+    BigDecimal distinctPrice = new BigDecimal("200.00");
+    Share largeShare = new Share(stock1, new BigDecimal("10"), distinctPrice);
+    portfolio.addShare(largeShare);
+
+    Share partialRef = new Share(stock1, new BigDecimal("1"), distinctPrice);
+    assertTrue(portfolio.reduceShare(partialRef, new BigDecimal("4")),
+        "Reducing by partial quantity should succeed");
+
+    BigDecimal remaining = portfolio.getShares(stock1.getSymbol()).stream()
+        .filter(s -> s.getPurchasePrice().compareTo(largeShare.getPurchasePrice()) == 0)
+        .findFirst().orElseThrow().getQuantity();
+    assertEquals(0, new BigDecimal("6").compareTo(remaining),
+        "Remaining quantity should be 6 after reducing 10 by 4");
+  }
+
+  @Test
+  void testReduceShareExceedsQuantity() {
+    assertFalse(portfolio.reduceShare(share1, new BigDecimal("999")),
+        "Reducing by more than owned quantity should return false");
+    assertTrue(portfolio.contatins(share1),
+        "Share should still be in portfolio when reduce fails");
+  }
+
+  @Test
+  void testReduceShareNotFound() {
+    Share unowned = new Share(stock1, new BigDecimal("1"), new BigDecimal("999"));
+    assertFalse(portfolio.reduceShare(unowned, new BigDecimal("1")),
+        "Reducing a share not in portfolio should return false");
+  }
 }

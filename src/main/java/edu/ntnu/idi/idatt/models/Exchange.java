@@ -78,6 +78,9 @@ public class Exchange implements GameSubject {
   }
 
   public Transaction buy(String symbol, BigDecimal quantity, Player player) {
+    if (quantity == null || quantity.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("Quantity must be positive");
+    }
 
     if (!hasStock(symbol)) {
       return null; // TODO: add custom exceptions here?
@@ -99,10 +102,16 @@ public class Exchange implements GameSubject {
 
   }
 
-  public Transaction sell(Share share, Player player) {
+  public Transaction sell(Share share, BigDecimal quantity, Player player) {
+    if (quantity == null || quantity.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("Quantity must be positive");
+    }
+    if (quantity.compareTo(share.getQuantity()) > 0) {
+      throw new IllegalArgumentException("Cannot sell more than owned quantity");
+    }
 
-    Sale sale = new Sale(share, week);
-
+    Share saleShare = new Share(share.getStock(), quantity, share.getPurchasePrice());
+    Sale sale = new Sale(saleShare, week);
     sale.commit(player);
 
     if (sale.isCommitted()) {
@@ -110,7 +119,6 @@ public class Exchange implements GameSubject {
     }
 
     return sale;
-
   }
 
   public void advance() {

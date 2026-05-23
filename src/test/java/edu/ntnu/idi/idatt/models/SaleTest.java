@@ -121,6 +121,21 @@ class SaleTest {
   }
 
   @Test
+  void testPartialCommit() {
+    BigDecimal partialQuantity = new BigDecimal("40");
+    Share partialShare = new Share(stock, partialQuantity, share.getPurchasePrice());
+    Sale partialSale = new Sale(partialShare, 1);
+
+    partialSale.commit(player);
+
+    assertTrue(partialSale.isCommitted(), "Partial sale should be committed");
+
+    BigDecimal remaining = player.getPortfolio().getShares(stock.getSymbol()).getFirst().getQuantity();
+    assertEquals(0, new BigDecimal("60").compareTo(remaining),
+        "Portfolio should have 60 shares remaining after selling 40");
+  }
+
+  @Test
   void testGetTransactionTypeReturnsCorrectType() {
     assertEquals(TransactionType.SALE, sale.getTransactionType());
   }

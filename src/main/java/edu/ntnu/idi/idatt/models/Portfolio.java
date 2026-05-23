@@ -18,6 +18,29 @@ public class Portfolio {
     return shares.add(share);
   }
 
+  public boolean reduceShare(Share share, BigDecimal amount) {
+    Share found = shares.stream()
+        .filter(stock -> stock.getStock() == share.getStock() &&
+            stock.getPurchasePrice().compareTo(share.getPurchasePrice()) == 0)
+        .findFirst()
+        .orElse(null);
+    if (found == null) {
+      return false;
+    }
+
+    BigDecimal remaining = found.getQuantity().subtract(amount);
+    if (remaining.compareTo(BigDecimal.ZERO) < 0) {
+      return false;
+    }
+
+    if (remaining.compareTo(BigDecimal.ZERO) == 0) {
+      shares.remove(found);
+    } else {
+      shares.set(shares.indexOf(found), new Share(found.getStock(), remaining, found.getPurchasePrice()));
+    }
+    return true;
+  }
+
   public boolean removeShare(Share share) {
     return shares.remove(share);
   }

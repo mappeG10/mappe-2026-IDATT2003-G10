@@ -13,13 +13,13 @@ public class Sale extends Transaction {
       return; // TODO: add custom exception here?
     }
 
-    if (!player.getPortfolio().contatins(getShare())) {
+    if (!player.getPortfolio().reduceShare(getShare(), getShare().getQuantity())) {
       return; // TODO: add custom exceptions here?
     }
 
     player.addMoney(getCalculator().calculateTotal());
-    player.getPortfolio().removeShare(getShare());
     player.getTransactionArchive().add(this);
+    player.updateStatus();
 
     this.setCommitted();
 

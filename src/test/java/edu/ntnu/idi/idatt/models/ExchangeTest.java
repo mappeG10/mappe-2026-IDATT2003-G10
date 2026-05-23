@@ -137,14 +137,27 @@ class ExchangeTest {
     player.withdrawMoney(stock1.getSalesPrice().multiply(quantity));
     BigDecimal moneyBeforeSale = player.getMoney();
 
-    Transaction sale = exchange.sell(shareToSell, player);
+    Transaction sale = exchange.sell(shareToSell, quantity, player);
     BigDecimal saleValue = sale.getCalculator().calculateTotal();
-
 
     assertNotNull(sale, "Sale transaction should not be null");
     assertInstanceOf(Sale.class, sale, "Transaction should be an instance of Sale");
     assertEquals(0, player.getMoney().compareTo(moneyBeforeSale.add(saleValue)), "Player's money should increase by sale value");
     assertTrue(player.getPortfolio().getShares("APPL").isEmpty(), "Player's portfolio should no longer contain the sold share");
+  }
+
+  @Test
+  void testSellInvalidQuantity() {
+    BigDecimal quantity = new BigDecimal("10");
+    Share shareToSell = new Share(stock1, quantity, stock1.getSalesPrice());
+    player.getPortfolio().addShare(shareToSell);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> exchange.sell(shareToSell, BigDecimal.ZERO, player),
+        "Selling zero quantity should throw IllegalArgumentException");
+    assertThrows(IllegalArgumentException.class,
+        () -> exchange.sell(shareToSell, new BigDecimal("11"), player),
+        "Selling more than owned should throw IllegalArgumentException");
   }
 
   @Test
@@ -270,7 +283,7 @@ class ExchangeTest {
     player.getPortfolio().addShare(share);
 
     exchange.register(observer);
-    exchange.sell(share, player);
+    exchange.sell(share, share.getQuantity(), player);
 
     assertEquals(1, count.get(), "Observer should be notified on successful sell");
   }

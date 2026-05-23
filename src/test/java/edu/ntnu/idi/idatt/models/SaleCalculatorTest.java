@@ -60,4 +60,17 @@ class SaleCalculatorTest {
     assertEquals(0, expectedTotal.compareTo(calculator.calculateTotal()),
         "Total should be Gross minus Commission minus Tax");
   }
+
+  @Test
+  void testCalculateWithPartialQuantity() {
+    Stock stock = new Stock("AAPL", "Apple",
+        new ArrayList<>(List.of(new BigDecimal("150.00"))));
+    Share partialShare = new Share(stock, new BigDecimal("5"), new BigDecimal("100.00"));
+    SaleCalculator partialCalculator = new SaleCalculator(partialShare);
+
+    assertEquals(0, new BigDecimal("750.00").compareTo(partialCalculator.calculateGross()),
+        "Gross for 5 shares at $150 should be $750");
+    assertEquals(0, new BigDecimal("669.75").compareTo(partialCalculator.calculateTotal()),
+        "Total for partial sale should be proportionally half of full sale");
+  }
 }
