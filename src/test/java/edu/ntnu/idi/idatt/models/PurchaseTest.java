@@ -17,9 +17,6 @@ class PurchaseTest {
   private Share share;
   private Purchase purchase;
 
-
-
-
   @BeforeEach
   void setUp() {
 
@@ -113,5 +110,9 @@ class PurchaseTest {
     // TODO: Should throw exception
   }
 
+  @Test
+  void testGetTransactionTypeReturnsCorrectType() {
+    assertEquals(TransactionType.PURCHASE, purchase.getTransactionType());
+  }
 
 }
