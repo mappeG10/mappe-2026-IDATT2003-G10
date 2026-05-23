@@ -50,25 +50,21 @@ public class CsvStockReader implements DataReader<List<Stock>> {
   }
 
   private static Optional<Stock> parseLineToStock(String line) {
-    try {
-      String[] data = line.split(",");
 
-      if (data.length != 3) {
-        return Optional.empty();
-      }
+    String[] data = line.split(",");
 
-      String symbol = data[0].trim();
-      String name = data[1].trim();
-      BigDecimal price = new BigDecimal(data[2].trim());
-
-      return Optional.of(
-          new Stock(symbol, name, new ArrayList<>(List.of(price))));
-
-    } catch (IllegalArgumentException e) {
-      System.err.println(e);
-      System.err.println("Skipping malformed stock row: " + line);
+    if (data.length != 3) {
       return Optional.empty();
     }
+
+    String symbol = data[0].trim();
+    String name = data[1].trim();
+    BigDecimal price = new BigDecimal(data[2].trim());
+
+    return Optional.of(
+        new Stock(symbol, name, new ArrayList<>(List.of(price))));
+
+
   }
 
 }

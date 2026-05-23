@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.dal;
 
 import edu.ntnu.idi.idatt.models.Stock;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -16,8 +17,15 @@ class CsvStockReaderTest {
   @TempDir
   Path tempDir;
 
+  private CsvStockReader stockReader;
+
+  @BeforeEach
+  void setup() {
+    stockReader = new CsvStockReader();
+  }
+
   @Test
-  void testReadValidData() throws IOException {
+  void testReadValidData() throws IOException, DataAccessException {
     // Create a temporary CSV file
     Path filePath = tempDir.resolve("test_stocks.csv");
     String content = """
@@ -28,7 +36,7 @@ class CsvStockReaderTest {
                 """;
     Files.writeString(filePath, content);
 
-    List<Stock> stocks = CsvStockReader.read(filePath.toString());
+    List<Stock> stocks = stockReader.read(filePath.toString());
 
     assertEquals(2, stocks.size(), "Should parse exactly two stocks, skipping comments and blank lines");
     assertEquals("NVDA", stocks.get(0).getSymbol());
@@ -36,7 +44,7 @@ class CsvStockReaderTest {
   }
 
   @Test
-  void testReadInvalidData() throws IOException {
+  void testReadInvalidDataThrowsDataAccessException() throws IOException{
     Path filePath = tempDir.resolve("test_stocks.csv");
     String content = """
                 # Ticker,Name,Price
@@ -47,16 +55,14 @@ class CsvStockReaderTest {
 
     Files.writeString(filePath, content);
 
-    List<Stock> stocks = CsvStockReader.read(filePath.toString());
-
-    assertTrue(stocks.isEmpty());
+    assertThrows(DataAccessException.class, () -> stockReader.read(filePath.toString()));
 
   }
 
   @Test
-  void testParseStockThrowsException() {
+  void testParseNonExistentFileThrowsIOException() {
     Path filePath = tempDir.resolve("test_stocks.csv");
-    assertThrows(RuntimeException.class, () -> CsvStockReader.read(filePath.toString()));
+    assertThrows(IOException.class, () -> stockReader.read(filePath.toString()));
 
   }
 
