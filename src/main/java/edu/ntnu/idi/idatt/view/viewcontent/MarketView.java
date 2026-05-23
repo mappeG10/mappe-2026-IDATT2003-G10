@@ -20,12 +20,11 @@ public class MarketView extends VBox implements GameObserver {
   public MarketView(MarketController marketController) {
     this.marketController = marketController;
     this.marketTable = buildMarketTable();
-    marketTable.setItems(FXCollections.observableArrayList(marketController.getAllStocks()));
 
     getChildren().add(buildTopContainer());
     getChildren().add(marketTable);
     marketController.registerObserver(this);
-
+    update();
   }
 
   private TableView<Stock> buildMarketTable() {
@@ -44,7 +43,6 @@ public class MarketView extends VBox implements GameObserver {
 
     TableColumn<Stock, String> changePercentCol = new TableColumn<>("Change %");
     changePercentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getLatestPriceChangePercent())));
-
 
     TableView<Stock> marketTable = new TableView<>();
     marketTable.getColumns().addAll(symbolCol, companyCol, priceCol, changeCol, changePercentCol);
@@ -65,5 +63,6 @@ public class MarketView extends VBox implements GameObserver {
   @Override
   public void update() {
     marketTable.refresh();
+    marketTable.setItems(FXCollections.observableArrayList(marketController.getAllStocks()));
   }
 }
