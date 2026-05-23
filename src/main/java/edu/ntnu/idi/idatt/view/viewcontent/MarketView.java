@@ -92,13 +92,12 @@ public class MarketView extends VBox implements GameObserver {
   }
 
   private void handlePurchase(Stock stock, Window parentWindow) {
-    if (stock == null) {
+    if (stock == null || parentWindow == null) {
       return;
     }
 
     PurchaseWidget purchaseWidget = new PurchaseWidget(stock, marketController);
     purchaseWidget.openDialog(parentWindow);
-
   }
 
   @Override

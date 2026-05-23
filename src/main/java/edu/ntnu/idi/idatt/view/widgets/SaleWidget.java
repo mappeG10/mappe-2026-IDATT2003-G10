@@ -17,6 +17,7 @@ public class SaleWidget extends TransactionWidget<Share> {
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
     this.controller = controller;
+    updatedPreview(null);
   }
 
   @Override
@@ -26,11 +27,11 @@ public class SaleWidget extends TransactionWidget<Share> {
     this.quantityField = new TextField("Selling: " //TODO: Implement partial share sale later.
         + target.getQuantity().toString()
         + " Shares @ "
-        + ViewUtils.formatCurrency(target.getCurrentValue()));
+        + ViewUtils.formatCurrency(target.getStock().getSalesPrice()));
     this.quantityField.setEditable(false);
 
     this.grossLabel = new Label("Gross Proceeds: $0.00");
-    this.taxLabel = new Label("Tax: $0.00");
+    this.taxLabel = new Label("Capital Gains Tax (30%): $0.00");
     this.totalLabel = new Label("Net Proceeds: $0.00");
 
     this.cancelButton = new Button("Cancel");
@@ -44,16 +45,24 @@ public class SaleWidget extends TransactionWidget<Share> {
         totalLabel,
         new HBox(10, actionButton, cancelButton)
     );
-
   }
 
   @Override
   protected void updatedPreview(String quantity) {
-    TransactionPreview preview = controller.previewSell(target);
+    if (controller == null ){
+      return;
+    }
+    try {
+      TransactionPreview preview = controller.previewSell(target);
 
-    grossLabel.setText("Gross Proceeds: " + ViewUtils.formatCurrency(preview.gross()));
-    taxLabel.setText("Capital Gains Tax (22%): " + ViewUtils.formatCurrency(preview.tax()));
-    totalLabel.setText("Net Proceeds: " + ViewUtils.formatCurrency(preview.total()));
+      grossLabel.setText("Gross Proceeds: " + ViewUtils.formatCurrency(preview.gross()));
+      taxLabel.setText("Capital Gains Tax (30%): " + ViewUtils.formatCurrency(preview.tax()));
+      totalLabel.setText("Net Proceeds: " + ViewUtils.formatCurrency(preview.total()));
+    } catch (Exception _) {
+      grossLabel.setText("Gross Proceeds: $0.00");
+      taxLabel.setText("Capital Gains Tax (30%): 0%");
+      totalLabel.setText("Net Proceeds: $0.00");
+    }
   }
 
   @Override
