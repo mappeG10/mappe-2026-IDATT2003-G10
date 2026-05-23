@@ -58,7 +58,6 @@ public class MarketController {
 
   public Transaction executeBuy(String symbol, BigDecimal quantity) {
     Transaction purchase = exchange.buy(symbol, quantity, player);
-    player.updateStatus();
     return purchase;
   }
 

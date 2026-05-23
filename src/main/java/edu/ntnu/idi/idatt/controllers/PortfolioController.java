@@ -53,18 +53,18 @@ public class PortfolioController {
     return player.getPortfolio().getShares().size();
   }
 
-  public TransactionPreview previewSell(Share share) {
+  public TransactionPreview previewSell(Share share, BigDecimal quantity) {
+    Share previewShare = new Share(share.getStock(), quantity, share.getPurchasePrice());
     Transaction previewSell = TransactionFactory.createTransaction(
-        TransactionType.SALE, share, exchange.getWeek());
+        TransactionType.SALE, previewShare, exchange.getWeek());
     TransactionCalculator previewCalculator = previewSell.getCalculator();
     return new TransactionPreview(previewCalculator.calculateGross(),
         previewCalculator.calculateCommission(), previewCalculator.calculateTax(),
         previewCalculator.calculateTotal());
   }
 
-  public Transaction executeSell(Share share) {
-    Transaction sale = exchange.sell(share, player);
-    player.updateStatus();
+  public Transaction executeSell(Share share, BigDecimal quantity) {
+    Transaction sale = exchange.sell(share, quantity, player);
     return sale;
   }
 
