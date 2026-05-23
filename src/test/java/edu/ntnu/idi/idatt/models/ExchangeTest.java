@@ -207,13 +207,13 @@ class ExchangeTest {
     Exchange exchange = new Exchange("NASDAQ", new ArrayList<>(List.of(stock1, stock2, stock3)));
 
     stock1.addNewSalesPrice(new BigDecimal("160.00"));
-    stock1.addNewSalesPrice(new BigDecimal("165.00"));
+    stock1.addNewSalesPrice(new BigDecimal("162.00"));
 
-    stock2.addNewSalesPrice(new BigDecimal("2505.00"));
-    stock2.addNewSalesPrice(new BigDecimal("2505.50"));
+    stock2.addNewSalesPrice(new BigDecimal("2510.00"));
+    stock2.addNewSalesPrice(new BigDecimal("2520.00"));
 
-    stock3.addNewSalesPrice(new BigDecimal("1501.00"));
-    stock3.addNewSalesPrice(new BigDecimal("1400.00"));
+    stock3.addNewSalesPrice(new BigDecimal("1480.00"));
+    stock3.addNewSalesPrice(new BigDecimal("1450.00"));
 
     return exchange;
 

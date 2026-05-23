@@ -97,7 +97,7 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     quantityCol.setCellValueFactory(data -> {
       TransactionRow row = data.getValue();
       if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(String.valueOf(row.getTransaction().getShare().getQuantity()));
+      return new SimpleStringProperty(ViewUtils.formatBigDecimalToString(row.getTransaction().getShare().getQuantity()));
     });
 
     TableColumn<TransactionRow, String> priceCol = new TableColumn<>("Price");
