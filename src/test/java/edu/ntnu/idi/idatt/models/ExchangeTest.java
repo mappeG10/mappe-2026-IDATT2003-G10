@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.view.GameObserver;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -72,6 +74,14 @@ class ExchangeTest {
     assertTrue(exchange.hasStock("APPL"), "Should return true for an existing stock symbol");
     assertFalse(exchange.hasStock("MSFT"), "Should return false for a non-existent stock symbol");
     assertFalse(exchange.hasStock(null), "Should return false for a null stock symbol");
+  }
+
+  @Test
+  void testGetAllStocks() {
+    List<Stock> allStocks = exchange.getAllStocks();
+    assertEquals(2, allStocks.size(), "Should return all stocks registered in the exchange");
+    assertTrue(allStocks.contains(stock1), "List should contain stock1");
+    assertTrue(allStocks.contains(stock2), "List should contain stock2");
   }
 
   @Test
@@ -201,7 +211,73 @@ class ExchangeTest {
     assertEquals(3, exchange.getLosers(10).size(), "Losers should return all stocks when limit exceeds stock count");
   }
 
+  @Test
+  void testRegisterObserver() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    exchange.register(observer);
+    exchange.advance();
+
+    assertEquals(1, count.get(), "Observer should be notified once after registration and advance");
+
+    // Test idempotency
+    exchange.register(observer);
+    exchange.advance();
+    assertEquals(2, count.get(), "Observer should still be notified once (total 2) after duplicate registration and advance");
+  }
+
+  @Test
+  void testUnregisterObserver() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    exchange.register(observer);
+    exchange.unregister(observer);
+    exchange.advance();
+
+    assertEquals(0, count.get(), "Observer should not be notified after unregistration");
+  }
+
+  @Test
+  void testNotifyObserversOnAdvance() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    exchange.register(observer);
+    exchange.advance();
+
+    assertEquals(1, count.get(), "Observer should be notified exactly once on advance");
+  }
+
+  @Test
+  void testNotifyObserversOnSuccessfulBuy() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    exchange.register(observer);
+    exchange.buy("APPL", new BigDecimal("1"), player);
+
+    assertEquals(1, count.get(), "Observer should be notified on successful buy");
+  }
+
+  @Test
+  void testNotifyObserversOnSuccessfulSell() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    Share share = new Share(stock1, new BigDecimal("1"), stock1.getSalesPrice());
+    player.getPortfolio().addShare(share);
+
+    exchange.register(observer);
+    exchange.sell(share, player);
+
+    assertEquals(1, count.get(), "Observer should be notified on successful sell");
+  }
+
+
   private Exchange setupTestExchangeForGainersAndLosers() {
+
     stock3 = new Stock("TEST", "TestAS", new ArrayList<>(List.of(new BigDecimal("1500.00"))));
 
     Exchange exchange = new Exchange("NASDAQ", new ArrayList<>(List.of(stock1, stock2, stock3)));

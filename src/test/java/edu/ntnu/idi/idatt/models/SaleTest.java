@@ -120,5 +120,10 @@ class SaleTest {
 
   }
 
+  @Test
+  void testGetTransactionTypeReturnsCorrectType() {
+    assertEquals(TransactionType.SALE, sale.getTransactionType());
+  }
+
 
 }
