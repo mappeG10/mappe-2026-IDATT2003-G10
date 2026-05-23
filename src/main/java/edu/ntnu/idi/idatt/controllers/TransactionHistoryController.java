@@ -30,8 +30,8 @@ public class TransactionHistoryController {
     return player.getTransactionArchive().getTransactions(week);
   }
 
-  public List<Transaction> getAllTransactions() {
-    return player.getTransactionArchive().getAllTransactions();
+  public List<Integer> getDistinctWeeks() {
+    return player.getTransactionArchive().getDistinctWeeksAsList();
   }
 
 
