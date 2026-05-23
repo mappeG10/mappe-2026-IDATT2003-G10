@@ -17,7 +17,7 @@ public class ViewUtils {
     return String.format("%s%.2f", sign, value) + "%";
   }
 
-  public static String formatStockPriceChange(BigDecimal change) {
+  public static String formatPriceChange(BigDecimal change) {
     String sign = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
     return String.format("%s$%.2f", sign, change);
   }

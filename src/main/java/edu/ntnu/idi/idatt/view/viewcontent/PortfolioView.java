@@ -55,7 +55,7 @@ public class PortfolioView extends VBox implements GameObserver {
     currentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getCurrentValue())));
 
     TableColumn<Share, String> gainLossCol = new TableColumn<>("Gain/Loss");
-    gainLossCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getGainLoss())));
+    gainLossCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPriceChange(data.getValue().getGainLoss())));
 
     TableColumn<Share, String> gainLossPercentCol = new TableColumn<>("Gain %");
     gainLossPercentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getGainLossPercent())));
@@ -121,7 +121,7 @@ public class PortfolioView extends VBox implements GameObserver {
     portfolioTable.setItems(FXCollections.observableArrayList(portfolioController.getAllShares()));
     portfolioValueLabel.setText("Portfolio value \n" + ViewUtils.formatCurrency(portfolioController.getNetWorth()));
     totalInvestedLabel.setText("Total invested \n" + ViewUtils.formatCurrency(portfolioController.getTotalInvested()));
-    unrealisedPnLLabel.setText("Unrealised P&L \n" + ViewUtils.formatCurrency(portfolioController.getUnrealisedPnL()));
+    unrealisedPnLLabel.setText("Unrealised P&L \n" + ViewUtils.formatPriceChange(portfolioController.getUnrealisedPnL()));
     stockAmountLabel.setText("Positions \n" + portfolioController.getPositionsCount());
 
 

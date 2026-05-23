@@ -91,7 +91,7 @@ public class DashboardView extends VBox implements GameObserver {
     currentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getCurrentValue())));
 
     TableColumn<Share, String> gainLossLCol = new TableColumn<>("Gain/Loss");
-    gainLossLCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getGainLoss())));
+    gainLossLCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPriceChange(data.getValue().getGainLoss())));
 
 
     TableView<Share> portfolioTable = new TableView<>();
@@ -146,7 +146,7 @@ public class DashboardView extends VBox implements GameObserver {
     for (Stock stock : dashboardController.getLosers(TOP_LOSERS_LIMIT)) {
       VBox column = new VBox();
       Label stockTitle = new Label(stock.getSymbol() + " " + stock.getCompany());
-      Label pricechange = new Label(ViewUtils.formatPercentage(stock.getLatestPriceChangePercent()));
+      Label pricechange = new Label(ViewUtils.formatPriceChange(stock.getLatestPriceChangePercent()));
       column.getChildren().addAll(stockTitle, pricechange);
       topLosersStockRows.getChildren().add(column);
     }
@@ -158,7 +158,7 @@ public class DashboardView extends VBox implements GameObserver {
     netWorthLabel.setText(ViewUtils.formatCurrency(dashboardController.getNetWorth()));
     cashBalanceLabel.setText(ViewUtils.formatCurrency(dashboardController.getPlayerMoney()));
     portfolioValueLabel.setText(ViewUtils.formatCurrency(dashboardController.getPortfolioValue()));
-    totalGainLossLabel.setText(ViewUtils.formatCurrency(dashboardController.getTotalGainLoss()));
+    totalGainLossLabel.setText(ViewUtils.formatPriceChange(dashboardController.getTotalGainLoss()));
     fourthCardSubLabel.setText(ViewUtils.formatPercentage(dashboardController.getTotalGainLossPercent()));
 
     List<Stock> gainers = dashboardController.getGainers(TOP_GAINERS_LIMIT);
