@@ -68,6 +68,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     try {
       BigDecimal quantity = new BigDecimal(quantityField.getText());
       controller.executeBuy(this.target.getSymbol(), quantity);
+      requestClose();
     } catch (NumberFormatException e) { //TODO: Refactor from generic Exception Catching.
       ViewUtils.showErrorAlert("Unable to buy", e.getMessage());
     }

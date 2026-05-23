@@ -1,9 +1,14 @@
 package edu.ntnu.idi.idatt.view.widgets;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 public abstract class TransactionWidget<T> extends VBox {
   protected final T target;
@@ -19,6 +24,17 @@ public abstract class TransactionWidget<T> extends VBox {
     this.target = target;
     setupUI();
     setupListeners();
+  }
+
+  public void openDialog(Window owner) {
+    Stage stage = new Stage();
+    stage.initStyle(StageStyle.UNDECORATED);
+    stage.initOwner(owner);
+    stage.initModality(Modality.WINDOW_MODAL);
+    stage.setScene(new Scene(this));
+
+    this.setOnCloseRequested(stage::close);
+    stage.show();
   }
 
   public void setOnCloseRequested(Runnable callback) {
