@@ -12,10 +12,6 @@ public class StockReaderFactory {
       throw new IllegalArgumentException("Source cannot be null or empty.");
     }
 
-    if (source.startsWith("api:")) {
-      return new YahooStockReader();
-    }
-
     if (source.toLowerCase().endsWith(".csv")){
       return new CsvStockReader();
     }
