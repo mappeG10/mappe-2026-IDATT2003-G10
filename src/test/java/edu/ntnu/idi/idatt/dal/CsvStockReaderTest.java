@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StockParserTest {
+class CsvStockReaderTest {
 
   @TempDir
   Path tempDir;
@@ -28,7 +28,7 @@ class StockParserTest {
                 """;
     Files.writeString(filePath, content);
 
-    List<Stock> stocks = StockParser.parseStocks(filePath.toString());
+    List<Stock> stocks = CsvStockReader.parseStocks(filePath.toString());
 
     assertEquals(2, stocks.size(), "Should parse exactly two stocks, skipping comments and blank lines");
     assertEquals("NVDA", stocks.get(0).getSymbol());
@@ -47,7 +47,7 @@ class StockParserTest {
 
     Files.writeString(filePath, content);
 
-    List<Stock> stocks = StockParser.parseStocks(filePath.toString());
+    List<Stock> stocks = CsvStockReader.parseStocks(filePath.toString());
 
     assertTrue(stocks.isEmpty());
 
@@ -56,7 +56,7 @@ class StockParserTest {
   @Test
   void testParseStockThrowsException() {
     Path filePath = tempDir.resolve("test_stocks.csv");
-    assertThrows(RuntimeException.class, () -> StockParser.parseStocks(filePath.toString()));
+    assertThrows(RuntimeException.class, () -> CsvStockReader.parseStocks(filePath.toString()));
 
   }
 

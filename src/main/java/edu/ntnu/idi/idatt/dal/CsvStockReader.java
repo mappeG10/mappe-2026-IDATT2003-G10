@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class StockParser {
+public class CsvStockReader {
 
-  private StockParser() {}
+  private CsvStockReader() {}
 
   public static List<Stock> parseStocks(String fileName) {
     List<Stock> stocks = new ArrayList<>();
