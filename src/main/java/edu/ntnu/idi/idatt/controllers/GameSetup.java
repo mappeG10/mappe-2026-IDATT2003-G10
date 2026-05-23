@@ -5,5 +5,5 @@ import java.math.BigDecimal;
 public record GameSetup(
     String playerName,
     BigDecimal startingCapital,
-    String csvPath
+    String source
 ) {}
