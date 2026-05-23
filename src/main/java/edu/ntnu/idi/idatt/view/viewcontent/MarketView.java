@@ -4,13 +4,16 @@ import edu.ntnu.idi.idatt.controllers.MarketController;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import edu.ntnu.idi.idatt.view.ViewUtils;
+import edu.ntnu.idi.idatt.view.widgets.PurchaseWidget;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Window;
+
 
 public class MarketView extends VBox implements GameObserver {
 
@@ -44,8 +47,23 @@ public class MarketView extends VBox implements GameObserver {
     TableColumn<Stock, String> changePercentCol = new TableColumn<>("Change %");
     changePercentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getLatestPriceChangePercent())));
 
+    TableColumn<Stock, String> buyButtonCol = new TableColumn<>("Action");
+    buyButtonCol.setCellFactory(param -> new TableCell<>() {
+      private final Button button = buildBuyButton(this);
+
+      @Override
+      protected void updateItem(String s, boolean b) {
+        super.updateItem(s, b);
+        if (b || getTableRow().getItem() == null) {
+          setGraphic(null);
+        } else {
+          setGraphic(button);
+        }
+      }
+    });
+
     TableView<Stock> marketTable = new TableView<>();
-    marketTable.getColumns().addAll(symbolCol, companyCol, priceCol, changeCol, changePercentCol);
+    marketTable.getColumns().addAll(symbolCol, companyCol, priceCol, changeCol, changePercentCol, buyButtonCol);
     return marketTable;
   }
 
@@ -58,6 +76,29 @@ public class MarketView extends VBox implements GameObserver {
     topContainer.getChildren().addAll(title, subTitle, searchField);
 
     return topContainer;
+  }
+
+  private Button buildBuyButton(TableCell<Stock, String> cell) {
+    Button button = new Button("Buy");
+
+    button.setOnAction(event -> {
+      if (cell.getTableRow() != null) {
+        Stock selectedStock = cell.getTableRow().getItem();
+        handlePurchase(selectedStock, cell.getScene().getWindow());
+      }
+    });
+
+    return button;
+  }
+
+  private void handlePurchase(Stock stock, Window parentWindow) {
+    if (stock == null) {
+      return;
+    }
+
+    PurchaseWidget purchaseWidget = new PurchaseWidget(stock, marketController);
+    purchaseWidget.openDialog(parentWindow);
+
   }
 
   @Override

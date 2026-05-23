@@ -25,12 +25,12 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
   //TODO: Fix styling later
   @Override
   protected void setupUI() {
-    this.totalLabel = new Label("Buy: " + target.getSymbol());
+    this.titleLabel = new Label("Buy: " + target.getSymbol());
     this.quantityField = new TextField();
     this.quantityField.setPromptText("0");
 
     this.grossCostLabel = new Label("Gross: $0.00");
-    this.comissionLabel = new Label("Comission: $0.00");
+    this.comissionLabel = new Label("Commission: $0.00");
     this.totalLabel = new Label("Total: %0.00");
 
     this.cancelButton = new Button("Cancel");
@@ -55,10 +55,12 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
       BigDecimal quantity = new BigDecimal(quantityStr);
       TransactionPreview preview = controller.previewBuy(target.getSymbol(), quantity);
 
-      grossCostLabel.setText("Gross Cost" + ViewUtils.formatCurrency(preview.gross()));
-      comissionLabel.setText("Comission (0.5%): " + ViewUtils.formatCurrency(preview.commission()));
+      grossCostLabel.setText("Gross Cost: " + ViewUtils.formatCurrency(preview.gross()));
+      comissionLabel.setText("Comission (0.5%): " + ViewUtils.formatPercentage(preview.commission()));
       totalLabel.setText("Total: " + ViewUtils.formatCurrency(preview.total()));
     } catch (Exception e) {
+      grossCostLabel.setText("Gross Cost: $0.00");
+      comissionLabel.setText("Comission (0.5%): 0%");
       totalLabel.setText("Total: $0.00");
     }
   }
