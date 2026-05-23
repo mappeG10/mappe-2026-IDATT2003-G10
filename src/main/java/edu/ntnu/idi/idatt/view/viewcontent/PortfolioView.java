@@ -30,7 +30,6 @@ public class PortfolioView extends VBox implements GameObserver {
     this.stockAmountLabel = new Label();
 
     this.portfolioTable = buildPortfolioTable();
-    portfolioTable.setItems(FXCollections.observableArrayList(portfolioController.getAllShares()));
 
     getChildren().addAll(buildTopContainer(), portfolioTable);
     portfolioController.registerObserver(this);
