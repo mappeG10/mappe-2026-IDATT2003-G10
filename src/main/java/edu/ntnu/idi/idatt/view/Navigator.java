@@ -3,10 +3,7 @@ package edu.ntnu.idi.idatt.view;
 import edu.ntnu.idi.idatt.controllers.GameController;
 import edu.ntnu.idi.idatt.controllers.GameFactory;
 import edu.ntnu.idi.idatt.dal.DataAccessException;
-import edu.ntnu.idi.idatt.view.viewcontent.DashboardView;
-import edu.ntnu.idi.idatt.view.viewcontent.MarketView;
-import edu.ntnu.idi.idatt.view.viewcontent.PortfolioView;
-import edu.ntnu.idi.idatt.view.viewcontent.TransactionHistoryView;
+import edu.ntnu.idi.idatt.view.viewcontent.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -55,6 +52,7 @@ public class Navigator {
       case PORTFOLIO ->  new PortfolioView(gameController.getPortfolioController());
       case HISTORY ->  new TransactionHistoryView(gameController.getTransactionHistoryController());
       case DASHBOARD -> new DashboardView(gameController.getDashboardController());
+      case SETTINGS -> new SettingsView();
     };
 
     mainView.setContent(content);
