@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.dal;
 
 import edu.ntnu.idi.idatt.models.Stock;
 
+import javax.swing.text.html.Option;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,25 +11,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CsvStockReader {
+public class CsvStockReader implements DataReader<List<Stock>> {
 
-  private CsvStockReader() {}
+  public CsvStockReader() {
 
-  public static List<Stock> parseStocks(String fileName) {
+  }
+
+  @Override
+  public List<Stock> read(String source) throws IOException, DataAccessException {
     List<Stock> stocks = new ArrayList<>();
-    String line;
 
-    try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(source))) {
+      String line;
+      int lineNumber = 0;
       while ((line = br.readLine()) != null) {
+        lineNumber++;
         if (isSkippable(line)) {
           continue;
         }
-        parseLineToStock(line).ifPresent(stocks::add);
+        Optional<Stock> stock = parseLineToStock(line);
+        if (stock.isPresent()) {
+          stocks.add(stock.get());
+        } else {
+          throw new DataAccessException("Malformed data at line: "
+              + lineNumber + ": " + line);
+        }
+
       }
-      return stocks;
-    } catch (IOException e) {
-      throw new RuntimeException(e); // TODO: use custom exceptions later
+      if  (stocks.isEmpty()) {
+        throw new DataAccessException("Source file was empty or contained no valid stocks.");
+      }
     }
+    return stocks;
   }
 
   private static boolean isSkippable(String line) {

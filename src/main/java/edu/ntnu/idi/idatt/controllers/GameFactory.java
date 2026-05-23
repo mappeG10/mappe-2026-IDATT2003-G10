@@ -13,7 +13,7 @@ public class GameFactory {
 
   public static GameController createController(GameSetup setup) {
     Player player = new Player(setup.playerName(), setup.startingCapital());
-    List<Stock> stockList = CsvStockReader.parseStocks(setup.csvPath());
+    List<Stock> stockList = CsvStockReader.read(setup.csvPath());
     Exchange exchange = new Exchange(EXCHANGE_NAME, stockList);
     return new GameController(exchange, player);
   }
