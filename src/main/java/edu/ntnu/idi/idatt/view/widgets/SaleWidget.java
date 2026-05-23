@@ -4,74 +4,89 @@ import edu.ntnu.idi.idatt.controllers.PortfolioController;
 import edu.ntnu.idi.idatt.controllers.TransactionPreview;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.view.ViewUtils;
+import java.math.BigDecimal;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class SaleWidget extends TransactionWidget<Share> {
   private final PortfolioController controller;
-  private Label grossLabel;
-  private Label taxLabel;
+  private Label grossValueLabel;
+  private Label taxValueLabel;
 
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
     this.controller = controller;
-    updatedPreview(null);
+    updatedPreview(target.getQuantity().toPlainString());
   }
 
   @Override
   protected void setupUI() {
     this.titleLabel = new Label("Sell: " + target.getStock().getSymbol());
 
-    this.quantityField = new TextField("Selling: " //TODO: Implement partial share sale later.
-        + target.getQuantity().toString()
-        + " Shares @ "
-        + ViewUtils.formatCurrency(target.getStock().getSalesPrice()));
-    this.quantityField.setEditable(false);
+    this.quantityField = new TextField(target.getQuantity().toPlainString());
 
-    this.grossLabel = new Label("Gross Proceeds: $0.00");
-    this.taxLabel = new Label("Capital Gains Tax (30%): $0.00");
-    this.totalLabel = new Label("Net Proceeds: $0.00");
+    this.grossValueLabel = new Label();
+    this.taxValueLabel = new Label();
+    this.totalLabel = new Label();
 
     this.cancelButton = new Button("Cancel");
     this.actionButton = new Button("Confirm Sale");
 
+    this.setSpacing(15);
+    this.setMinWidth(250);
+
     this.getChildren().addAll(
         titleLabel,
+        new Label(target.getStock().getCompany() + " · Current price: " + ViewUtils.formatCurrency(target.getStock().getSalesPrice())),
+        new Label("Quantity (max: " + target.getQuantity().toPlainString() + "):"),
         quantityField,
-        grossLabel,
-        taxLabel,
-        totalLabel,
+        buildSummaryRow(),
         new HBox(10, actionButton, cancelButton)
     );
   }
 
-  @Override
-  protected void updatedPreview(String quantity) {
-    if (controller == null ){
-      return;
-    }
-    try {
-      TransactionPreview preview = controller.previewSell(target);
+  private HBox buildSummaryRow() {
+    VBox keys = new VBox(
+        new Label("Gross Proceeds"),
+        new Label("Capital Gains Tax (30%)"),
+        new Label("Net Proceeds")
+    );
+    VBox values = new VBox(
+        grossValueLabel,
+        taxValueLabel,
+        totalLabel
+    );
+    return new HBox(keys, values);
+  }
 
-      grossLabel.setText("Gross Proceeds: " + ViewUtils.formatCurrency(preview.gross()));
-      taxLabel.setText("Capital Gains Tax (30%): " + ViewUtils.formatCurrency(preview.tax()));
-      totalLabel.setText("Net Proceeds: " + ViewUtils.formatCurrency(preview.total()));
+  @Override
+  protected void updatedPreview(String quantityStr) {
+    try {
+      BigDecimal quantity = new BigDecimal(quantityStr);
+      TransactionPreview preview = controller.previewSell(target, quantity);
+      grossValueLabel.setText(ViewUtils.formatCurrency(preview.gross()));
+      taxValueLabel.setText(ViewUtils.formatCurrency(preview.tax()));
+      totalLabel.setText(ViewUtils.formatCurrency(preview.total()));
     } catch (Exception _) {
-      grossLabel.setText("Gross Proceeds: $0.00");
-      taxLabel.setText("Capital Gains Tax (30%): 0%");
-      totalLabel.setText("Net Proceeds: $0.00");
+      grossValueLabel.setText("$0.00");
+      taxValueLabel.setText("$0.00");
+      totalLabel.setText("$0.00");
     }
   }
 
   @Override
   protected void handleAction() {
     try {
-      controller.executeSell(target);
+      BigDecimal quantity = new BigDecimal(quantityField.getText());
+      controller.executeSell(target, quantity);
       requestClose();
-    } catch (Exception e) {
-      ViewUtils.showErrorAlert("Unnable to sell", e.getMessage());
+    } catch (NumberFormatException e) {
+      ViewUtils.showErrorAlert("Invalid quantity", "Please enter a valid number");
+    } catch (IllegalArgumentException e) {
+      ViewUtils.showErrorAlert("Unable to sell", e.getMessage());
     }
   }
 }
