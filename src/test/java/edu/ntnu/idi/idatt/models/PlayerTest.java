@@ -1,7 +1,9 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.view.GameObserver;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
@@ -186,11 +188,51 @@ class PlayerTest {
         "Gain/loss percent should reflect appreciated portfolio value");
   }
 
+  @Test
+  void testRegisterObserver() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    player.register(observer);
+    player.updateStatus();
+
+    assertEquals(1, count.get(), "Observer should be notified once after registration and updateStatus");
+
+    // Test idempotency
+    player.register(observer);
+    player.updateStatus();
+    assertEquals(2, count.get(), "Observer should still be notified once (total 2) after duplicate registration and updateStatus");
+  }
+
+  @Test
+  void testUnregisterObserver() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    player.register(observer);
+    player.unregister(observer);
+    player.updateStatus();
+
+    assertEquals(0, count.get(), "Observer should not be notified after unregistration");
+  }
+
+  @Test
+  void testNotifyObserversOnUpdateStatus() {
+    AtomicInteger count = new AtomicInteger(0);
+    GameObserver observer = count::incrementAndGet;
+
+    player.register(observer);
+    player.updateStatus();
+
+    assertEquals(1, count.get(), "Observer should be notified exactly once on updateStatus");
+  }
+
 
   /**
    * Helper method to populate the archive with transactions across X weeks.
    */
   private void addDummyTransactions(int weeks) {
+
     for (int i = 1; i <= weeks; i++) {
       Stock stock = new Stock("APPL", "Apple", new ArrayList<>());
       Share dummyShare =
