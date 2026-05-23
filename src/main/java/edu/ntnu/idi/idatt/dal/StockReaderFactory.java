@@ -5,6 +5,7 @@ import edu.ntnu.idi.idatt.models.Stock;
 import java.util.List;
 
 public class StockReaderFactory {
+  private StockReaderFactory() {}
 
   public static DataReader<List<Stock>> getStockReader(String source) {
     if (source == null || source.isBlank()) {

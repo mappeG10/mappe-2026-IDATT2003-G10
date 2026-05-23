@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controllers.GameController;
 import edu.ntnu.idi.idatt.controllers.GameFactory;
+import edu.ntnu.idi.idatt.dal.DataAccessException;
 import edu.ntnu.idi.idatt.view.viewcontent.DashboardView;
 import edu.ntnu.idi.idatt.view.viewcontent.MarketView;
 import edu.ntnu.idi.idatt.view.viewcontent.PortfolioView;
@@ -9,6 +10,8 @@ import edu.ntnu.idi.idatt.view.viewcontent.TransactionHistoryView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Navigator {
   private final double WIDTH = 1280, HEIGHT = 800; //TODO: Move this out for cleaner code.
@@ -23,9 +26,18 @@ public class Navigator {
 
   public void toStart(){
     StartView startView = new StartView(gameSetup -> {
-      GameController gc = GameFactory.createController(gameSetup);
-      this.toGame(gc);
+      try {
+        GameController gc = GameFactory.createController(gameSetup);
+        this.toGame(gc);
+      } catch (DataAccessException | IOException e){
+        ViewUtils.showErrorAlert("Data Error",
+            "Could not load Stocks: " + e.getMessage());
+      } catch (Exception e) {
+        ViewUtils.showErrorAlert("Error",
+            "An unexpected error occured: " + e.getMessage());
+      }
     });
+
     stage.setScene(new Scene(startView, WIDTH, HEIGHT));
   }
 
