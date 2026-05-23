@@ -2,10 +2,6 @@ package edu.ntnu.idi.idatt.models;
 
 public class TransactionFactory {
 
-  public enum TransactionType {
-    PURCHASE, SALE
-  }
-
   public static Transaction createTransaction(TransactionType type, Share share, int week) {
     if (type == null) {
       throw new IllegalArgumentException("Transaction type cannot be null");

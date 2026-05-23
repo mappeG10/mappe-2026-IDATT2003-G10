@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Transaction;
 import edu.ntnu.idi.idatt.models.TransactionCalculator;
 import edu.ntnu.idi.idatt.models.TransactionFactory;
+import edu.ntnu.idi.idatt.models.TransactionType;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import java.math.BigDecimal;
 import java.util.List;
@@ -54,7 +55,7 @@ public class PortfolioController {
 
   public TransactionPreview previewSell(Share share) {
     Transaction previewSell = TransactionFactory.createTransaction(
-        TransactionFactory.TransactionType.SALE, share, exchange.getWeek());
+        TransactionType.SALE, share, exchange.getWeek());
     TransactionCalculator previewCalculator = previewSell.getCalculator();
     return new TransactionPreview(previewCalculator.calculateGross(),
         previewCalculator.calculateCommission(), previewCalculator.calculateTax(),
