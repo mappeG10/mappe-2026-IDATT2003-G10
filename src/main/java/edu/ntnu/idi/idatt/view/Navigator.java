@@ -5,12 +5,10 @@ import edu.ntnu.idi.idatt.controllers.GameFactory;
 import edu.ntnu.idi.idatt.view.viewcontent.DashboardView;
 import edu.ntnu.idi.idatt.view.viewcontent.MarketView;
 import edu.ntnu.idi.idatt.view.viewcontent.PortfolioView;
+import edu.ntnu.idi.idatt.view.viewcontent.TransactionHistoryView;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.math.BigDecimal;
 
 public class Navigator {
   private final double WIDTH = 1280, HEIGHT = 800; //TODO: Move this out for cleaner code.
@@ -43,7 +41,7 @@ public class Navigator {
     Parent content = switch (tab) {
       case MARKET -> new MarketView(gameController.getMarketController());
       case PORTFOLIO ->  new PortfolioView(gameController.getPortfolioController());
-      case HISTORY ->  new MarketView(gameController.getMarketController()); //TODO: Change this with the correct page
+      case HISTORY ->  new TransactionHistoryView(gameController.getTransactionHistoryController());
       case DASHBOARD -> new DashboardView(gameController.getDashboardController());
     };
 

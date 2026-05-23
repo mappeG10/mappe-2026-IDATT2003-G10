@@ -6,12 +6,12 @@ import edu.ntnu.idi.idatt.models.Transaction;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import java.util.List;
 
-public class TransactionController {
+public class TransactionHistoryController {
 
   private final Exchange exchange;
   private final Player player;
 
-  public TransactionController(Exchange exchange, Player player) {
+  public TransactionHistoryController(Exchange exchange, Player player) {
     this.exchange = exchange;
     this.player = player;
   }
