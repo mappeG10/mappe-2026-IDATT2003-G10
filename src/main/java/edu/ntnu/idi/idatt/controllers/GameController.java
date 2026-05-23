@@ -2,7 +2,6 @@ package edu.ntnu.idi.idatt.controllers;
 
 import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;
-import edu.ntnu.idi.idatt.models.Player.Status;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import java.math.BigDecimal;
 
@@ -12,7 +11,7 @@ public class GameController {
   private final Player player;
   private final DashboardController dashboardController;
   private final MarketController marketController;
-  private final TransactionController transactionController;
+  private final TransactionHistoryController transactionHistoryController;
   private final PortfolioController portfolioController;
 
   public GameController(Exchange exchange, Player player) {
@@ -20,7 +19,7 @@ public class GameController {
     this.player = player;
     this.dashboardController = new DashboardController(exchange, player);
     this.marketController =  new MarketController(exchange, player);
-    this.transactionController = new TransactionController(exchange, player);
+    this.transactionHistoryController = new TransactionHistoryController(exchange, player);
     this.portfolioController = new PortfolioController(exchange, player);
 
   }
@@ -43,8 +42,8 @@ public class GameController {
     return marketController;
   }
 
-  public TransactionController getTransactionController() {
-    return transactionController;
+  public TransactionHistoryController getTransactionHistoryController() {
+    return transactionHistoryController;
   }
 
   public PortfolioController getPortfolioController() {

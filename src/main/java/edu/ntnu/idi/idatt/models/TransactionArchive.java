@@ -21,10 +21,6 @@ public class TransactionArchive {
     return transactions.isEmpty();
   }
 
-  public List<Transaction> getAllTransactions() {
-    return Collections.unmodifiableList(transactions);
-  }
-
   public List<Transaction> getTransactions(int week) {
     return transactions.stream()
         .filter(transaction -> transaction.getWeek() == week)
@@ -52,5 +48,13 @@ public class TransactionArchive {
         .map(Transaction::getWeek)
         .distinct()
         .count();
+  }
+
+  public List<Integer> getDistinctWeeksAsList() {
+    return transactions.stream()
+        .map(Transaction::getWeek)
+        .distinct()
+        .sorted()
+        .toList();
   }
 }

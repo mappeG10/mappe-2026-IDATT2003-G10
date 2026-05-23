@@ -7,6 +7,7 @@ import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.models.Transaction;
 import edu.ntnu.idi.idatt.models.TransactionCalculator;
 import edu.ntnu.idi.idatt.models.TransactionFactory;
+import edu.ntnu.idi.idatt.models.TransactionType;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import java.math.BigDecimal;
 import java.util.List;
@@ -50,7 +51,7 @@ public class MarketController {
   public TransactionPreview previewBuy(String symbol, BigDecimal quantity) {
     Stock stock = exchange.getStock(symbol);
     Share sharePreview = new Share(stock, quantity, stock.getSalesPrice());
-    Transaction previewPurchase = TransactionFactory.createTransaction(TransactionFactory.TransactionType.PURCHASE, sharePreview, exchange.getWeek());
+    Transaction previewPurchase = TransactionFactory.createTransaction(TransactionType.PURCHASE, sharePreview, exchange.getWeek());
     TransactionCalculator previewCalculator = previewPurchase.getCalculator();
     return new TransactionPreview(previewCalculator.calculateGross(), previewCalculator.calculateCommission(), previewCalculator.calculateTax(), previewCalculator.calculateTotal());
   }

@@ -1,8 +1,8 @@
 package edu.ntnu.idi.idatt.models;
 
+import static edu.ntnu.idi.idatt.models.TransactionType.PURCHASE;
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.models.TransactionFactory.TransactionType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ class TransactionFactoryTest {
 
   @Test
   void testCreatePurchase() {
-    Transaction transaction = TransactionFactory.createTransaction(TransactionType.PURCHASE, share, 1);
+    Transaction transaction = TransactionFactory.createTransaction(PURCHASE, share, 1);
 
     assertInstanceOf(Purchase.class, transaction,
         "The transaction returned by TransactionFactory when creating purchase should be a Purchase object");

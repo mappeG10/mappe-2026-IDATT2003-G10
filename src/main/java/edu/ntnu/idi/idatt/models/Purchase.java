@@ -26,4 +26,9 @@ public class Purchase extends Transaction {
 
   }
 
+  @Override
+  public TransactionType getTransactionType() {
+    return TransactionType.PURCHASE;
+  }
+
 }
