@@ -34,7 +34,7 @@ public class Navigator {
             "Could not load Stocks: " + e.getMessage());
       } catch (Exception e) {
         ViewUtils.showErrorAlert("Error",
-            "An unexpected error occured: " + e.getMessage());
+            "An unexpected error occurred: " + e.getMessage());
       }
     });
 
