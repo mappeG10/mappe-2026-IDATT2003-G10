@@ -18,16 +18,20 @@ public class Portfolio {
     return shares.add(share);
   }
 
-  public boolean reduceShare(Share share) {
+  public boolean reduceShare(Share share, BigDecimal amount) {
     int index = shares.indexOf(share);
     if (index == -1) {
       return false;
     }
 
-    BigDecimal remaining = share.getQuantity().subtract(share.getQuantity());
-    if (remaining.compareTo(BigDecimal.ZERO) <= 0) {
+    BigDecimal remaining = share.getQuantity().subtract(amount);
+    if (remaining.compareTo(BigDecimal.ZERO) < 0) {
       return false;
-    } else  {
+    }
+    else if (remaining.compareTo(BigDecimal.ZERO) == 0) {
+      removeShare(share);
+    }
+    else  {
       shares.set(index, new Share(share.getStock(), remaining, share.getPurchasePrice()));
     }
     return true;
