@@ -138,7 +138,7 @@ public class Exchange implements GameSubject {
     }
     return stockMap.values().stream()
         .filter(Stock::hasPriceHistory)
-        .sorted(Comparator.comparing(Stock::getLatestPriceChange).reversed())
+        .sorted(Comparator.comparing(Stock::getLatestPriceChangePercent).reversed())
         .limit(limit)
         .toList();
 
@@ -152,7 +152,7 @@ public class Exchange implements GameSubject {
     }
     return stockMap.values().stream()
         .filter(Stock::hasPriceHistory)
-        .sorted(Comparator.comparing(Stock::getLatestPriceChange))
+        .sorted(Comparator.comparing(Stock::getLatestPriceChangePercent))
         .limit(limit)
         .toList();
   }
