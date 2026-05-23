@@ -58,7 +58,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
       grossCostLabel.setText("Gross Cost: " + ViewUtils.formatCurrency(preview.gross()));
       comissionLabel.setText("Comission (0.5%): " + ViewUtils.formatPercentage(preview.commission()));
       totalLabel.setText("Total: " + ViewUtils.formatCurrency(preview.total()));
-    } catch (Exception e) {
+    } catch (Exception _) {
       grossCostLabel.setText("Gross Cost: $0.00");
       comissionLabel.setText("Comission (0.5%): 0%");
       totalLabel.setText("Total: $0.00");
