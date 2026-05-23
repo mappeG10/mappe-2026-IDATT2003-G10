@@ -19,10 +19,12 @@ public class MarketView extends VBox implements GameObserver {
 
   private final MarketController marketController;
   private final TableView<Stock> marketTable;
+  private final TextField searchField;
 
   public MarketView(MarketController marketController) {
     this.marketController = marketController;
     this.marketTable = buildMarketTable();
+    this.searchField = new TextField();
 
     getChildren().add(buildTopContainer());
     getChildren().add(marketTable);
@@ -70,12 +72,21 @@ public class MarketView extends VBox implements GameObserver {
   private VBox buildTopContainer() {
     Label title = new Label("Market");
     Label subTitle = new Label("Browse and buy stocks from the market");
-    TextField searchField = new TextField("\uD83D\uDD0D Search by symbol or company name");
+
+    searchField.setPromptText("\uD83D\uDD0D Search by symbol or company name");
+    searchField.textProperty().addListener((_, _, searchTerm) -> refreshTable(searchTerm));
 
     VBox topContainer = new VBox();
     topContainer.getChildren().addAll(title, subTitle, searchField);
 
     return topContainer;
+  }
+
+  private void refreshTable(String searchTerm) {
+    if (searchTerm == null || searchTerm.isBlank()) {
+      return;
+    }
+    marketTable.setItems(FXCollections.observableArrayList(marketController.findStocks(searchTerm)));
   }
 
   private Button buildBuyButton(TableCell<Stock, String> cell) {
