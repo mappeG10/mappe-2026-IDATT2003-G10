@@ -152,4 +152,39 @@ public class TransactionArchiveTest {
     assertFalse(transactionArchive.isEmpty(), "Transaction archive should not be empty after a commit");
   }
 
+  @Test
+  void testGetDistinctWeeksAsListIsEmptyWhenArchiveIsEmpty() {
+    assertTrue(transactionArchive.getDistinctWeeksAsList().isEmpty(),
+        "Should return empty list when archive has no transactions");
+  }
+
+  @Test
+  void testGetDistinctWeeksAsListSingleWeek() {
+    new Purchase(share, 1).commit(player);
+    new Purchase(share, 1).commit(player);
+
+    assertEquals(List.of(1), transactionArchive.getDistinctWeeksAsList(),
+        "Should return [1] when all transactions are in week 1");
+  }
+
+  @Test
+  void testGetDistinctWeeksAsListMultipleWeeks() {
+    new Purchase(share, 1).commit(player);
+    new Purchase(share, 3).commit(player);
+    new Purchase(share, 2).commit(player);
+
+    assertEquals(List.of(1, 2, 3), transactionArchive.getDistinctWeeksAsList(),
+        "Should return sorted list of distinct weeks");
+  }
+
+  @Test
+  void testGetDistinctWeeksAsListNoDuplicates() {
+    new Purchase(share, 2).commit(player);
+    new Purchase(share, 2).commit(player);
+    new Purchase(share, 4).commit(player);
+
+    assertEquals(List.of(2, 4), transactionArchive.getDistinctWeeksAsList(),
+        "Should not contain duplicate week numbers");
+  }
+
 }
