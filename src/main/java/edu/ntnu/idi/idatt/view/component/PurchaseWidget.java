@@ -1,12 +1,12 @@
-package edu.ntnu.idi.idatt.view.widgets;
+package edu.ntnu.idi.idatt.view.component;
 
-import edu.ntnu.idi.idatt.controllers.MarketController;
-import edu.ntnu.idi.idatt.controllers.dto.TransactionPreview;
-import edu.ntnu.idi.idatt.models.Stock;
-import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
-import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
-import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
-import edu.ntnu.idi.idatt.view.utils.ViewUtils;
+import edu.ntnu.idi.idatt.controller.MarketController;
+import edu.ntnu.idi.idatt.controller.dto.TransactionPreview;
+import edu.ntnu.idi.idatt.model.Stock;
+import edu.ntnu.idi.idatt.model.exception.InsufficientFundsException;
+import edu.ntnu.idi.idatt.model.exception.StockNotFoundException;
+import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,7 +31,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     this.titleLabel = new Label("Buy: " + target.getSymbol());
     this.titleLabel.getStyleClass().add("widget-title");
 
-    Label subtitleLabel = new Label(target.getCompany() + " · Current price: " + ViewUtils.formatCurrency(target.getSalesPrice()));
+    Label subtitleLabel = new Label(target.getCompany() + " · Current price: " + ViewUtility.formatCurrency(target.getSalesPrice()));
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField();
@@ -84,9 +84,9 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
       BigDecimal quantity = new BigDecimal(quantityStr);
       TransactionPreview preview = controller.previewBuy(target.getSymbol(), quantity);
 
-      grossValueLabel.setText(ViewUtils.formatCurrency(preview.gross()));
-      commissionValueLabel.setText(ViewUtils.formatCurrency(preview.commission()));
-      totalLabel.setText(ViewUtils.formatCurrency(preview.total()));
+      grossValueLabel.setText(ViewUtility.formatCurrency(preview.gross()));
+      commissionValueLabel.setText(ViewUtility.formatCurrency(preview.commission()));
+      totalLabel.setText(ViewUtility.formatCurrency(preview.total()));
     } catch (Exception _) {
       grossValueLabel.setText("$0.00");
       commissionValueLabel.setText("$0.00");
@@ -101,15 +101,15 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
       controller.executeBuy(this.target.getSymbol(), quantity);
       requestClose();
     } catch (NumberFormatException e) {
-      ViewUtils.showErrorAlert("Invalid quantity", "Please enter a valid number");
+      ViewUtility.showErrorAlert("Invalid quantity", "Please enter a valid number");
     } catch (InsufficientFundsException e) {
-      ViewUtils.showErrorAlert("Insufficient funds", e.getMessage());
+      ViewUtility.showErrorAlert("Insufficient funds", e.getMessage());
     } catch (StockNotFoundException e) {
-      ViewUtils.showErrorAlert("Stock not found", e.getMessage());
+      ViewUtility.showErrorAlert("Stock not found", e.getMessage());
     } catch (TransactionAlreadyCommittedException e) {
-      ViewUtils.showErrorAlert("Error", e.getMessage());
+      ViewUtility.showErrorAlert("Error", e.getMessage());
     } catch (IllegalArgumentException e) {
-      ViewUtils.showErrorAlert("Unable to buy", e.getMessage());
+      ViewUtility.showErrorAlert("Unable to buy", e.getMessage());
     }
   }
 }

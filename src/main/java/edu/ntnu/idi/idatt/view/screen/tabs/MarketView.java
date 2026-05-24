@@ -1,10 +1,10 @@
-package edu.ntnu.idi.idatt.view.viewcontent.tabs;
+package edu.ntnu.idi.idatt.view.screen.tabs;
 
-import edu.ntnu.idi.idatt.controllers.MarketController;
-import edu.ntnu.idi.idatt.models.Stock;
+import edu.ntnu.idi.idatt.controller.MarketController;
+import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;
-import edu.ntnu.idi.idatt.view.utils.TableColumnFactory;
-import edu.ntnu.idi.idatt.view.utils.ViewUtils;
+import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
+import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import edu.ntnu.idi.idatt.view.component.PurchaseWidget;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
@@ -41,9 +41,9 @@ public class MarketView extends VBox implements GameObserver {
 
     TableColumn<Stock, String> priceCol = TableColumnFactory.createPriceColumn("Price", Stock::getSalesPrice);
     TableColumn<Stock, String> changeCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change", s -> ViewUtils.formatPriceChange(s.getLatestPriceChange()));
+        "Change", s -> ViewUtility.formatPriceChange(s.getLatestPriceChange()));
     TableColumn<Stock, String> changePercentCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change %", s -> ViewUtils.formatPercentage(s.getLatestPriceChangePercent()));
+        "Change %", s -> ViewUtility.formatPercentage(s.getLatestPriceChangePercent()));
 
     TableColumn<Stock, String> buyButtonCol = new TableColumn<>("Action");
     buyButtonCol.setCellFactory(param -> new TableCell<>() {
@@ -61,7 +61,7 @@ public class MarketView extends VBox implements GameObserver {
     });
 
     marketTable.getColumns().addAll(priceCol, changeCol, changePercentCol, buyButtonCol);
-    ViewUtils.applyRoundedClip(marketTable, 12);
+    ViewUtility.applyRoundedClip(marketTable, 12);
     return marketTable;
   }
 

@@ -10,8 +10,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
 import javafx.util.Callback;
 
-public class ViewUtils {
-  private ViewUtils() {}
+public class ViewUtility {
+  private ViewUtility() {}
 
   public static String formatCurrency(BigDecimal amount) {
     return String.format("$%.2f", amount);

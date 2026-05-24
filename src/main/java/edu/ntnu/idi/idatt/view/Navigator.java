@@ -1,11 +1,11 @@
 package edu.ntnu.idi.idatt.view;
 
-import edu.ntnu.idi.idatt.controllers.contentcontroller.GameController;
-import edu.ntnu.idi.idatt.controllers.GameFactory;
-import edu.ntnu.idi.idatt.dal.exceptions.DataAccessException;
-import edu.ntnu.idi.idatt.view.utils.ViewUtils;
-import edu.ntnu.idi.idatt.view.viewcontent.*;
-import edu.ntnu.idi.idatt.view.viewcontent.tabs.*;
+import edu.ntnu.idi.idatt.controller.GameController;
+import edu.ntnu.idi.idatt.controller.init.GameFactory;
+import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
+import edu.ntnu.idi.idatt.view.util.ViewUtility;
+import edu.ntnu.idi.idatt.view.screen.*;
+import edu.ntnu.idi.idatt.view.screen.tabs.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,10 +29,10 @@ public class Navigator {
         GameController gc = GameFactory.createController(gameSetup);
         this.toGame(gc);
       } catch (DataAccessException | IOException e){
-        ViewUtils.showErrorAlert("Data Error",
+        ViewUtility.showErrorAlert("Data Error",
             "Could not load Stocks: " + e.getMessage());
       } catch (Exception e) {
-        ViewUtils.showErrorAlert("Error",
+        ViewUtility.showErrorAlert("Error",
             "An unexpected error occurred: " + e.getMessage());
       }
     });

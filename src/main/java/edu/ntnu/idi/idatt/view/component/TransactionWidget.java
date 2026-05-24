@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.view.widgets;
+package edu.ntnu.idi.idatt.view.component;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

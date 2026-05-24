@@ -1,11 +1,11 @@
-package edu.ntnu.idi.idatt.view.widgets;
+package edu.ntnu.idi.idatt.view.component;
 
-import edu.ntnu.idi.idatt.controllers.PortfolioController;
-import edu.ntnu.idi.idatt.controllers.dto.TransactionPreview;
-import edu.ntnu.idi.idatt.models.Share;
-import edu.ntnu.idi.idatt.models.exceptions.InsufficientSharesException;
-import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
-import edu.ntnu.idi.idatt.view.utils.ViewUtils;
+import edu.ntnu.idi.idatt.controller.PortfolioController;
+import edu.ntnu.idi.idatt.controller.dto.TransactionPreview;
+import edu.ntnu.idi.idatt.model.Share;
+import edu.ntnu.idi.idatt.model.exception.InsufficientSharesException;
+import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,7 +32,7 @@ public class SaleWidget extends TransactionWidget<Share> {
     this.titleLabel.getStyleClass().add("widget-title");
 
     Label subtitleLabel = new Label(target.getCompany() + " · Current price: "
-        + ViewUtils.formatCurrency(target.getCurrentPrice()));
+        + ViewUtility.formatCurrency(target.getCurrentPrice()));
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField(target.getQuantity().toPlainString());
@@ -83,9 +83,9 @@ public class SaleWidget extends TransactionWidget<Share> {
     try {
       BigDecimal quantity = new BigDecimal(quantityStr);
       TransactionPreview preview = controller.previewSell(target, quantity);
-      grossValueLabel.setText(ViewUtils.formatCurrency(preview.gross()));
-      taxValueLabel.setText(ViewUtils.formatCurrency(preview.tax()));
-      totalLabel.setText(ViewUtils.formatCurrency(preview.total()));
+      grossValueLabel.setText(ViewUtility.formatCurrency(preview.gross()));
+      taxValueLabel.setText(ViewUtility.formatCurrency(preview.tax()));
+      totalLabel.setText(ViewUtility.formatCurrency(preview.total()));
     } catch (Exception _) {
       grossValueLabel.setText("$0.00");
       taxValueLabel.setText("$0.00");
@@ -100,13 +100,13 @@ public class SaleWidget extends TransactionWidget<Share> {
       controller.executeSell(target, quantity);
       requestClose();
     } catch (NumberFormatException e) {
-      ViewUtils.showErrorAlert("Invalid quantity", "Please enter a valid number");
+      ViewUtility.showErrorAlert("Invalid quantity", "Please enter a valid number");
     } catch (InsufficientSharesException e) {
-      ViewUtils.showErrorAlert("Insufficient shares", e.getMessage());
+      ViewUtility.showErrorAlert("Insufficient shares", e.getMessage());
     } catch (TransactionAlreadyCommittedException e) {
-      ViewUtils.showErrorAlert("Error", e.getMessage());
+      ViewUtility.showErrorAlert("Error", e.getMessage());
     } catch (IllegalArgumentException e) {
-      ViewUtils.showErrorAlert("Unable to sell", e.getMessage());
+      ViewUtility.showErrorAlert("Unable to sell", e.getMessage());
     }
   }
 }

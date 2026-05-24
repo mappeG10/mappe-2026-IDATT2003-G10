@@ -1,6 +1,6 @@
-package edu.ntnu.idi.idatt.view.viewcontent;
+package edu.ntnu.idi.idatt.view.screen;
 
-import edu.ntnu.idi.idatt.controllers.dto.GameSetup;
+import edu.ntnu.idi.idatt.controller.dto.GameSetup;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

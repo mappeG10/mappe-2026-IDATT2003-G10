@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.view.utils;
+package edu.ntnu.idi.idatt.view.util;
 
 import java.math.BigDecimal;
 import java.util.function.Function;
@@ -34,7 +34,7 @@ public final class TableColumnFactory {
     TableColumn<S, String> col = new TableColumn<>(title);
     col.setCellValueFactory(data ->
         new SimpleStringProperty(
-            ViewUtils.formatCurrency(valueExtractor.apply(data.getValue()))));
+            ViewUtility.formatCurrency(valueExtractor.apply(data.getValue()))));
     return col;
   }
 
@@ -43,7 +43,7 @@ public final class TableColumnFactory {
     TableColumn<S, String> col = new TableColumn<>(title);
     col.setCellValueFactory(data ->
         new SimpleStringProperty(formattedExtractor.apply(data.getValue())));
-    col.setCellFactory(ViewUtils.coloredStringCellFactory());
+    col.setCellFactory(ViewUtility.coloredStringCellFactory());
     return col;
   }
 

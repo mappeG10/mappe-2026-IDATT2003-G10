@@ -1,10 +1,10 @@
-package edu.ntnu.idi.idatt.view.viewcontent.tabs;
+package edu.ntnu.idi.idatt.view.screen.tabs;
 
-import edu.ntnu.idi.idatt.controllers.PortfolioController;
-import edu.ntnu.idi.idatt.models.Share;
+import edu.ntnu.idi.idatt.controller.PortfolioController;
+import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.observer.GameObserver;
-import edu.ntnu.idi.idatt.view.utils.TableColumnFactory;
-import edu.ntnu.idi.idatt.view.utils.ViewUtils;
+import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
+import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import edu.ntnu.idi.idatt.view.component.SaleWidget;
 import java.math.BigDecimal;
 import javafx.collections.FXCollections;
@@ -49,12 +49,12 @@ public class PortfolioView extends VBox implements GameObserver {
     TableColumnFactory.addSymbolAndCompanyColToTable(portfolioTable, Share::getSymbol, Share::getCompany);
 
     TableColumn<Share, String> quantityCol = TableColumnFactory.<Share>createTextColumn(
-        "Quantity", s -> ViewUtils.formatBigDecimalToString(s.getQuantity()));
+        "Quantity", s -> ViewUtility.formatBigDecimalToString(s.getQuantity()));
     TableColumn<Share, String> currentCol = TableColumnFactory.createPriceColumn("Current", Share::getCurrentValue);
     TableColumn<Share, String> gainLossCol = TableColumnFactory.<Share>createColoredChangeColumn(
-        "Gain/Loss", s -> ViewUtils.formatPriceChange(s.getGainLoss()));
+        "Gain/Loss", s -> ViewUtility.formatPriceChange(s.getGainLoss()));
     TableColumn<Share, String> gainLossPercentCol = TableColumnFactory.<Share>createColoredChangeColumn(
-        "Gain %", s -> ViewUtils.formatPercentage(s.getGainLossPercent()));
+        "Gain %", s -> ViewUtility.formatPercentage(s.getGainLossPercent()));
 
     TableColumn<Share, String> sellButtonCol = new TableColumn<>("Action");
     sellButtonCol.setCellFactory(param -> new TableCell<>() {
@@ -73,7 +73,7 @@ public class PortfolioView extends VBox implements GameObserver {
     });
 
     portfolioTable.getColumns().addAll(quantityCol, currentCol, gainLossCol, gainLossPercentCol, sellButtonCol);
-    ViewUtils.applyRoundedClip(portfolioTable, 12);
+    ViewUtility.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
   }
 
@@ -133,12 +133,12 @@ public class PortfolioView extends VBox implements GameObserver {
   @Override
   public void update() {
     portfolioTable.setItems(FXCollections.observableArrayList(portfolioController.getAllShares()));
-    portfolioValueLabel.setText(ViewUtils.formatCurrency(portfolioController.getNetWorth()));
-    totalInvestedLabel.setText(ViewUtils.formatCurrency(portfolioController.getTotalInvested()));
+    portfolioValueLabel.setText(ViewUtility.formatCurrency(portfolioController.getNetWorth()));
+    totalInvestedLabel.setText(ViewUtility.formatCurrency(portfolioController.getTotalInvested()));
 
     BigDecimal pnl = portfolioController.getUnrealisedPnL();
-    unrealisedPnLLabel.setText(ViewUtils.formatPriceChange(pnl));
-    ViewUtils.applySignStyleClass(unrealisedPnLLabel, pnl);
+    unrealisedPnLLabel.setText(ViewUtility.formatPriceChange(pnl));
+    ViewUtility.applySignStyleClass(unrealisedPnLLabel, pnl);
 
     stockAmountLabel.setText(String.valueOf(portfolioController.getPositionsCount()));
   }
