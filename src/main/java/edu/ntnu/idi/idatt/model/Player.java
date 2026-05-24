@@ -93,6 +93,20 @@ public class Player implements GameSubject {
 
   }
 
+  public void setMoney(BigDecimal money) {
+    if (money == null || money.compareTo(BigDecimal.ZERO) < 0) {
+      throw new IllegalArgumentException("Money cannot be negative");
+    }
+    this.money = money;
+  }
+
+  public void setStatus(Status status) {
+    if (status == null) {
+      throw new IllegalArgumentException("Status cannot be null");
+    }
+    this.status = status;
+  }
+
   public void updateStatus() {
     if (startingMoney.compareTo(BigDecimal.ZERO) <= 0) return;
 
