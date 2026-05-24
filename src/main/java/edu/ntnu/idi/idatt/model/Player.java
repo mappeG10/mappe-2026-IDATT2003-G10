@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.model;
 import edu.ntnu.idi.idatt.model.transaction.TransactionArchive;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.observer.GameSubject;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;

@@ -3,15 +3,12 @@ package edu.ntnu.idi.idatt.model;
 import edu.ntnu.idi.idatt.model.exception.InsufficientFundsException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
 import java.util.List;
-
 import edu.ntnu.idi.idatt.model.transaction.Purchase;
 import edu.ntnu.idi.idatt.model.transaction.TransactionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PurchaseTest {

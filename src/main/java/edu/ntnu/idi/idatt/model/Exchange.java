@@ -1,14 +1,18 @@
 package edu.ntnu.idi.idatt.model;
 
 import edu.ntnu.idi.idatt.model.exception.StockNotFoundException;
-import edu.ntnu.idi.idatt.model.transaction.Purchase;
-import edu.ntnu.idi.idatt.model.transaction.Sale;
 import edu.ntnu.idi.idatt.model.transaction.Transaction;
+import edu.ntnu.idi.idatt.model.transaction.TransactionFactory;
+import edu.ntnu.idi.idatt.model.transaction.TransactionType;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.observer.GameSubject;
-
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class Exchange implements GameSubject {
 
@@ -92,7 +96,7 @@ public class Exchange implements GameSubject {
 
     Share share = new Share(stock, quantity, stock.getSalesPrice());
 
-    Purchase purchase = new Purchase(share, week);
+    Transaction purchase = TransactionFactory.createTransaction(TransactionType.PURCHASE, share, week);
 
     purchase.commit(player);
 
@@ -113,7 +117,7 @@ public class Exchange implements GameSubject {
     }
 
     Share saleShare = new Share(share.getStock(), quantity, share.getPurchasePrice());
-    Sale sale = new Sale(saleShare, week);
+    Transaction sale = TransactionFactory.createTransaction(TransactionType.SALE, saleShare, week);
     sale.commit(player);
 
     if (sale.isCommitted()) {

@@ -8,7 +8,6 @@ import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.model.transaction.TransactionCalculator;
 import edu.ntnu.idi.idatt.model.transaction.TransactionFactory;
 import edu.ntnu.idi.idatt.model.transaction.TransactionType;
-
 import java.math.BigDecimal;
 import java.util.List;
 

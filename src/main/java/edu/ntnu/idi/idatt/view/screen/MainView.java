@@ -4,7 +4,6 @@ import edu.ntnu.idi.idatt.controller.GameController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.GameTab;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
