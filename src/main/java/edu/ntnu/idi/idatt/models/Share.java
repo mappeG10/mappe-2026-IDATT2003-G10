@@ -35,6 +35,18 @@ public class Share {
     return purchasePrice;
   }
 
+  public String getSymbol() {
+    return stock.getSymbol();
+  }
+
+  public String getCompany() {
+    return stock.getCompany();
+  }
+
+  public BigDecimal getCurrentPrice() {
+    return stock.getSalesPrice();
+  }
+
   public BigDecimal getGainLoss() {
     return getCurrentValue().subtract(purchasePrice.multiply(quantity));
   }
