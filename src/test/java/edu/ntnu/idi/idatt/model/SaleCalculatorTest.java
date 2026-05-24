@@ -74,4 +74,37 @@ class SaleCalculatorTest {
     assertEquals(0, new BigDecimal("669.75").compareTo(partialCalculator.calculateTotal()),
         "Total for partial sale should be proportionally half of full sale");
   }
+
+  @Test
+  void testCalculateTaxIsZeroOnLoss() {
+    Stock losingStock = new Stock("AAPL", "Apple",
+        new ArrayList<>(List.of(new BigDecimal("80.00"))));
+    SaleCalculator losingCalculator = new SaleCalculator(
+        new Share(losingStock, new BigDecimal("10"), new BigDecimal("150.00")));
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(losingCalculator.calculateTax()),
+        "Tax should be zero when selling at a loss");
+  }
+
+  @Test
+  void testCalculateTotalDoesNotBoostOnLoss() {
+    Stock losingStock = new Stock("AAPL", "Apple",
+        new ArrayList<>(List.of(new BigDecimal("80.00"))));
+    SaleCalculator losingCalculator = new SaleCalculator(
+        new Share(losingStock, new BigDecimal("10"), new BigDecimal("150.00")));
+
+    assertEquals(0, new BigDecimal("792.00").compareTo(losingCalculator.calculateTotal()),
+        "Total should be gross minus commission only when selling at a loss");
+  }
+
+  @Test
+  void testCalculateTaxIsZeroAtBreakEven() {
+    Stock breakEvenStock = new Stock("AAPL", "Apple",
+        new ArrayList<>(List.of(new BigDecimal("100.00"))));
+    SaleCalculator breakEvenCalculator = new SaleCalculator(
+        new Share(breakEvenStock, new BigDecimal("10"), new BigDecimal("100.00")));
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(breakEvenCalculator.calculateTax()),
+        "Tax should be zero when selling at break-even");
+  }
 }

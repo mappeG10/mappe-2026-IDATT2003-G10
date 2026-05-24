@@ -83,6 +83,7 @@ public class MarketView extends VBox implements GameObserver {
 
   private void refreshTable(String searchTerm) {
     if (searchTerm == null || searchTerm.isBlank()) {
+      marketTable.setItems(FXCollections.observableArrayList(marketController.getAllStocks()));
       return;
     }
     marketTable.setItems(FXCollections.observableArrayList(marketController.findStocks(searchTerm)));
