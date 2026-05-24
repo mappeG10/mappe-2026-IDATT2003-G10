@@ -166,6 +166,46 @@ class PortfolioTest {
   }
 
   @Test
+  void testGetUnrealisedPnLIsZeroWhenPriceUnchanged() {
+    BigDecimal unrealisedPnL = portfolio.getUnrealisedPnL();
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(unrealisedPnL),
+        "Unrealised PnL should be zero when current price equals purchase price");
+  }
+
+  @Test
+  void testGetUnrealisedPnLPositive() {
+    stock1.addNewSalesPrice(new BigDecimal("200.00"));
+    BigDecimal expected = new BigDecimal("17.50");
+
+    BigDecimal unrealisedPnL = portfolio.getUnrealisedPnL();
+
+    assertEquals(0, expected.compareTo(unrealisedPnL),
+        "Unrealised PnL should be positive when current price exceeds purchase price");
+  }
+
+  @Test
+  void testGetUnrealisedPnLNegative() {
+    stock1.addNewSalesPrice(new BigDecimal("150.00"));
+    BigDecimal expected = new BigDecimal("-32.50");
+
+    BigDecimal unrealisedPnL = portfolio.getUnrealisedPnL();
+
+    assertEquals(0, expected.compareTo(unrealisedPnL),
+        "Unrealised PnL should be negative when current price is below purchase price");
+  }
+
+  @Test
+  void testGetUnrealisedPnLEmptyPortfolio() {
+    Portfolio emptyPortfolio = new Portfolio();
+
+    BigDecimal unrealisedPnL = emptyPortfolio.getUnrealisedPnL();
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(unrealisedPnL),
+        "Unrealised PnL should be zero for an empty portfolio");
+  }
+
+  @Test
   void testReduceShareFull() {
     assertTrue(portfolio.reduceShare(share1, share1.getQuantity()),
         "Reducing by full quantity should succeed");

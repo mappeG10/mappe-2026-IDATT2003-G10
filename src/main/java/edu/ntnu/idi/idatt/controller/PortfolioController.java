@@ -31,9 +31,7 @@ public class PortfolioController extends BaseController {
   }
 
   public BigDecimal getUnrealisedPnL() {
-    return player.getPortfolio().getNetWorth().subtract(
-        player.getPortfolio().getTotalInvested()
-    );
+    return player.getPortfolio().getUnrealisedPnL();
   }
 
   public int getPositionsCount() {
