@@ -9,6 +9,7 @@ import edu.ntnu.idi.idatt.view.GameTab;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,6 +46,10 @@ public class MainView extends BorderPane implements GameObserver {
   }
 
   public void setContent(Parent content) {
+    Node current = getCenter();
+    if (current instanceof GameObserver observer) {
+      gameController.unregisterObserver(observer);
+    }
     setCenter(content);
   }
 
