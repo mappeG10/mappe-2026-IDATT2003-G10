@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.dal;
 
-import edu.ntnu.idi.idatt.dal.exceptions.StockParsingException;
-import edu.ntnu.idi.idatt.models.Stock;
+import edu.ntnu.idi.idatt.dal.exception.StockParsingException;
+import edu.ntnu.idi.idatt.model.Stock;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.dal.exceptions;
+package edu.ntnu.idi.idatt.dal.exception;
 
 public class StockParsingException extends DataAccessException {
   public StockParsingException(String message) {

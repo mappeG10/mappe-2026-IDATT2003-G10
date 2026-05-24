@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.dal;
 
-import edu.ntnu.idi.idatt.models.Stock;
+import edu.ntnu.idi.idatt.model.Stock;
 
 import java.util.List;
 
