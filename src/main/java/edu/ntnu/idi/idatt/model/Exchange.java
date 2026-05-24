@@ -134,7 +134,6 @@ public class Exchange implements GameSubject {
 
 
       BigDecimal newStockPrice = oldStockPrice.add(oldStockPrice.multiply(randomPriceChangeConstant));
-      // TODO: depending on the format of the prices we might need to round the decimals of the new price
 
       stock.addNewSalesPrice(newStockPrice);
 

@@ -80,7 +80,7 @@ public class Player implements GameSubject {
   public void addMoney(BigDecimal amount) {
     if (amount == null  || amount.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("You cannot add negative money or zero");
-    } // TODO: migrate over to custom exceptions later
+    }
     money = money.add(amount);
 
   }
@@ -88,7 +88,7 @@ public class Player implements GameSubject {
   public void withdrawMoney(BigDecimal amount) {
     if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("You cannot withdraw negative money or zero");
-    } // TODO: migrate over to custom exceptions later
+    }
     money = money.subtract(amount);
 
   }
