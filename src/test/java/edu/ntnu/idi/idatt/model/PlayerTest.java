@@ -147,6 +147,51 @@ class PlayerTest {
   }
 
   @Test
+  void testGetTotalGainLossIsZeroAtStart() {
+    BigDecimal expected = BigDecimal.ZERO;
+
+    BigDecimal totalGainLoss = player.getTotalGainLoss();
+
+    assertEquals(0, expected.compareTo(totalGainLoss),
+        "Total gain/loss should be zero when net worth equals starting capital");
+  }
+
+  @Test
+  void testGetTotalGainLossPositive() {
+    player.addMoney(new BigDecimal("1000"));
+
+    BigDecimal totalGainLoss = player.getTotalGainLoss();
+
+    assertEquals(0, new BigDecimal("1000").compareTo(totalGainLoss),
+        "Total gain/loss should equal the amount gained");
+  }
+
+  @Test
+  void testGetTotalGainLossNegative() {
+    player.withdrawMoney(new BigDecimal("1000"));
+
+    BigDecimal totalGainLoss = player.getTotalGainLoss();
+
+    assertEquals(0, new BigDecimal("-1000").compareTo(totalGainLoss),
+        "Total gain/loss should be negative after losing money");
+  }
+
+  @Test
+  void testGetTotalGainLossIncludesPortfolioValue() {
+    List<BigDecimal> prices = new ArrayList<>(List.of(
+        new BigDecimal("100"),
+        new BigDecimal("150")));
+    Stock stock = new Stock("AAPL", "Apple", prices);
+    player.withdrawMoney(new BigDecimal("1000"));
+    player.getPortfolio().addShare(new Share(stock, new BigDecimal("10"), new BigDecimal("100")));
+
+    BigDecimal totalGainLoss = player.getTotalGainLoss();
+
+    assertEquals(0, new BigDecimal("500").compareTo(totalGainLoss),
+        "Total gain/loss should include unrealised gains from portfolio");
+  }
+
+  @Test
   void testGetTotalGainLossPercentIsZero() {
     BigDecimal expectedPercent = BigDecimal.ZERO;
 

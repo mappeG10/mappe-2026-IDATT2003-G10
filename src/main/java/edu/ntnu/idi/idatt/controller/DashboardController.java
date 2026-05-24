@@ -43,7 +43,7 @@ public class DashboardController extends BaseController {
   }
 
   public BigDecimal getTotalGainLoss() {
-    return player.getNetWorth().subtract(player.getStartingMoney());
+    return player.getTotalGainLoss();
   }
 
   public BigDecimal getTotalGainLossPercent() {
