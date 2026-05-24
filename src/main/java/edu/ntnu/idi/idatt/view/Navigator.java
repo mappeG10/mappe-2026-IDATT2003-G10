@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controllers.GameController;
 import edu.ntnu.idi.idatt.controllers.GameFactory;
-import edu.ntnu.idi.idatt.dal.DataAccessException;
+import edu.ntnu.idi.idatt.dal.exceptions.DataAccessException;
 import edu.ntnu.idi.idatt.view.viewcontent.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

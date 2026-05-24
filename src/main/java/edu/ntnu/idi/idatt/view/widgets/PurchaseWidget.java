@@ -3,6 +3,9 @@ package edu.ntnu.idi.idatt.view.widgets;
 import edu.ntnu.idi.idatt.controllers.MarketController;
 import edu.ntnu.idi.idatt.controllers.TransactionPreview;
 import edu.ntnu.idi.idatt.models.Stock;
+import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
+import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
+import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
 import edu.ntnu.idi.idatt.view.ViewUtils;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
@@ -84,6 +87,12 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
       requestClose();
     } catch (NumberFormatException e) {
       ViewUtils.showErrorAlert("Invalid quantity", "Please enter a valid number");
+    } catch (InsufficientFundsException e) {
+      ViewUtils.showErrorAlert("Insufficient funds", e.getMessage());
+    } catch (StockNotFoundException e) {
+      ViewUtils.showErrorAlert("Stock not found", e.getMessage());
+    } catch (TransactionAlreadyCommittedException e) {
+      ViewUtils.showErrorAlert("Error", e.getMessage());
     } catch (IllegalArgumentException e) {
       ViewUtils.showErrorAlert("Unable to buy", e.getMessage());
     }

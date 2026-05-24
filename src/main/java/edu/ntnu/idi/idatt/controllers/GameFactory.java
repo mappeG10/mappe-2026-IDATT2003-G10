@@ -1,8 +1,8 @@
 package edu.ntnu.idi.idatt.controllers;
 
-import edu.ntnu.idi.idatt.dal.DataAccessException;
 import edu.ntnu.idi.idatt.dal.DataReader;
 import edu.ntnu.idi.idatt.dal.StockReaderFactory;
+import edu.ntnu.idi.idatt.dal.exceptions.DataAccessException;
 import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;
 import edu.ntnu.idi.idatt.models.Stock;
