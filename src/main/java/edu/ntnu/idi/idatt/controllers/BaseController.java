@@ -13,12 +13,12 @@ public abstract class BaseController {
     this.player = player;
   }
 
-  protected void registerObserver(GameObserver observer) {
+  public void registerObserver(GameObserver observer) {
     exchange.register(observer);
     player.register(observer);
   }
 
-  protected void unregisterObserver(GameObserver observer) {
+  public void unregisterObserver(GameObserver observer) {
     exchange.unregister(observer);
     player.unregister(observer);
   }

@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.view.widgets;
 
-import edu.ntnu.idi.idatt.controllers.PortfolioController;
-import edu.ntnu.idi.idatt.controllers.TransactionPreview;
+import edu.ntnu.idi.idatt.controllers.contentcontroller.PortfolioController;
+import edu.ntnu.idi.idatt.controllers.dto.TransactionPreview;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.exceptions.InsufficientSharesException;
 import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;

@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.view.viewcontent;
 
-import edu.ntnu.idi.idatt.controllers.DashboardController;
+import edu.ntnu.idi.idatt.controllers.contentcontroller.DashboardController;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;

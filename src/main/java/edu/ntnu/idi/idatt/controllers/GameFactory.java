@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.controllers;
 
+import edu.ntnu.idi.idatt.controllers.contentcontroller.GameController;
+import edu.ntnu.idi.idatt.controllers.dto.GameSetup;
 import edu.ntnu.idi.idatt.dal.DataReader;
 import edu.ntnu.idi.idatt.dal.StockReaderFactory;
 import edu.ntnu.idi.idatt.dal.exceptions.DataAccessException;

@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.view.viewcontent;
 
-import edu.ntnu.idi.idatt.controllers.TransactionHistoryController;
+import edu.ntnu.idi.idatt.controllers.contentcontroller.TransactionHistoryController;
 import edu.ntnu.idi.idatt.models.transaction.Transaction;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.TableColumnFactory;

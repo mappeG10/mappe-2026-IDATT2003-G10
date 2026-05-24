@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.view.viewcontent;
 
-import edu.ntnu.idi.idatt.controllers.PortfolioController;
+import edu.ntnu.idi.idatt.controllers.contentcontroller.PortfolioController;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.TableColumnFactory;

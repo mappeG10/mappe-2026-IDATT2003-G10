@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.controllers;
+package edu.ntnu.idi.idatt.controllers.contentcontroller;
 
 import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;

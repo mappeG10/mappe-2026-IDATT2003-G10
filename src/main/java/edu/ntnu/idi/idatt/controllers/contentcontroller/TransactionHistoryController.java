@@ -1,9 +1,10 @@
-package edu.ntnu.idi.idatt.controllers;
+package edu.ntnu.idi.idatt.controllers.contentcontroller;
 
+import edu.ntnu.idi.idatt.controllers.BaseController;
 import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;
 import edu.ntnu.idi.idatt.models.transaction.Transaction;
-import edu.ntnu.idi.idatt.observer.GameObserver;
+
 import java.util.List;
 
 public class TransactionHistoryController extends BaseController {

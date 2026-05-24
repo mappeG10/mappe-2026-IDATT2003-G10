@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.controllers;
+package edu.ntnu.idi.idatt.controllers.dto;
 
 import java.math.BigDecimal;
 

@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.view.viewcontent;
 
-import edu.ntnu.idi.idatt.controllers.MarketController;
+import edu.ntnu.idi.idatt.controllers.contentcontroller.MarketController;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.TableColumnFactory;

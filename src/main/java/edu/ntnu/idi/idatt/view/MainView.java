@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.view;
 
-import edu.ntnu.idi.idatt.controllers.GameController;
+import edu.ntnu.idi.idatt.controllers.contentcontroller.GameController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;

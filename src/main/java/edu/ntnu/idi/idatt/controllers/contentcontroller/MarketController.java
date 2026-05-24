@@ -1,5 +1,7 @@
-package edu.ntnu.idi.idatt.controllers;
+package edu.ntnu.idi.idatt.controllers.contentcontroller;
 
+import edu.ntnu.idi.idatt.controllers.BaseController;
+import edu.ntnu.idi.idatt.controllers.dto.TransactionPreview;
 import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;
 import edu.ntnu.idi.idatt.models.Share;
@@ -8,11 +10,11 @@ import edu.ntnu.idi.idatt.models.transaction.Transaction;
 import edu.ntnu.idi.idatt.models.transaction.calculator.TransactionCalculator;
 import edu.ntnu.idi.idatt.models.transaction.TransactionFactory;
 import edu.ntnu.idi.idatt.models.transaction.TransactionType;
-import edu.ntnu.idi.idatt.observer.GameObserver;
+
 import java.math.BigDecimal;
 import java.util.List;
 
-public class MarketController extends BaseController{
+public class MarketController extends BaseController {
 
   public MarketController(Exchange exchange, Player player) {
     super(exchange, player);
