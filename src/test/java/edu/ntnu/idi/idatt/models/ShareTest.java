@@ -133,4 +133,14 @@ class ShareTest {
         "Gain/loss percent should be 0% when purchase price is zero");
   }
 
+  @Test
+  void testDelegateMethods() {
+    assertEquals(stock.getSymbol(), share.getSymbol(),
+        "getSymbol() should delegate to the inner Stock");
+    assertEquals(stock.getCompany(), share.getCompany(),
+        "getCompany() should delegate to the inner Stock");
+    assertEquals(0, stock.getSalesPrice().compareTo(share.getCurrentPrice()),
+        "getCurrentPrice() should delegate getSalesPrice() from the inner Stock");
+  }
+
 }

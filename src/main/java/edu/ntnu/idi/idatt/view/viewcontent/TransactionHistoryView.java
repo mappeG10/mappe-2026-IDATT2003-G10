@@ -3,10 +3,10 @@ package edu.ntnu.idi.idatt.view.viewcontent;
 import edu.ntnu.idi.idatt.controllers.TransactionHistoryController;
 import edu.ntnu.idi.idatt.models.Transaction;
 import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.view.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.ViewUtils;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -65,74 +65,65 @@ public class TransactionHistoryView extends VBox implements GameObserver {
   }
 
   private TableView<TransactionRow> buildTable() {
-    TableColumn<TransactionRow, String> weekCol = new TableColumn<>("Week");
-    weekCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("Week " + row.getWeek());
-      return new SimpleStringProperty(String.valueOf(row.getTransaction().getWeek()));
-    });
+    TableColumn<TransactionRow, String> weekCol = TableColumnFactory.createHeaderAwareColumn(
+        "Week",
+        TransactionRow::isHeader,
+        row -> "Week " + row.getWeek(),
+        row -> String.valueOf(row.getTransaction().getWeek()));
 
-    TableColumn<TransactionRow, String> typeCol = new TableColumn<>("Type");
-    typeCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(switch (row.getTransaction().getTransactionType()) {
-        case PURCHASE -> "BUY";
-        case SALE -> "SELL";
-      });
-    });
+    TableColumn<TransactionRow, String> typeCol = TableColumnFactory.createHeaderAwareColumn(
+        "Type",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> switch (row.getTransaction().getTransactionType()) {
+          case PURCHASE -> "BUY";
+          case SALE -> "SELL";
+        });
 
-    TableColumn<TransactionRow, String> symbolCol = new TableColumn<>("Symbol");
-    symbolCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(row.getTransaction().getShare().getStock().getSymbol());
-    });
+    TableColumn<TransactionRow, String> symbolCol = TableColumnFactory.createHeaderAwareColumn(
+        "Symbol",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> row.getTransaction().getSymbol());
 
-    TableColumn<TransactionRow, String> companyCol = new TableColumn<>("Company");
-    companyCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(row.getTransaction().getShare().getStock().getCompany());
-    });
+    TableColumn<TransactionRow, String> companyCol = TableColumnFactory.createHeaderAwareColumn(
+        "Company",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> row.getTransaction().getCompany());
 
-    TableColumn<TransactionRow, String> quantityCol = new TableColumn<>("Qty");
-    quantityCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(ViewUtils.formatBigDecimalToString(row.getTransaction().getShare().getQuantity()));
-    });
+    TableColumn<TransactionRow, String> quantityCol = TableColumnFactory.createHeaderAwareColumn(
+        "Qty",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> ViewUtils.formatBigDecimalToString(row.getTransaction().getQuantity()));
 
-    TableColumn<TransactionRow, String> priceCol = new TableColumn<>("Price");
-    priceCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(ViewUtils.formatCurrency(row.getTransaction().getShare().getPurchasePrice()));
-    });
+    TableColumn<TransactionRow, String> priceCol = TableColumnFactory.createHeaderAwareColumn(
+        "Price",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> ViewUtils.formatCurrency(row.getTransaction().getPurchasePrice()));
 
-    TableColumn<TransactionRow, String> commissionCol = new TableColumn<>("Commission");
-    commissionCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(ViewUtils.formatCurrency(row.getTransaction().getCalculator().calculateCommission()));
-    });
+    TableColumn<TransactionRow, String> commissionCol = TableColumnFactory.createHeaderAwareColumn(
+        "Commission",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> ViewUtils.formatCurrency(row.getTransaction().getCommission()));
 
-    TableColumn<TransactionRow, String> taxCol = new TableColumn<>("Tax");
-    taxCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(switch (row.getTransaction().getTransactionType()) {
-        case PURCHASE -> "-";
-        case SALE -> ViewUtils.formatCurrency(row.getTransaction().getCalculator().calculateTax());
-      });
-    });
+    TableColumn<TransactionRow, String> taxCol = TableColumnFactory.createHeaderAwareColumn(
+        "Tax",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> switch (row.getTransaction().getTransactionType()) {
+          case PURCHASE -> "-";
+          case SALE -> ViewUtils.formatCurrency(row.getTransaction().getTax());
+        });
 
-    TableColumn<TransactionRow, String> netTotalCol = new TableColumn<>("Net Total");
-    netTotalCol.setCellValueFactory(data -> {
-      TransactionRow row = data.getValue();
-      if (row.isHeader()) return new SimpleStringProperty("");
-      return new SimpleStringProperty(ViewUtils.formatCurrency(row.getTransaction().getCalculator().calculateTotal()));
-    });
+    TableColumn<TransactionRow, String> netTotalCol = TableColumnFactory.createHeaderAwareColumn(
+        "Net Total",
+        TransactionRow::isHeader,
+        row -> "",
+        row -> ViewUtils.formatCurrency(row.getTransaction().getTotalCost()));
 
     TableView<TransactionRow> table = new TableView<>();
     table.getColumns().addAll(weekCol, typeCol, symbolCol, companyCol, quantityCol, priceCol, commissionCol, taxCol, netTotalCol);

@@ -3,9 +3,9 @@ package edu.ntnu.idi.idatt.view.viewcontent;
 import edu.ntnu.idi.idatt.controllers.MarketController;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.view.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.ViewUtils;
 import edu.ntnu.idi.idatt.view.widgets.PurchaseWidget;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -36,23 +36,14 @@ public class MarketView extends VBox implements GameObserver {
   }
 
   private TableView<Stock> buildMarketTable() {
-    TableColumn<Stock, String> symbolCol = new TableColumn<>("Symbol");
-    symbolCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSymbol()));
+    TableView<Stock> marketTable = new TableView<>();
+    TableColumnFactory.addSymbolAndCompanyColToTable(marketTable, Stock::getSymbol, Stock::getCompany);
 
-    TableColumn<Stock, String> companyCol = new TableColumn<>("Company");
-    companyCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCompany()));
-
-    TableColumn<Stock, String> priceCol = new TableColumn<>("Price");
-    priceCol.setCellValueFactory(data -> new SimpleStringProperty(
-        ViewUtils.formatCurrency(data.getValue().getSalesPrice())));
-
-    TableColumn<Stock, String> changeCol = new TableColumn<>("Change");
-    changeCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPriceChange(data.getValue().getLatestPriceChange())));
-    changeCol.setCellFactory(ViewUtils.coloredStringCellFactory());
-
-    TableColumn<Stock, String> changePercentCol = new TableColumn<>("Change %");
-    changePercentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getLatestPriceChangePercent())));
-    changePercentCol.setCellFactory(ViewUtils.coloredStringCellFactory());
+    TableColumn<Stock, String> priceCol = TableColumnFactory.createPriceColumn("Price", Stock::getSalesPrice);
+    TableColumn<Stock, String> changeCol = TableColumnFactory.<Stock>createColoredChangeColumn(
+        "Change", s -> ViewUtils.formatPriceChange(s.getLatestPriceChange()));
+    TableColumn<Stock, String> changePercentCol = TableColumnFactory.<Stock>createColoredChangeColumn(
+        "Change %", s -> ViewUtils.formatPercentage(s.getLatestPriceChangePercent()));
 
     TableColumn<Stock, String> buyButtonCol = new TableColumn<>("Action");
     buyButtonCol.setCellFactory(param -> new TableCell<>() {
@@ -69,8 +60,7 @@ public class MarketView extends VBox implements GameObserver {
       }
     });
 
-    TableView<Stock> marketTable = new TableView<>();
-    marketTable.getColumns().addAll(symbolCol, companyCol, priceCol, changeCol, changePercentCol, buyButtonCol);
+    marketTable.getColumns().addAll(priceCol, changeCol, changePercentCol, buyButtonCol);
     ViewUtils.applyRoundedClip(marketTable, 12);
     return marketTable;
   }

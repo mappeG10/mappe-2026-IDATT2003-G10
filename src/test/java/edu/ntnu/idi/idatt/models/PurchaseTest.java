@@ -102,4 +102,22 @@ class PurchaseTest {
     assertEquals(TransactionType.PURCHASE, purchase.getTransactionType());
   }
 
+  @Test
+  void testDelegateMethods() {
+    assertEquals(share.getSymbol(), purchase.getSymbol(),
+        "getSymbol() should delegate to the inner Share");
+    assertEquals(share.getCompany(), purchase.getCompany(),
+        "getCompany() should delegate to the inner Share");
+    assertEquals(0, share.getQuantity().compareTo(purchase.getQuantity()),
+        "getQuantity() should delegate to the inner Share");
+    assertEquals(0, purchase.getCalculator().calculateCommission().compareTo(purchase.getCommission()),
+        "getCommission() should delegate to the calculator");
+    assertEquals(0, purchase.getCalculator().calculateTax().compareTo(purchase.getTax()),
+        "getTax() should delegate to the calculator");
+    assertEquals(0, purchase.getCalculator().calculateTotal().compareTo(purchase.getTotalCost()),
+        "getTotalCost() should delegate to the calculator");
+    assertEquals(0, share.getPurchasePrice().compareTo(purchase.getPurchasePrice()),
+        "getPurchasePrice() should delegate to the inner Share");
+  }
+
 }

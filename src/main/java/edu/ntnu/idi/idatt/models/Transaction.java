@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
+import java.math.BigDecimal;
+
 public abstract class Transaction {
 
   private final Share share;
@@ -33,6 +35,34 @@ public abstract class Transaction {
 
   public TransactionCalculator getCalculator() {
     return calculator;
+  }
+
+  public String getSymbol() {
+    return share.getSymbol();
+  }
+
+  public String getCompany() {
+    return share.getCompany();
+  }
+
+  public BigDecimal getQuantity() {
+    return share.getQuantity();
+  }
+
+  public BigDecimal getPurchasePrice() {
+    return share.getPurchasePrice();
+  }
+
+  public BigDecimal getTotalCost() {
+    return calculator.calculateTotal();
+  }
+
+  public BigDecimal getCommission() {
+    return calculator.calculateCommission();
+  }
+
+  public BigDecimal getTax() {
+    return calculator.calculateTax();
   }
 
   public boolean isCommitted() {

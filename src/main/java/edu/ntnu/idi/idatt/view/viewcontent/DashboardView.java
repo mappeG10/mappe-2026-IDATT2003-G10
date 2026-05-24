@@ -4,10 +4,10 @@ import edu.ntnu.idi.idatt.controllers.DashboardController;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.view.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.ViewUtils;
 import java.math.BigDecimal;
 import java.util.List;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -102,26 +102,16 @@ public class DashboardView extends VBox implements GameObserver {
   }
 
   private TableView<Share> buildPortfolioTable() {
-    TableColumn<Share, String> symbolCol = new TableColumn<>("Symbol");
-    symbolCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStock().getSymbol()));
-
-    TableColumn<Share, String> companyCol = new TableColumn<>("Company");
-    companyCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStock().getCompany()));
-
-    TableColumn<Share, String> quantityCol = new TableColumn<>("Quantity");
-    quantityCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatBigDecimalToString(data.getValue().getQuantity())));
-    // TODO: Implement utility method to format quantity
-
-    TableColumn<Share, String> currentCol = new TableColumn<>("Current");
-    currentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatCurrency(data.getValue().getCurrentValue())));
-
-    TableColumn<Share, String> gainLossLCol = new TableColumn<>("Gain/Loss");
-    gainLossLCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPriceChange(data.getValue().getGainLoss())));
-    gainLossLCol.setCellFactory(ViewUtils.coloredStringCellFactory());
-
-
     TableView<Share> portfolioTable = new TableView<>();
-    portfolioTable.getColumns().addAll(symbolCol, companyCol, quantityCol, currentCol, gainLossLCol);
+    TableColumnFactory.addSymbolAndCompanyColToTable(portfolioTable, Share::getSymbol, Share::getCompany);
+
+    TableColumn<Share, String> quantityCol = TableColumnFactory.<Share>createTextColumn(
+        "Quantity", s -> ViewUtils.formatBigDecimalToString(s.getQuantity()));
+    TableColumn<Share, String> currentCol = TableColumnFactory.createPriceColumn("Current", Share::getCurrentValue);
+    TableColumn<Share, String> gainLossLCol = TableColumnFactory.<Share>createColoredChangeColumn(
+        "Gain/Loss", s -> ViewUtils.formatPriceChange(s.getGainLoss()));
+
+    portfolioTable.getColumns().addAll(quantityCol, currentCol, gainLossLCol);
     ViewUtils.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
   }
@@ -154,12 +144,10 @@ public class DashboardView extends VBox implements GameObserver {
   }
 
   private TableView<Stock> buildTopGainersTable() {
-    TableColumn<Stock, String> symbolCol = new TableColumn<>("Stock");
-    symbolCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSymbol() + " " + data.getValue().getCompany()));
-
-    TableColumn<Stock, String> percentCol = new TableColumn<>("Change");
-    percentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getLatestPriceChangePercent())));
-    percentCol.setCellFactory(ViewUtils.coloredStringCellFactory());
+    TableColumn<Stock, String> symbolCol = TableColumnFactory.<Stock>createTextColumn(
+        "Stock", s -> s.getSymbol() + " " + s.getCompany());
+    TableColumn<Stock, String> percentCol = TableColumnFactory.<Stock>createColoredChangeColumn(
+        "Change", s -> ViewUtils.formatPercentage(s.getLatestPriceChangePercent()));
 
     TableView<Stock> gainersTable = new TableView<>();
     gainersTable.getColumns().addAll(symbolCol, percentCol);
