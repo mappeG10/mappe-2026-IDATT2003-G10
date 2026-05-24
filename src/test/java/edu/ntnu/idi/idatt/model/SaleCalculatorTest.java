@@ -1,6 +1,6 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.model;
 
-import edu.ntnu.idi.idatt.models.transaction.SaleCalculator;
+import edu.ntnu.idi.idatt.model.transaction.SaleCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

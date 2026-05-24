@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.model;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.dal;
 
-import edu.ntnu.idi.idatt.models.Stock;
+import edu.ntnu.idi.idatt.model.Stock;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;

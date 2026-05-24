@@ -1,11 +1,11 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.model;
 
-import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
-import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.model.exception.InsufficientFundsException;
+import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
 import java.util.List;
 
-import edu.ntnu.idi.idatt.models.transaction.Purchase;
-import edu.ntnu.idi.idatt.models.transaction.TransactionType;
+import edu.ntnu.idi.idatt.model.transaction.Purchase;
+import edu.ntnu.idi.idatt.model.transaction.TransactionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

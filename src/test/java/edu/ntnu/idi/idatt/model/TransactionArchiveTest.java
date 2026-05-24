@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ntnu.idi.idatt.models.transaction.Purchase;
-import edu.ntnu.idi.idatt.models.transaction.Sale;
-import edu.ntnu.idi.idatt.models.transaction.Transaction;
-import edu.ntnu.idi.idatt.models.transaction.TransactionArchive;
+import edu.ntnu.idi.idatt.model.transaction.Purchase;
+import edu.ntnu.idi.idatt.model.transaction.Sale;
+import edu.ntnu.idi.idatt.model.transaction.Transaction;
+import edu.ntnu.idi.idatt.model.transaction.TransactionArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
