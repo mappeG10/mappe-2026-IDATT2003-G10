@@ -26,41 +26,56 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
 
   @Override
   protected void setupUI() {
+    getStyleClass().add("widget-root");
+
     this.titleLabel = new Label("Buy: " + target.getSymbol());
+    this.titleLabel.getStyleClass().add("widget-title");
+
+    Label subtitleLabel = new Label(target.getCompany() + " · Current price: " + ViewUtils.formatCurrency(target.getSalesPrice()));
+    subtitleLabel.getStyleClass().add("widget-subtitle");
+
     this.quantityField = new TextField();
     this.quantityField.setPromptText("0");
+    this.quantityField.getStyleClass().add("widget-input");
 
     this.grossValueLabel = new Label();
     this.commissionValueLabel = new Label();
     this.totalLabel = new Label();
 
     this.cancelButton = new Button("Cancel");
+    this.cancelButton.getStyleClass().add("btn-cancel");
     this.actionButton = new Button("Confirm Purchase");
+    this.actionButton.getStyleClass().add("btn-purchase");
 
-    this.setSpacing(15);
-    this.setMinWidth(250);
+    this.setSpacing(12);
 
     this.getChildren().addAll(
         titleLabel,
-        new Label(target.getCompany() + " · Current price: " + ViewUtils.formatCurrency(target.getSalesPrice())),
-        new Label("Quantity:"), quantityField,
+        subtitleLabel,
+        new Label("Quantity:"),
+        quantityField,
         buildSummaryRow(),
-        new HBox(10, actionButton, cancelButton)
+        new HBox(8, actionButton, cancelButton)
     );
   }
 
   private HBox buildSummaryRow() {
-    VBox keys = new VBox(
-        new Label("Gross Cost"),
-        new Label("Commission (0.5%)"),
-        new Label("Total")
-    );
-    VBox values = new VBox(
-        grossValueLabel,
-        commissionValueLabel,
-        totalLabel
-    );
-    return new HBox(keys, values);
+    Label grossKey = new Label("Gross Cost");
+    grossKey.getStyleClass().add("widget-label-key");
+    Label commKey = new Label("Commission (0.5%)");
+    commKey.getStyleClass().add("widget-label-key");
+    Label totalKey = new Label("Total");
+    totalKey.getStyleClass().add("widget-label-total");
+
+    grossValueLabel.getStyleClass().add("widget-label-value");
+    commissionValueLabel.getStyleClass().add("widget-label-value");
+    totalLabel.getStyleClass().add("widget-label-total");
+
+    VBox keys   = new VBox(6, grossKey, commKey, totalKey);
+    VBox values = new VBox(6, grossValueLabel, commissionValueLabel, totalLabel);
+    HBox row = new HBox(24, keys, values);
+    row.getStyleClass().add("widget-summary");
+    return row;
   }
 
   @Override

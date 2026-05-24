@@ -3,21 +3,26 @@ package edu.ntnu.idi.idatt.view.viewcontent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class SettingsView extends VBox {
 
 
   public SettingsView() {
-    this.setSpacing(20);
+    getStyleClass().add("content-view");
 
     Label titleLabel = new Label("Settings");
+    titleLabel.getStyleClass().add("view-title");
+
     Label subtitleLabel = new Label("Manage your game session");
-    VBox headerContainer = new VBox(titleLabel, subtitleLabel);
-    headerContainer.setSpacing(5);
+    subtitleLabel.getStyleClass().add("view-subtitle");
+
+    VBox headerContainer = new VBox(4, titleLabel, subtitleLabel);
 
     HBox cardsContainer = new HBox();
-    cardsContainer.setSpacing(20);
+    cardsContainer.getStyleClass().add("settings-cards-row");
 
     VBox fullscreenCard = createSettingCard(
         "Fullscreen",
@@ -40,6 +45,9 @@ public class SettingsView extends VBox {
         this::handleFinishGame
     );
 
+    HBox.setHgrow(fullscreenCard, Priority.ALWAYS);
+    HBox.setHgrow(saveGameCard,   Priority.ALWAYS);
+    HBox.setHgrow(finishGameCard, Priority.ALWAYS);
     cardsContainer.getChildren().addAll(fullscreenCard, saveGameCard, finishGameCard);
 
 
@@ -47,11 +55,15 @@ public class SettingsView extends VBox {
   }
 
   private VBox createSettingCard(String title, String description, String buttonText, Runnable action) {
-    VBox card = new VBox();
-    card.setSpacing(15);
+    VBox card = new VBox(12);
+    card.getStyleClass().add("settings-card");
 
     Label cardTitle = new Label(title);
+    cardTitle.getStyleClass().add("settings-card-title");
+
     Label cardDescription = new Label(description);
+    cardDescription.getStyleClass().add("settings-card-desc");
+
     Button actionButton = new Button(buttonText);
     actionButton.setOnAction(e -> action.run());
 
@@ -60,7 +72,9 @@ public class SettingsView extends VBox {
   }
 
   private void handleFullscreenToggle() {
-    System.out.println("Toggle fullscreen mode");
+    if (getScene() != null && getScene().getWindow() instanceof Stage stage) {
+      stage.setFullScreen(!stage.isFullScreen());
+    }
   }
 
   private void handleSaveGame() {

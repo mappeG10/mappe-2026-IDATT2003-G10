@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -28,13 +29,23 @@ public abstract class TransactionWidget<T> extends VBox {
 
   public void openDialog(Window owner) {
     Stage stage = new Stage();
-    stage.initStyle(StageStyle.UNDECORATED);
+    stage.initStyle(StageStyle.TRANSPARENT);
     stage.initOwner(owner);
     stage.initModality(Modality.WINDOW_MODAL);
-    stage.setScene(new Scene(this));
+
+    Scene scene = new Scene(this, Color.TRANSPARENT);
+    String css = TransactionWidget.class.getResource("/style.css").toExternalForm();
+    scene.getStylesheets().add(css);
+    stage.setScene(scene);
 
     this.setOnCloseRequested(stage::close);
     stage.show();
+
+    if (owner != null) {
+      stage.setX(owner.getX() + (owner.getWidth()  - stage.getWidth())  / 2);
+      stage.setY(owner.getY() + (owner.getHeight() - stage.getHeight()) / 2);
+    }
+    this.requestFocus();
   }
 
   public void setOnCloseRequested(Runnable callback) {

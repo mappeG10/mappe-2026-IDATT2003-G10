@@ -1,0 +1,776 @@
+/* ═══════════════════════════════════════════════════════════════
+   MILLIONS – Master JavaFX Stylesheet
+   Tokens sourced from Figma: cYnsCUniCXEPmPPeYcL5vS  (Design Tokens collection)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Design Tokens ─────────────────────────────────────────── */
+.root {
+    /* Brand palette */
+    primary-dark:    #1b2580;
+    primary-mid:     #293694;
+    primary:         #2563eb;
+    primary-light:   #1466bf;
+
+    /* Semantic */
+    success:         #2e7d33;
+    success-bg:      #e0f7e3;
+    danger:          #dc2626;
+    danger-bg:       #fce5e5;
+    danger-border:   #fecbcb;
+
+    /* Text */
+    text-primary:    #212121;
+    text-body:       #374151;
+    text-secondary:  #6b7280;
+    text-muted:      #b3b3b3;
+
+    /* Backgrounds */
+    bg-page:         #f5f5f5;
+    bg-surface:      #ffffff;
+    bg-input:        #f9fafb;
+    border-clr:      #d1d5db;
+
+    /* Status badges */
+    speculator-clr:  #bc5f04;
+
+    /* Base font */
+    -fx-font-family: "Inter";
+    -fx-font-size: 13px;
+    -fx-background-color: bg-page;
+}
+
+/* ── 2. Base Component Resets ─────────────────────────────────── */
+.label {
+    -fx-text-fill: text-primary;
+    -fx-font-size: 13px;
+}
+
+.button {
+    -fx-cursor: hand;
+    -fx-font-family: "Inter";
+    -fx-font-size: 13px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+.text-field {
+    -fx-background-color: bg-surface;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 11 12 11 12;
+    -fx-font-family: "Inter";
+    -fx-font-size: 13px;
+    -fx-text-fill: text-primary;
+    -fx-prompt-text-fill: #b3b3b3;
+    -fx-pref-height: 39;
+}
+
+.text-field:focused {
+    -fx-border-color: primary;
+    -fx-border-width: 1.5;
+    -fx-background-color: bg-surface;
+}
+
+/* ── 3. Start Screen ──────────────────────────────────────────── */
+.start-view {
+    -fx-background-color: primary-dark;
+    -fx-alignment: center;
+}
+
+.start-card {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 12;
+    -fx-padding: 48;
+    -fx-spacing: 20;
+    -fx-pref-width: 440;
+    -fx-max-width: 440;
+    -fx-max-height: 640;
+}
+
+.start-title-section {
+    -fx-alignment: center;
+    -fx-spacing: 8;
+}
+
+.start-title {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: primary-dark;
+}
+
+.start-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: text-secondary;
+}
+
+.start-divider > .line {
+    -fx-border-color: border-clr;
+    -fx-border-width: 0.5 0 0 0;
+}
+
+.form-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-body;
+}
+
+.form-field {
+    -fx-spacing: 6;
+}
+
+.file-row {
+    -fx-spacing: 8;
+    -fx-alignment: center-left;
+}
+
+.file-name-display {
+    -fx-background-color: bg-surface;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 11 12 11 12;
+    -fx-text-fill: text-secondary;
+    -fx-font-size: 13px;
+    -fx-pref-height: 39;
+}
+
+.browse-button {
+    -fx-background-color: bg-surface;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 11 14 11 14;
+    -fx-text-fill: text-body;
+    -fx-font-size: 13px;
+    -fx-pref-height: 39;
+}
+
+.browse-button:hover {
+    -fx-background-color: bg-page;
+    -fx-border-color: text-secondary;
+}
+
+.error-label {
+    -fx-background-color: danger-bg;
+    -fx-border-color: danger-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 12 10 12;
+    -fx-text-fill: danger;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+}
+
+.btn-primary {
+    -fx-background-color: primary-dark;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 14 24 14 24;
+}
+
+.btn-primary:hover {
+    -fx-background-color: primary-mid;
+}
+
+.btn-primary:pressed {
+    -fx-background-color: primary;
+}
+
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-border-color: primary-dark;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: primary-dark;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 13 24 13 24;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: derive(primary-dark, 90%);
+}
+
+.btn-secondary:pressed {
+    -fx-background-color: derive(primary-dark, 80%);
+}
+
+/* ── 4. Main Game Layout ──────────────────────────────────────── */
+.main-view {
+    -fx-background-color: bg-page;
+}
+
+.navbar {
+    -fx-background-color: primary-dark;
+    -fx-pref-height: 64;
+    -fx-min-height: 64;
+    -fx-max-height: 64;
+    -fx-padding: 0 24 0 24;
+    -fx-spacing: 0;
+    -fx-alignment: center-left;
+}
+
+.navbar-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.navbar-info-container {
+    -fx-alignment: center;
+    -fx-spacing: 2;
+    -fx-padding: 0 20 0 20;
+    -fx-border-color: transparent transparent transparent rgba(255,255,255,0.2);
+    -fx-border-width: 1;
+}
+
+.navbar-info-desc {
+    -fx-text-fill: rgba(255,255,255,0.65);
+    -fx-font-size: 10px;
+    -fx-alignment: center;
+}
+
+.navbar-info {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.sidebar {
+    -fx-background-color: primary-mid;
+    -fx-pref-width: 220;
+    -fx-min-width: 220;
+    -fx-max-width: 220;
+    -fx-padding: 24 16 24 16;
+    -fx-spacing: 4;
+}
+
+.sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+    -fx-alignment: center-left;
+    -fx-padding: 0 16 0 16;
+    -fx-pref-height: 44;
+    -fx-min-height: 44;
+    -fx-max-width: Infinity;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+}
+
+.sidebar-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+}
+
+.sidebar-btn.active {
+    -fx-background-color: white;
+    -fx-text-fill: primary-dark;
+    -fx-font-weight: bold;
+}
+
+.sidebar-btn.active:hover {
+    -fx-background-color: white;
+}
+
+/* ── 5. Content Views ─────────────────────────────────────────── */
+.content-view {
+    -fx-background-color: transparent;
+    -fx-padding: 24;
+    -fx-spacing: 12;
+}
+
+.view-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
+.view-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: text-secondary;
+}
+
+/* ── 6. Status Badges ─────────────────────────────────────────── */
+.status-badge {
+    -fx-background-color: primary;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14 6 14;
+    -fx-pref-height: 28;
+    -fx-alignment: center;
+}
+
+.status-badge-novice     { -fx-background-color: text-secondary; }
+.status-badge-investor   { -fx-background-color: primary; }
+.status-badge-speculator { -fx-background-color: speculator-clr; }
+.status-badge-active     { -fx-background-color: primary; }
+.status-badge-bankrupt   { -fx-background-color: danger; }
+
+/* ── 7. Dashboard – Stat Cards ────────────────────────────────── */
+.stat-cards-row {
+    -fx-spacing: 16;
+}
+
+.stat-card {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 8;
+    -fx-padding: 16 20 16 20;
+    -fx-spacing: 4;
+    -fx-min-height: 90;
+    -fx-min-width: 150;
+}
+
+.stat-card-title {
+    -fx-font-size: 13px;
+    -fx-text-fill: text-secondary;
+}
+
+.stat-card-value {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
+.stat-card-sub {
+    -fx-font-size: 11px;
+    -fx-text-fill: text-muted;
+}
+
+/* ── 7b. Portfolio Stat Cards ─────────────────────────────────── */
+.portfolio-stat-cards-row {
+    -fx-spacing: 12;
+}
+
+.portfolio-stat-card {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 8;
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 4;
+    -fx-min-width: 140;
+}
+
+.portfolio-stat-card-title {
+    -fx-font-size: 11px;
+    -fx-text-fill: text-secondary;
+}
+
+.portfolio-stat-card-value {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
+/* ── 7c. Dashboard Section Containers ────────────────────────── */
+.gainers-losers-section {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 8;
+    -fx-padding: 12 16 16 16;
+    -fx-spacing: 8;
+}
+
+.section-heading {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-secondary;
+}
+
+/* ── 8. Tables ────────────────────────────────────────────────── */
+.table-view {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 12;
+    -fx-background-insets: 0;
+    -fx-border-radius: 12;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 12 12 0 0;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent transparent border-clr transparent;
+    -fx-border-width: 1;
+}
+
+.table-view .viewport {
+    -fx-background-radius: 0 0 12 12;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: bg-surface;
+    -fx-border-color: transparent;
+    -fx-size: 40;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-secondary;
+    -fx-padding: 8 12 8 12;
+    -fx-alignment: center-left;
+}
+
+.table-view .filler {
+    -fx-background-color: bg-surface;
+    -fx-border-color: transparent transparent border-clr transparent;
+    -fx-border-width: 1;
+}
+
+.table-row-cell {
+    -fx-background-color: bg-surface;
+    -fx-background-insets: 0;
+    -fx-table-cell-border-color: derive(border-clr, 20%);
+    -fx-cell-size: 44px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: bg-surface;
+}
+
+.table-row-cell:even {
+    -fx-background-color: bg-surface;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: derive(bg-page, -3%);
+}
+
+.table-row-cell:selected {
+    -fx-background-color: derive(primary, 90%);
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: text-primary;
+}
+
+.table-cell {
+    -fx-text-fill: text-primary;
+    -fx-font-size: 13px;
+    -fx-padding: 10 12 10 12;
+    -fx-border-color: transparent;
+    -fx-alignment: center-left;
+}
+
+.table-view .placeholder {
+    -fx-background-color: bg-surface;
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: text-muted;
+    -fx-font-size: 13px;
+}
+
+/* ── 9. Transaction History ───────────────────────────────────── */
+.table-row-cell.week-header-row,
+.table-row-cell.week-header-row:odd,
+.table-row-cell.week-header-row:even,
+.table-row-cell.week-header-row:hover,
+.table-row-cell.week-header-row:selected {
+    -fx-background-color: derive(primary-dark, 82%);
+}
+
+.week-header-row .table-cell {
+    -fx-text-fill: primary-dark;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.week-filter-bar {
+    -fx-spacing: 8;
+    -fx-padding: 8 0 8 0;
+    -fx-alignment: center-left;
+}
+
+.week-filter-btn {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 12;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-text-fill: text-body;
+    -fx-font-size: 12px;
+    -fx-padding: 7 14 7 14;
+    -fx-pref-height: 32;
+}
+
+.week-filter-btn:hover {
+    -fx-background-color: bg-page;
+}
+
+.week-filter-btn:selected {
+    -fx-background-color: primary-light;
+    -fx-border-color: primary-light;
+    -fx-text-fill: white;
+}
+
+/* ── 10. Advance Week Button ──────────────────────────────────── */
+.btn-advance {
+    -fx-background-color: primary-light;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 14 24 14 24;
+    -fx-pref-height: 50;
+    -fx-max-width: Infinity;
+}
+
+.btn-advance:hover {
+    -fx-background-color: primary;
+}
+
+.btn-advance:pressed {
+    -fx-background-color: primary-dark;
+}
+
+/* ── 11. Table action buttons (Buy / Sell in-table) ───────────── */
+.table-cell .button {
+    -fx-background-color: primary;
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 5 12 5 12;
+}
+
+.table-cell .button:hover {
+    -fx-background-color: primary-light;
+}
+
+/* Sell button variant */
+.table-cell .button.btn-sell {
+    -fx-background-color: danger;
+}
+
+.table-cell .button.btn-sell:hover {
+    -fx-background-color: derive(danger, -15%);
+}
+
+/* ── 12. Settings ─────────────────────────────────────────────── */
+.settings-cards-row {
+    -fx-spacing: 20;
+}
+
+.settings-card {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 8;
+    -fx-padding: 24;
+    -fx-spacing: 12;
+    -fx-min-width: 200;
+    -fx-min-height: 160;
+}
+
+.settings-card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
+.settings-card-desc {
+    -fx-font-size: 13px;
+    -fx-text-fill: text-secondary;
+    -fx-wrap-text: true;
+}
+
+.settings-card .button {
+    -fx-background-color: primary;
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 8 18 8 18;
+}
+
+.settings-card .button:hover {
+    -fx-background-color: primary-light;
+}
+
+/* ── 13. Transaction / Buy / Sell Widgets ─────────────────────── */
+.widget-root {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 12;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 16, 0, 0, 4);
+    -fx-padding: 24;
+    -fx-spacing: 12;
+    -fx-pref-width: 420;
+    -fx-min-width: 380;
+}
+
+.widget-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
+.widget-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: text-secondary;
+}
+
+.widget-input {
+    -fx-background-color: bg-input;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 11 12 11 12;
+    -fx-font-size: 14px;
+    -fx-pref-height: 44;
+}
+
+.widget-input:focused {
+    -fx-border-color: primary;
+    -fx-border-width: 1.5;
+    -fx-background-color: bg-surface;
+}
+
+.widget-summary {
+    -fx-border-color: border-clr;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 12 0 0 0;
+    -fx-spacing: 6;
+}
+
+.widget-label-key {
+    -fx-font-size: 12px;
+    -fx-text-fill: text-secondary;
+    -fx-pref-width: 180;
+}
+
+.widget-label-value {
+    -fx-font-size: 12px;
+    -fx-text-fill: text-primary;
+}
+
+.widget-label-total {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
+.btn-purchase {
+    -fx-background-color: primary-light;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20 12 20;
+}
+
+.btn-purchase:hover {
+    -fx-background-color: primary;
+}
+
+.btn-sale {
+    -fx-background-color: danger;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20 12 20;
+}
+
+.btn-sale:hover {
+    -fx-background-color: derive(danger, -15%);
+}
+
+.btn-cancel {
+    -fx-background-color: transparent;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: text-body;
+    -fx-font-size: 14px;
+    -fx-padding: 12 20 12 20;
+}
+
+.btn-cancel:hover {
+    -fx-background-color: bg-page;
+}
+
+/* ── 14. Scrollbars ───────────────────────────────────────────── */
+.scroll-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .track {
+    -fx-background-color: bg-page;
+    -fx-background-radius: 4;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: border-clr;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: text-muted;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 1 0 1;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* ── 15. Sign Color Utilities (declared last to win every specificity race) ── */
+/* Covers plain labels, stat-card-value labels (same specificity, later = wins) */
+.text-positive {
+    -fx-text-fill: #2e7d33;
+    -fx-font-weight: bold;
+}
+
+.text-negative {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: bold;
+}
+
+/* Specificity (0,2,0) – beats .table-cell (0,1,0) */
+.table-cell.text-positive {
+    -fx-text-fill: #2e7d33;
+    -fx-font-weight: bold;
+}
+
+.table-cell.text-negative {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: bold;
+}
+
+/* Specificity (0,3,0) – beats .table-row-cell:selected .table-cell (0,2,0) */
+.table-row-cell:selected .table-cell.text-positive {
+    -fx-text-fill: #2e7d33;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:selected .table-cell.text-negative {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: bold;
+}

@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class TransactionHistoryView extends VBox implements GameObserver {
@@ -56,6 +57,8 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     this.weekFilter = new ToggleGroup();
     this.selectedWeek = null;
 
+    getStyleClass().add("content-view");
+    VBox.setVgrow(mainTable, Priority.ALWAYS);
     getChildren().addAll(buildTopContainer(), mainTable);
     transactionHistoryController.registerObserver(this);
     update();
@@ -146,6 +149,7 @@ public class TransactionHistoryView extends VBox implements GameObserver {
       }
     });
 
+    ViewUtils.applyRoundedClip(table, 12);
     return table;
   }
 
@@ -154,12 +158,14 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     weekFilterBar.getChildren().clear();
 
     ToggleButton allWeeksBtn = new ToggleButton("All Weeks");
+    allWeeksBtn.getStyleClass().add("week-filter-btn");
     allWeeksBtn.setToggleGroup(weekFilter);
     allWeeksBtn.setOnAction(e -> { selectedWeek = null; refreshTable(); });
     weekFilterBar.getChildren().add(allWeeksBtn);
 
     for (int week : transactionHistoryController.getDistinctWeeks()) {
       ToggleButton weekBtn = new ToggleButton("Week " + week);
+      weekBtn.getStyleClass().add("week-filter-btn");
       weekBtn.setToggleGroup(weekFilter);
       weekBtn.setUserData(week);
       weekBtn.setOnAction(e -> { selectedWeek = week; refreshTable(); });
@@ -189,11 +195,15 @@ public class TransactionHistoryView extends VBox implements GameObserver {
 
   private VBox buildTopContainer() {
     Label title = new Label("Transaction History");
+    title.getStyleClass().add("view-title");
+
     Label subTitle = new Label("All purchases and sales, grouped by week");
+    subTitle.getStyleClass().add("view-subtitle");
 
-    VBox topContainer = new VBox();
+    weekFilterBar.getStyleClass().add("week-filter-bar");
+
+    VBox topContainer = new VBox(4);
     topContainer.getChildren().addAll(title, subTitle, weekFilterBar);
-
     return topContainer;
   }
 
