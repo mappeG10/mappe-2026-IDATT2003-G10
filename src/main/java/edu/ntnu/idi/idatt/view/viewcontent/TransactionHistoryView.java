@@ -149,6 +149,7 @@ public class TransactionHistoryView extends VBox implements GameObserver {
       }
     });
 
+    ViewUtils.applyRoundedClip(table, 12);
     return table;
   }
 

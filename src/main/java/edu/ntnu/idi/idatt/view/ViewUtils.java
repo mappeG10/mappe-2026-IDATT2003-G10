@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.layout.Region;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
 import javafx.util.Callback;
 
@@ -56,10 +58,19 @@ public class ViewUtils {
     };
   }
 
+  public static void applyRoundedClip(Region node, double arcRadius) {
+    Rectangle clip = new Rectangle();
+    clip.setArcWidth(arcRadius * 2);
+    clip.setArcHeight(arcRadius * 2);
+    node.widthProperty().addListener((obs, old, w) -> clip.setWidth(w.doubleValue()));
+    node.heightProperty().addListener((obs, old, h) -> clip.setHeight(h.doubleValue()));
+    node.setClip(clip);
+  }
+
   public static void showErrorAlert(String title, String message) {
     Window owner = Window.getWindows().stream()
         .filter(Window::isShowing)
-        .findFirst()
+        .reduce((a, b) -> b)
         .orElse(null);
     new ErrorWidget(title, message).openDialog(owner);
   }

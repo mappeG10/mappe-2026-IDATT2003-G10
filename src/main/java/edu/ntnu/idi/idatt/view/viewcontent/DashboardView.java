@@ -122,6 +122,7 @@ public class DashboardView extends VBox implements GameObserver {
 
     TableView<Share> portfolioTable = new TableView<>();
     portfolioTable.getColumns().addAll(symbolCol, companyCol, quantityCol, currentCol, gainLossLCol);
+    ViewUtils.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
   }
 
@@ -162,6 +163,7 @@ public class DashboardView extends VBox implements GameObserver {
 
     TableView<Stock> gainersTable = new TableView<>();
     gainersTable.getColumns().addAll(symbolCol, percentCol);
+    ViewUtils.applyRoundedClip(gainersTable, 12);
     return gainersTable;
   }
 

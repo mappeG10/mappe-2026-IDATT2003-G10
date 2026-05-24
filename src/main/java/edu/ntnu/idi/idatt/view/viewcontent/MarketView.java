@@ -71,6 +71,7 @@ public class MarketView extends VBox implements GameObserver {
 
     TableView<Stock> marketTable = new TableView<>();
     marketTable.getColumns().addAll(symbolCol, companyCol, priceCol, changeCol, changePercentCol, buyButtonCol);
+    ViewUtils.applyRoundedClip(marketTable, 12);
     return marketTable;
   }
 

@@ -84,6 +84,7 @@ public class PortfolioView extends VBox implements GameObserver {
 
     TableView<Share> portfolioTable = new TableView<>();
     portfolioTable.getColumns().addAll(symbolCol, companyCol, quantityCol, currentCol, gainLossCol, gainLossPercentCol, sellButtonCol);
+    ViewUtils.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
   }
 
