@@ -33,12 +33,18 @@ class PortfolioTest {
 
   @Test
   void testAddShare() {
-    assertTrue(portfolio.addShare(share1), "Share 1 should be added.");
-    assertTrue(portfolio.addShare(share2), "Share 2 should be added.");
+    Share share3 = new Share(stock1, new BigDecimal("10"), new BigDecimal("186.5"));
+    assertTrue(portfolio.addShare(share3), "New share should be added.");
   }
 
   @Test
-  void testAddShareFails() {
+  void testAddDuplicateShareThrowsException() {
+    assertThrows(IllegalArgumentException.class, () -> portfolio.addShare(share1),
+        "Adding the exact same share object twice should throw IllegalArgumentException");
+  }
+
+  @Test
+  void testAddShareFailsOnNull() {
     assertThrows(IllegalArgumentException.class, () -> portfolio.addShare(null));
   }
 

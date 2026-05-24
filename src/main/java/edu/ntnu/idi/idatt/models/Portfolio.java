@@ -14,9 +14,8 @@ public class Portfolio {
   public boolean addShare(Share share) {
     if (share == null) {
       throw new IllegalArgumentException("Share cannot be null");
-    }
-    else if (shares.contains(share)) {
-      throw new IllegalArgumentException("Share already exists");
+    } else if(shares.contains(share)) {
+      throw new IllegalArgumentException("Cannot add duplicate share");
     }
     return shares.add(share);
   }
