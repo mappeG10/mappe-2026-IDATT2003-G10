@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
 import edu.ntnu.idi.idatt.view.GameObserver;
 
 import java.math.BigDecimal;
@@ -63,7 +64,11 @@ public class Exchange implements GameSubject {
   }
 
   public Stock getStock(String symbol) {
-    return stockMap.get(symbol);
+    Stock stock = stockMap.get(symbol);
+    if (stock == null) {
+      throw new StockNotFoundException("No stock with symbol: " + symbol);
+    }
+    return stock;
   }
 
   public List<Stock> getAllStocks() {
@@ -80,10 +85,6 @@ public class Exchange implements GameSubject {
   public Transaction buy(String symbol, BigDecimal quantity, Player player) {
     if (quantity == null || quantity.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("Quantity must be positive");
-    }
-
-    if (!hasStock(symbol)) {
-      return null; // TODO: add custom exceptions here?
     }
 
     Stock stock = getStock(symbol);
