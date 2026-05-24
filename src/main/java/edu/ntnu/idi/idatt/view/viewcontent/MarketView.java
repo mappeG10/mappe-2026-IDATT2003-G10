@@ -48,9 +48,11 @@ public class MarketView extends VBox implements GameObserver {
 
     TableColumn<Stock, String> changeCol = new TableColumn<>("Change");
     changeCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPriceChange(data.getValue().getLatestPriceChange())));
+    changeCol.setCellFactory(ViewUtils.coloredStringCellFactory());
 
     TableColumn<Stock, String> changePercentCol = new TableColumn<>("Change %");
     changePercentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getLatestPriceChangePercent())));
+    changePercentCol.setCellFactory(ViewUtils.coloredStringCellFactory());
 
     TableColumn<Stock, String> buyButtonCol = new TableColumn<>("Action");
     buyButtonCol.setCellFactory(param -> new TableCell<>() {

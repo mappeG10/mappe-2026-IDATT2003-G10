@@ -1,11 +1,11 @@
 package edu.ntnu.idi.idatt.view.viewcontent;
 
 import edu.ntnu.idi.idatt.controllers.DashboardController;
-import javafx.scene.layout.Priority;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import edu.ntnu.idi.idatt.view.ViewUtils;
+import java.math.BigDecimal;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class DashboardView extends VBox implements GameObserver {
@@ -116,6 +117,7 @@ public class DashboardView extends VBox implements GameObserver {
 
     TableColumn<Share, String> gainLossLCol = new TableColumn<>("Gain/Loss");
     gainLossLCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPriceChange(data.getValue().getGainLoss())));
+    gainLossLCol.setCellFactory(ViewUtils.coloredStringCellFactory());
 
 
     TableView<Share> portfolioTable = new TableView<>();
@@ -124,45 +126,55 @@ public class DashboardView extends VBox implements GameObserver {
   }
 
   private HBox buildMiddleContainer() {
-    HBox middleContainer = new HBox();
+    HBox middleContainer = new HBox(12);
 
     Button advanceBtn = new Button("Advance to the next week →");
     advanceBtn.getStyleClass().add("btn-advance");
     advanceBtn.setMaxWidth(Double.MAX_VALUE);
     advanceBtn.setOnAction(actionEvent -> dashboardController.advanceWeek());
 
-    VBox advanceAndGainersContainer = new VBox(8);
-    VBox.setVgrow(topGainersTable, Priority.ALWAYS);
-    advanceAndGainersContainer.getChildren().addAll(advanceBtn, topGainersTable);
+    Label gainersTitle = new Label("TOP GAINERS");
+    gainersTitle.getStyleClass().add("section-heading");
 
-    HBox.setHgrow(portfolioTable,            Priority.ALWAYS);
-    HBox.setHgrow(advanceAndGainersContainer, Priority.SOMETIMES);
+    VBox gainersSection = new VBox(8);
+    gainersSection.getStyleClass().add("gainers-losers-section");
+    VBox.setVgrow(topGainersTable, Priority.ALWAYS);
+    gainersSection.getChildren().addAll(gainersTitle, topGainersTable);
+
+    VBox advanceAndGainersContainer = new VBox(8);
+    VBox.setVgrow(gainersSection, Priority.ALWAYS);
+    advanceAndGainersContainer.getChildren().addAll(advanceBtn, gainersSection);
+
+    HBox.setHgrow(portfolioTable,             Priority.ALWAYS);
+    HBox.setHgrow(advanceAndGainersContainer,  Priority.SOMETIMES);
     middleContainer.getChildren().addAll(portfolioTable, advanceAndGainersContainer);
 
     return middleContainer;
   }
 
   private TableView<Stock> buildTopGainersTable() {
-    TableColumn<Stock, String> symbolCol = new TableColumn<>();
+    TableColumn<Stock, String> symbolCol = new TableColumn<>("Stock");
     symbolCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSymbol() + " " + data.getValue().getCompany()));
 
-    TableColumn<Stock, String> percentCol = new TableColumn<>();
+    TableColumn<Stock, String> percentCol = new TableColumn<>("Change");
     percentCol.setCellValueFactory(data -> new SimpleStringProperty(ViewUtils.formatPercentage(data.getValue().getLatestPriceChangePercent())));
+    percentCol.setCellFactory(ViewUtils.coloredStringCellFactory());
 
-
-    TableView<Stock> portfolioTable = new TableView<>();
-    portfolioTable.getColumns().addAll(symbolCol, percentCol);
-    return portfolioTable;
+    TableView<Stock> gainersTable = new TableView<>();
+    gainersTable.getColumns().addAll(symbolCol, percentCol);
+    return gainersTable;
   }
 
 
 
   private VBox buildBottomContainer() {
-    VBox container = new VBox();
-    Label containerTitle = new Label("Top Losers");
+    Label containerTitle = new Label("TOP LOSERS");
+    containerTitle.getStyleClass().add("section-heading");
 
-    refreshTopLosers();
+    topLosersStockRows.setSpacing(16);
 
+    VBox container = new VBox(8);
+    container.getStyleClass().add("gainers-losers-section");
     container.getChildren().addAll(containerTitle, topLosersStockRows);
 
     return container;
@@ -171,10 +183,17 @@ public class DashboardView extends VBox implements GameObserver {
   private void refreshTopLosers() {
     topLosersStockRows.getChildren().clear();
     for (Stock stock : dashboardController.getLosers(TOP_LOSERS_LIMIT)) {
-      VBox column = new VBox();
       Label stockTitle = new Label(stock.getSymbol() + " " + stock.getCompany());
-      Label pricechange = new Label(ViewUtils.formatPriceChange(stock.getLatestPriceChangePercent()));
-      column.getChildren().addAll(stockTitle, pricechange);
+      stockTitle.getStyleClass().add("stat-card-title");
+
+      BigDecimal change = stock.getLatestPriceChangePercent();
+      Label priceChange = new Label(ViewUtils.formatPercentage(change));
+      priceChange.getStyleClass().add("stat-card-value");
+      ViewUtils.applySignStyleClass(priceChange, change);
+
+      VBox column = new VBox(4);
+      column.getStyleClass().add("stat-card");
+      column.getChildren().addAll(stockTitle, priceChange);
       topLosersStockRows.getChildren().add(column);
     }
   }
@@ -185,8 +204,14 @@ public class DashboardView extends VBox implements GameObserver {
     netWorthLabel.setText(ViewUtils.formatCurrency(dashboardController.getNetWorth()));
     cashBalanceLabel.setText(ViewUtils.formatCurrency(dashboardController.getPlayerMoney()));
     portfolioValueLabel.setText(ViewUtils.formatCurrency(dashboardController.getPortfolioValue()));
-    totalGainLossLabel.setText(ViewUtils.formatPriceChange(dashboardController.getTotalGainLoss()));
-    fourthCardSubLabel.setText(ViewUtils.formatPercentage(dashboardController.getTotalGainLossPercent()));
+
+    BigDecimal gainLoss = dashboardController.getTotalGainLoss();
+    totalGainLossLabel.setText(ViewUtils.formatPriceChange(gainLoss));
+    ViewUtils.applySignStyleClass(totalGainLossLabel, gainLoss);
+
+    BigDecimal gainLossPercent = dashboardController.getTotalGainLossPercent();
+    fourthCardSubLabel.setText(ViewUtils.formatPercentage(gainLossPercent) + " all time");
+    ViewUtils.applySignStyleClass(fourthCardSubLabel, gainLossPercent);
 
     List<Stock> gainers = dashboardController.getGainers(TOP_GAINERS_LIMIT);
     boolean gainersListNotEmpty = !gainers.isEmpty();
@@ -198,7 +223,5 @@ public class DashboardView extends VBox implements GameObserver {
 
     topGainersTable.setItems(FXCollections.observableArrayList(gainers));
     refreshTopLosers();
-
-
   }
 }

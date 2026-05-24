@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.controllers.GameController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -62,9 +63,12 @@ public class MainView extends BorderPane implements GameObserver {
 
     activateSidebarBtn(marketBtn);
 
+    Region spacer = new Region();
+    VBox.setVgrow(spacer, Priority.ALWAYS);
+
     VBox sidebar = new VBox();
     sidebar.getStyleClass().add("sidebar");
-    sidebar.getChildren().addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, settingsBtn);
+    sidebar.getChildren().addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, settingsBtn);
     return sidebar;
   }
 
@@ -82,13 +86,32 @@ public class MainView extends BorderPane implements GameObserver {
     balanceLabel.getStyleClass().add("navbar-info");
     playerNameLabel.getStyleClass().add("navbar-info");
 
+    Label weekDesc = new Label("WEEK");
+    weekDesc.getStyleClass().add("navbar-info-desc");
+    VBox weekContainer = new VBox(2);
+    weekContainer.getStyleClass().add("navbar-info-container");
+    weekContainer.getChildren().addAll(weekDesc, weekLabel);
+
+    Label balanceDesc = new Label("BALANCE");
+    balanceDesc.getStyleClass().add("navbar-info-desc");
+    VBox balanceContainer = new VBox(2);
+    balanceContainer.getStyleClass().add("navbar-info-container");
+    balanceContainer.getChildren().addAll(balanceDesc, balanceLabel);
+
+    Label playerDesc = new Label("PLAYER");
+    playerDesc.getStyleClass().add("navbar-info-desc");
+    VBox playerContainer = new VBox(2);
+    playerContainer.getStyleClass().add("navbar-info-container");
+    playerContainer.getChildren().addAll(playerDesc, playerNameLabel);
+
     Region spacer = new Region();
     HBox.setHgrow(spacer, Priority.ALWAYS);
 
     HBox navbar = new HBox();
     navbar.getStyleClass().add("navbar");
     navbar.setAlignment(Pos.CENTER_LEFT);
-    navbar.getChildren().addAll(title, spacer, weekLabel, balanceLabel, playerNameLabel, statusLabel);
+    HBox.setMargin(statusLabel, new Insets(0, 0, 0, 16));
+    navbar.getChildren().addAll(title, spacer, weekContainer, balanceContainer, playerContainer, statusLabel);
     return navbar;
   }
 

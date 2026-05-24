@@ -49,6 +49,7 @@ public class Navigator {
     Scene scene = new Scene(this.mainView, WIDTH, HEIGHT);
     applyStylesheet(scene);
     stage.setScene(scene);
+    stage.setFullScreen(true);
   }
 
   private void applyStylesheet(Scene scene) {

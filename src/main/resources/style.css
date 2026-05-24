@@ -86,6 +86,7 @@
     -fx-spacing: 20;
     -fx-pref-width: 440;
     -fx-max-width: 440;
+    -fx-max-height: 640;
 }
 
 .start-title-section {
@@ -224,10 +225,24 @@
     -fx-text-fill: white;
 }
 
+.navbar-info-container {
+    -fx-alignment: center;
+    -fx-spacing: 2;
+    -fx-padding: 0 20 0 20;
+    -fx-border-color: transparent transparent transparent rgba(255,255,255,0.2);
+    -fx-border-width: 1;
+}
+
+.navbar-info-desc {
+    -fx-text-fill: rgba(255,255,255,0.65);
+    -fx-font-size: 10px;
+    -fx-alignment: center;
+}
+
 .navbar-info {
     -fx-text-fill: white;
-    -fx-font-size: 11px;
-    -fx-padding: 0 16 0 16;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
     -fx-alignment: center;
 }
 
@@ -236,7 +251,7 @@
     -fx-pref-width: 220;
     -fx-min-width: 220;
     -fx-max-width: 220;
-    -fx-padding: 24 16 0 16;
+    -fx-padding: 24 16 24 16;
     -fx-spacing: 4;
 }
 
@@ -335,10 +350,50 @@
     -fx-text-fill: text-muted;
 }
 
+/* ── 7b. Portfolio Stat Cards ─────────────────────────────────── */
+.portfolio-stat-cards-row {
+    -fx-spacing: 12;
+}
+
+.portfolio-stat-card {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 8;
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 4;
+    -fx-min-width: 140;
+}
+
+.portfolio-stat-card-title {
+    -fx-font-size: 11px;
+    -fx-text-fill: text-secondary;
+}
+
+.portfolio-stat-card-value {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
+/* ── 7c. Dashboard Section Containers ────────────────────────── */
+.gainers-losers-section {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 8;
+    -fx-padding: 12 16 16 16;
+    -fx-spacing: 8;
+}
+
+.section-heading {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-secondary;
+}
+
 /* ── 8. Tables ────────────────────────────────────────────────── */
 .table-view {
     -fx-background-color: bg-surface;
-    -fx-background-radius: 8;
+    -fx-background-radius: 12;
+    -fx-background-insets: 0;
+    -fx-border-radius: 12;
     -fx-border-color: transparent;
     -fx-border-width: 0;
     -fx-padding: 0;
@@ -346,8 +401,16 @@
 
 .table-view .column-header-background {
     -fx-background-color: bg-surface;
+    -fx-background-radius: 12 12 0 0;
+    -fx-background-insets: 0;
     -fx-border-color: transparent transparent border-clr transparent;
     -fx-border-width: 1;
+}
+
+.table-view .viewport {
+    -fx-background-radius: 0 0 12 12;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
 }
 
 .table-view .column-header {
@@ -372,6 +435,7 @@
 
 .table-row-cell {
     -fx-background-color: bg-surface;
+    -fx-background-insets: 0;
     -fx-table-cell-border-color: derive(border-clr, 20%);
     -fx-cell-size: 44px;
 }
@@ -415,7 +479,11 @@
 }
 
 /* ── 9. Transaction History ───────────────────────────────────── */
-.week-header-row {
+.table-row-cell.week-header-row,
+.table-row-cell.week-header-row:odd,
+.table-row-cell.week-header-row:even,
+.table-row-cell.week-header-row:hover,
+.table-row-cell.week-header-row:selected {
     -fx-background-color: derive(primary-dark, 82%);
 }
 
@@ -537,6 +605,10 @@
 .widget-root {
     -fx-background-color: bg-surface;
     -fx-background-radius: 12;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 16, 0, 0, 4);
     -fx-padding: 24;
     -fx-spacing: 12;
     -fx-pref-width: 420;
@@ -667,4 +739,38 @@
 .scroll-bar .decrement-arrow {
     -fx-shape: " ";
     -fx-padding: 0;
+}
+
+/* ── 15. Sign Color Utilities (declared last to win every specificity race) ── */
+/* Covers plain labels, stat-card-value labels (same specificity, later = wins) */
+.text-positive {
+    -fx-text-fill: #2e7d33;
+    -fx-font-weight: bold;
+}
+
+.text-negative {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: bold;
+}
+
+/* Specificity (0,2,0) – beats .table-cell (0,1,0) */
+.table-cell.text-positive {
+    -fx-text-fill: #2e7d33;
+    -fx-font-weight: bold;
+}
+
+.table-cell.text-negative {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: bold;
+}
+
+/* Specificity (0,3,0) – beats .table-row-cell:selected .table-cell (0,2,0) */
+.table-row-cell:selected .table-cell.text-positive {
+    -fx-text-fill: #2e7d33;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:selected .table-cell.text-negative {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: bold;
 }
