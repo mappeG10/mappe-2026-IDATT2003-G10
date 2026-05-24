@@ -5,7 +5,7 @@ import edu.ntnu.idi.idatt.controllers.dto.TransactionPreview;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.exceptions.InsufficientSharesException;
 import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
-import edu.ntnu.idi.idatt.view.ViewUtils;
+import edu.ntnu.idi.idatt.view.utils.ViewUtils;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

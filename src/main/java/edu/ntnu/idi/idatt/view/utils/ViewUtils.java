@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.view;
+package edu.ntnu.idi.idatt.view.utils;
 
 import edu.ntnu.idi.idatt.view.widgets.ErrorWidget;
 import java.math.BigDecimal;

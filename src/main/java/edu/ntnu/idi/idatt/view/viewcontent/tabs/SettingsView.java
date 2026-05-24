@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.view.viewcontent;
+package edu.ntnu.idi.idatt.view.viewcontent.tabs;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

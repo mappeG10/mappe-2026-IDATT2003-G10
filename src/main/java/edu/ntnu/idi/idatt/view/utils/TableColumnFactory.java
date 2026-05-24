@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.view;
+package edu.ntnu.idi.idatt.view.utils;
 
 import java.math.BigDecimal;
 import java.util.function.Function;

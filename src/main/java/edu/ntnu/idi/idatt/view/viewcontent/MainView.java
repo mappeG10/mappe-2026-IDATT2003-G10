@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.view;
+package edu.ntnu.idi.idatt.view.viewcontent;
 
 import edu.ntnu.idi.idatt.controllers.contentcontroller.GameController;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import edu.ntnu.idi.idatt.observer.GameObserver;
+import edu.ntnu.idi.idatt.view.GameTab;
+import edu.ntnu.idi.idatt.view.utils.ViewUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;

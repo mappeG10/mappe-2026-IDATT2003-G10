@@ -1,11 +1,11 @@
-package edu.ntnu.idi.idatt.view.viewcontent;
+package edu.ntnu.idi.idatt.view.viewcontent.tabs;
 
 import edu.ntnu.idi.idatt.controllers.contentcontroller.DashboardController;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;
-import edu.ntnu.idi.idatt.view.TableColumnFactory;
-import edu.ntnu.idi.idatt.view.ViewUtils;
+import edu.ntnu.idi.idatt.view.utils.TableColumnFactory;
+import edu.ntnu.idi.idatt.view.utils.ViewUtils;
 import java.math.BigDecimal;
 import java.util.List;
 import javafx.collections.FXCollections;

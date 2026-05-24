@@ -6,7 +6,7 @@ import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
 import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
 import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
-import edu.ntnu.idi.idatt.view.ViewUtils;
+import edu.ntnu.idi.idatt.view.utils.ViewUtils;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

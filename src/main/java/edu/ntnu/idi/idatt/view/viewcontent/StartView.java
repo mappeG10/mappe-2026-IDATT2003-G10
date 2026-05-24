@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.view;
+package edu.ntnu.idi.idatt.view.viewcontent;
 
 import edu.ntnu.idi.idatt.controllers.dto.GameSetup;
 import javafx.geometry.Pos;
