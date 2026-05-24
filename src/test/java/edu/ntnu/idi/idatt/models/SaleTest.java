@@ -76,7 +76,7 @@ class SaleTest {
     assertEquals(0, player.getMoney().compareTo(expectedMoney),
         "Player should receive correct amount of money");
 
-    assertFalse(player.getPortfolio().contatins(share),
+    assertFalse(player.getPortfolio().contains(share),
         "Player should not own share after selling it");
 
     assertTrue(player.getTransactionArchive().getTransactions(1).contains(sale),
@@ -95,8 +95,8 @@ class SaleTest {
 
   @Test
   void testCommitingWhenNotOwningShare() {
-
-    Share shareNotOwned = new Share(stock, new BigDecimal(10), new BigDecimal(99));
+    Stock differentStock = new Stock("MSFT", "Microsoft", new ArrayList<>(List.of(new BigDecimal("300.00"))));
+    Share shareNotOwned = new Share(differentStock, new BigDecimal(10), new BigDecimal(99));
 
     Sale saleThatIsIllegal = new Sale(shareNotOwned, 1);
 

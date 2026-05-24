@@ -72,7 +72,7 @@ class PurchaseTest {
     assertEquals(0, player.getMoney().compareTo(expectedMoney),
         "Player should be withdrawn correct amount of money");
 
-    assertTrue(player.getPortfolio().contatins(share),
+    assertTrue(player.getPortfolio().contains(share),
         "Player should share after purchasing it");
 
     assertTrue(player.getTransactionArchive().getTransactions(1).contains(purchase),
