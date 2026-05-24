@@ -6,24 +6,10 @@ import edu.ntnu.idi.idatt.models.transaction.Transaction;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.util.List;
 
-public class TransactionHistoryController {
-
-  private final Exchange exchange;
-  private final Player player;
+public class TransactionHistoryController extends BaseController {
 
   public TransactionHistoryController(Exchange exchange, Player player) {
-    this.exchange = exchange;
-    this.player = player;
-  }
-
-  public void registerObserver(GameObserver observer) {
-    exchange.register(observer);
-    player.register(observer);
-  }
-
-  public void unregisterObserver(GameObserver observer) {
-    exchange.unregister(observer);
-    player.unregister(observer);
+    super(exchange, player);
   }
 
   public List<Transaction> getTransactions(int week) {

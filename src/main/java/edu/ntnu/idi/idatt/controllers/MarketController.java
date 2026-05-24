@@ -12,24 +12,10 @@ import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class MarketController {
-
-  private final Exchange exchange;
-  private final Player player;
+public class MarketController extends BaseController{
 
   public MarketController(Exchange exchange, Player player) {
-    this.exchange = exchange;
-    this.player = player;
-  }
-
-  public void registerObserver(GameObserver observer) {
-    exchange.register(observer);
-    player.register(observer);
-  }
-
-  public void unregisterObserver(GameObserver observer) {
-    exchange.unregister(observer);
-    player.unregister(observer);
+    super(exchange, player);
   }
 
   public List<Stock> getAllStocks() {

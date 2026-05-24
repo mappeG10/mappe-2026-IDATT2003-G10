@@ -8,28 +8,11 @@ import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class DashboardController {
-
-  private final Exchange exchange;
-  private final Player player;
-
+public class DashboardController extends BaseController {
 
   public DashboardController(Exchange exchange, Player player) {
-    this.exchange = exchange;
-    this.player = player;
+    super(exchange, player);
   }
-
-  public void registerObserver(GameObserver observer) {
-    exchange.register(observer);
-    player.register(observer);
-  }
-
-  public void unregisterObserver(GameObserver observer) {
-    exchange.unregister(observer);
-    player.unregister(observer);
-  }
-
-
 
   public BigDecimal getPlayerMoney() {
     return player.getMoney();
