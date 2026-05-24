@@ -24,42 +24,55 @@ public class SaleWidget extends TransactionWidget<Share> {
 
   @Override
   protected void setupUI() {
+    getStyleClass().add("widget-root");
+
     this.titleLabel = new Label("Sell: " + target.getStock().getSymbol());
+    this.titleLabel.getStyleClass().add("widget-title");
+
+    Label subtitleLabel = new Label(target.getStock().getCompany() + " · Current price: " + ViewUtils.formatCurrency(target.getStock().getSalesPrice()));
+    subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField(target.getQuantity().toPlainString());
+    this.quantityField.getStyleClass().add("widget-input");
 
     this.grossValueLabel = new Label();
     this.taxValueLabel = new Label();
     this.totalLabel = new Label();
 
     this.cancelButton = new Button("Cancel");
+    this.cancelButton.getStyleClass().add("btn-cancel");
     this.actionButton = new Button("Confirm Sale");
+    this.actionButton.getStyleClass().add("btn-sale");
 
-    this.setSpacing(15);
-    this.setMinWidth(250);
+    this.setSpacing(12);
 
     this.getChildren().addAll(
         titleLabel,
-        new Label(target.getStock().getCompany() + " · Current price: " + ViewUtils.formatCurrency(target.getStock().getSalesPrice())),
+        subtitleLabel,
         new Label("Quantity (max: " + target.getQuantity().toPlainString() + "):"),
         quantityField,
         buildSummaryRow(),
-        new HBox(10, actionButton, cancelButton)
+        new HBox(8, actionButton, cancelButton)
     );
   }
 
   private HBox buildSummaryRow() {
-    VBox keys = new VBox(
-        new Label("Gross Proceeds"),
-        new Label("Capital Gains Tax (30%)"),
-        new Label("Net Proceeds")
-    );
-    VBox values = new VBox(
-        grossValueLabel,
-        taxValueLabel,
-        totalLabel
-    );
-    return new HBox(keys, values);
+    Label grossKey = new Label("Gross Proceeds");
+    grossKey.getStyleClass().add("widget-label-key");
+    Label taxKey = new Label("Capital Gains Tax (30%)");
+    taxKey.getStyleClass().add("widget-label-key");
+    Label totalKey = new Label("Net Proceeds");
+    totalKey.getStyleClass().add("widget-label-total");
+
+    grossValueLabel.getStyleClass().add("widget-label-value");
+    taxValueLabel.getStyleClass().add("widget-label-value");
+    totalLabel.getStyleClass().add("widget-label-total");
+
+    VBox keys   = new VBox(6, grossKey, taxKey, totalKey);
+    VBox values = new VBox(6, grossValueLabel, taxValueLabel, totalLabel);
+    HBox row = new HBox(24, keys, values);
+    row.getStyleClass().add("widget-summary");
+    return row;
   }
 
   @Override

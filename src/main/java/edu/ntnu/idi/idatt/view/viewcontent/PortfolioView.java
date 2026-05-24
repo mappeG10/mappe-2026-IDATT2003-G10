@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Window;
 
@@ -34,6 +35,8 @@ public class PortfolioView extends VBox implements GameObserver {
 
     this.portfolioTable = buildPortfolioTable();
 
+    getStyleClass().add("content-view");
+    VBox.setVgrow(portfolioTable, Priority.ALWAYS);
     getChildren().addAll(buildTopContainer(), portfolioTable);
     portfolioController.registerObserver(this);
     update();
@@ -83,16 +86,18 @@ public class PortfolioView extends VBox implements GameObserver {
 
   private VBox buildTopContainer() {
     Label title = new Label("Portfolio");
-    Label subTitle = new Label("Your current holdings and performance");
+    title.getStyleClass().add("view-title");
 
-    HBox portfolioDataContainer = new HBox();
+    Label subTitle = new Label("Your current holdings and performance");
+    subTitle.getStyleClass().add("view-subtitle");
+
+    HBox portfolioDataContainer = new HBox(16);
     portfolioDataContainer.getChildren().addAll(
         portfolioValueLabel, totalInvestedLabel, unrealisedPnLLabel, stockAmountLabel
     );
 
-    VBox topContainer = new VBox();
+    VBox topContainer = new VBox(8);
     topContainer.getChildren().addAll(title, subTitle, portfolioDataContainer);
-
     return topContainer;
   }
 

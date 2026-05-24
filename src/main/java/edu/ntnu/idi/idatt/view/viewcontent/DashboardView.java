@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.view.viewcontent;
 
 import edu.ntnu.idi.idatt.controllers.DashboardController;
+import javafx.scene.layout.Priority;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Stock;
 import edu.ntnu.idi.idatt.view.GameObserver;
@@ -44,35 +45,58 @@ public class DashboardView extends VBox implements GameObserver {
     this.portfolioTable = buildPortfolioTable();
     this.topGainersTable = buildTopGainersTable();
 
-    getChildren().addAll(buildTopContainer(), buildMiddleContainer(), bottomContainer);
+    getStyleClass().add("content-view");
+    HBox middleContainer = buildMiddleContainer();
+    VBox.setVgrow(middleContainer, Priority.ALWAYS);
+    getChildren().addAll(buildTopContainer(), middleContainer, bottomContainer);
     dashboardController.registerObserver(this);
     update();
   }
 
   private HBox buildTopContainer() {
-    HBox topContainer = new HBox();
+    HBox topContainer = new HBox(16);
+    topContainer.getStyleClass().add("stat-cards-row");
 
-    VBox firstCard = new VBox();
+    VBox firstCard = new VBox(4);
+    firstCard.getStyleClass().add("stat-card");
     Label firstCardTitle = new Label("Net Worth");
+    firstCardTitle.getStyleClass().add("stat-card-title");
+    netWorthLabel.getStyleClass().add("stat-card-value");
     Label firstCardSubLabel = new Label("Start: " + ViewUtils.formatCurrency(dashboardController.getStartingCapital()));
+    firstCardSubLabel.getStyleClass().add("stat-card-sub");
     firstCard.getChildren().addAll(firstCardTitle, netWorthLabel, firstCardSubLabel);
 
-    VBox secondCard = new VBox();
+    VBox secondCard = new VBox(4);
+    secondCard.getStyleClass().add("stat-card");
     Label secondCardTitle = new Label("Cash Balance");
+    secondCardTitle.getStyleClass().add("stat-card-title");
+    cashBalanceLabel.getStyleClass().add("stat-card-value");
     Label secondCardSubLabel = new Label("Available to invest");
+    secondCardSubLabel.getStyleClass().add("stat-card-sub");
     secondCard.getChildren().addAll(secondCardTitle, cashBalanceLabel, secondCardSubLabel);
 
-    VBox thirdCard = new VBox();
+    VBox thirdCard = new VBox(4);
+    thirdCard.getStyleClass().add("stat-card");
     Label thirdCardTitle = new Label("Portfolio Value");
-    Label thirdCardSubLabel = new Label("invested Assets");
+    thirdCardTitle.getStyleClass().add("stat-card-title");
+    portfolioValueLabel.getStyleClass().add("stat-card-value");
+    Label thirdCardSubLabel = new Label("Invested assets");
+    thirdCardSubLabel.getStyleClass().add("stat-card-sub");
     thirdCard.getChildren().addAll(thirdCardTitle, portfolioValueLabel, thirdCardSubLabel);
 
-    VBox fourthCard = new VBox();
+    VBox fourthCard = new VBox(4);
+    fourthCard.getStyleClass().add("stat-card");
     Label fourthCardTitle = new Label("Total Gain/Loss");
+    fourthCardTitle.getStyleClass().add("stat-card-title");
+    totalGainLossLabel.getStyleClass().add("stat-card-value");
+    fourthCardSubLabel.getStyleClass().add("stat-card-sub");
     fourthCard.getChildren().addAll(fourthCardTitle, totalGainLossLabel, fourthCardSubLabel);
 
+    HBox.setHgrow(firstCard,  Priority.ALWAYS);
+    HBox.setHgrow(secondCard, Priority.ALWAYS);
+    HBox.setHgrow(thirdCard,  Priority.ALWAYS);
+    HBox.setHgrow(fourthCard, Priority.ALWAYS);
     topContainer.getChildren().addAll(firstCard, secondCard, thirdCard, fourthCard);
-
     return topContainer;
   }
 
@@ -103,13 +127,16 @@ public class DashboardView extends VBox implements GameObserver {
     HBox middleContainer = new HBox();
 
     Button advanceBtn = new Button("Advance to the next week →");
-    advanceBtn.setOnAction(actionEvent -> {
-      dashboardController.advanceWeek();
-    });
+    advanceBtn.getStyleClass().add("btn-advance");
+    advanceBtn.setMaxWidth(Double.MAX_VALUE);
+    advanceBtn.setOnAction(actionEvent -> dashboardController.advanceWeek());
 
-    VBox advanceAndGainersContainer = new VBox();
+    VBox advanceAndGainersContainer = new VBox(8);
+    VBox.setVgrow(topGainersTable, Priority.ALWAYS);
     advanceAndGainersContainer.getChildren().addAll(advanceBtn, topGainersTable);
 
+    HBox.setHgrow(portfolioTable,            Priority.ALWAYS);
+    HBox.setHgrow(advanceAndGainersContainer, Priority.SOMETIMES);
     middleContainer.getChildren().addAll(portfolioTable, advanceAndGainersContainer);
 
     return middleContainer;

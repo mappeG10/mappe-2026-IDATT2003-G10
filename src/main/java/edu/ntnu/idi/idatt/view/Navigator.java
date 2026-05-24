@@ -35,7 +35,10 @@ public class Navigator {
       }
     });
 
-    stage.setScene(new Scene(startView, WIDTH, HEIGHT));
+    Scene scene = new Scene(startView, WIDTH, HEIGHT);
+    applyStylesheet(scene);
+    stage.setScene(scene);
+    stage.setFullScreen(true);
   }
 
   public void toGame(GameController gc) {
@@ -43,7 +46,14 @@ public class Navigator {
     this.mainView = new MainView(gc, this::navigateTo);
 
     this.navigateTo(GameTab.MARKET);
-    stage.setScene(new Scene(this.mainView, WIDTH, HEIGHT));
+    Scene scene = new Scene(this.mainView, WIDTH, HEIGHT);
+    applyStylesheet(scene);
+    stage.setScene(scene);
+  }
+
+  private void applyStylesheet(Scene scene) {
+    String css = getClass().getResource("/style.css").toExternalForm();
+    scene.getStylesheets().add(css);
   }
 
   public void navigateTo(GameTab tab) {

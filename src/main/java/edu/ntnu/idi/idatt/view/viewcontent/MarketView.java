@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Window;
 
@@ -26,6 +27,8 @@ public class MarketView extends VBox implements GameObserver {
     this.marketTable = buildMarketTable();
     this.searchField = new TextField();
 
+    getStyleClass().add("content-view");
+    VBox.setVgrow(marketTable, Priority.ALWAYS);
     getChildren().add(buildTopContainer());
     getChildren().add(marketTable);
     marketController.registerObserver(this);
@@ -71,14 +74,17 @@ public class MarketView extends VBox implements GameObserver {
 
   private VBox buildTopContainer() {
     Label title = new Label("Market");
+    title.getStyleClass().add("view-title");
+
     Label subTitle = new Label("Browse and buy stocks from the market");
+    subTitle.getStyleClass().add("view-subtitle");
 
-    searchField.setPromptText("\uD83D\uDD0D Search by symbol or company name");
+    searchField.setPromptText("Search by symbol or company name");
     searchField.textProperty().addListener((_, _, searchTerm) -> refreshTable(searchTerm));
+    searchField.setMaxWidth(500);
 
-    VBox topContainer = new VBox();
+    VBox topContainer = new VBox(8);
     topContainer.getChildren().addAll(title, subTitle, searchField);
-
     return topContainer;
   }
 
