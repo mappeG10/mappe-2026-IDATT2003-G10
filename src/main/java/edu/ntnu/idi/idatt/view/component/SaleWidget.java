@@ -42,8 +42,8 @@ public class SaleWidget extends TransactionWidget<Share> {
     this.taxValueLabel = new Label();
     this.totalLabel = new Label();
 
-    this.cancelButton = new Button("Cancel");
-    this.cancelButton.getStyleClass().add("btn-cancel");
+    this.closeButton = new Button("Cancel");
+    this.closeButton.getStyleClass().add("btn-cancel");
     this.actionButton = new Button("Confirm Sale");
     this.actionButton.getStyleClass().add("btn-sale");
 
@@ -55,7 +55,7 @@ public class SaleWidget extends TransactionWidget<Share> {
         new Label("Quantity (max: " + target.getQuantity().toPlainString() + "):"),
         quantityField,
         buildSummaryRow(),
-        new HBox(8, actionButton, cancelButton)
+        new HBox(8, actionButton, closeButton)
     );
   }
 
