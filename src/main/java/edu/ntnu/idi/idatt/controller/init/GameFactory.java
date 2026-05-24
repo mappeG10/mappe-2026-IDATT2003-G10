@@ -8,7 +8,6 @@ import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
 import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Stock;
-
 import java.io.IOException;
 import java.util.List;
 

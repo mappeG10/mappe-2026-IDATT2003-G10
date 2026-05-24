@@ -4,7 +4,6 @@ import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
-
 import java.math.BigDecimal;
 import java.util.List;
 

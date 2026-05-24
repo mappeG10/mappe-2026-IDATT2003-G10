@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.controller;
 import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.transaction.Transaction;
-
 import java.util.List;
 
 public class TransactionHistoryController extends BaseController {

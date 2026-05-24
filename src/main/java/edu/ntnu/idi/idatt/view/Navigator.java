@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Navigator {
-  private final double WIDTH = 1280, HEIGHT = 800; //TODO: Move this out for cleaner code.
+
+  private static final double WIDTH = 1280, HEIGHT = 800;
 
   private final Stage stage;
   private MainView mainView;

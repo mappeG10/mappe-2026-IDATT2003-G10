@@ -90,7 +90,6 @@ public class Stock {
         .multiply(new BigDecimal("100"));
   }
 
-  //TODO: Add a get function for change in percentage
 
   public boolean hasPriceHistory() {
     return prices.size() > 1;
