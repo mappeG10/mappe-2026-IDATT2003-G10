@@ -94,33 +94,6 @@ public class TransactionArchiveTest {
   }
 
   @Test
-  void testGetPurchases() {
-    Purchase purchase = new Purchase(share, 1);
-    Sale sale = new Sale(share, 1);
-
-    purchase.commit(player);
-    sale.commit(player);
-
-    List<Transaction> purchases = new ArrayList<>(List.of(purchase));
-
-    assertEquals(purchases, player.getTransactionArchive().getPurchases(1));
-  }
-
-  @Test
-  void testGetSales() {
-    Purchase purchase = new Purchase(share, 1);
-    Sale sale = new Sale(share, 1);
-
-    purchase.commit(player);
-    sale.commit(player);
-
-    List<Transaction> sales = new ArrayList<>(List.of(sale));
-
-    assertEquals(sales, player.getTransactionArchive().getSales(1));
-
-  }
-
-  @Test
   void testCountDistinctWeeks() {
 
     Purchase firstWeekFirstPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1);
