@@ -4,7 +4,7 @@ import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Stock;
-import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.math.BigDecimal;
 import java.util.List;
 

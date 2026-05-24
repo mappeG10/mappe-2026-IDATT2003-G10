@@ -3,7 +3,7 @@ package edu.ntnu.idi.idatt.view.viewcontent;
 import edu.ntnu.idi.idatt.controllers.DashboardController;
 import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.Stock;
-import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.ViewUtils;
 import java.math.BigDecimal;

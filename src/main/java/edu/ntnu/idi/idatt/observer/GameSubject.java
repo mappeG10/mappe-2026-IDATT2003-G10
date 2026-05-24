@@ -1,6 +1,4 @@
-package edu.ntnu.idi.idatt.models;
-
-import edu.ntnu.idi.idatt.view.GameObserver;
+package edu.ntnu.idi.idatt.observer;
 
 public interface GameSubject {
   void register(GameObserver observer);

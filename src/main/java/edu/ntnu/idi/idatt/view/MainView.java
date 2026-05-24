@@ -4,6 +4,8 @@ import edu.ntnu.idi.idatt.controllers.GameController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import edu.ntnu.idi.idatt.observer.GameObserver;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;

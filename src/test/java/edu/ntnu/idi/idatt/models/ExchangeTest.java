@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
 import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
-import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

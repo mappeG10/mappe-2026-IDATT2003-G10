@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt.view.viewcontent;
 
 import edu.ntnu.idi.idatt.controllers.MarketController;
 import edu.ntnu.idi.idatt.models.Stock;
-import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.ViewUtils;
 import edu.ntnu.idi.idatt.view.widgets.PurchaseWidget;

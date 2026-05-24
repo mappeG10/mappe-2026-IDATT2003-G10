@@ -8,7 +8,7 @@ import edu.ntnu.idi.idatt.models.Transaction;
 import edu.ntnu.idi.idatt.models.TransactionCalculator;
 import edu.ntnu.idi.idatt.models.TransactionFactory;
 import edu.ntnu.idi.idatt.models.TransactionType;
-import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.math.BigDecimal;
 import java.util.List;
 

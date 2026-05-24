@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
-import edu.ntnu.idi.idatt.view.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameSubject;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
