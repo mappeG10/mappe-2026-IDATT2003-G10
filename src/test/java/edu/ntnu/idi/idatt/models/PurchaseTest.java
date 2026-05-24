@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
+import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -83,19 +85,8 @@ class PurchaseTest {
 
   @Test
   void testCommittingTwoTimes() {
-
-
     purchase.commit(player);
-
-    BigDecimal moneyAfterCommit = player.getMoney();
-
-
-    purchase.commit(player);
-
-    assertEquals(0, player.getMoney().compareTo(moneyAfterCommit),
-        "Money should be the same after first commit");
-
-    // TODO: Should throw exception
+    assertThrows(TransactionAlreadyCommittedException.class, () -> purchase.commit(player));
   }
 
   @Test
@@ -103,11 +94,7 @@ class PurchaseTest {
     Share overPricedShare = new Share(stock, new BigDecimal("1000"), stock.getSalesPrice());
     Purchase illegalPurchase = new Purchase(overPricedShare, 1);
 
-    illegalPurchase.commit(player);
-
-    assertEquals(0, player.getMoney().compareTo(startingMoney));
-
-    // TODO: Should throw exception
+    assertThrows(InsufficientFundsException.class, () -> illegalPurchase.commit(player));
   }
 
   @Test

@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
 import edu.ntnu.idi.idatt.view.GameObserver;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +62,7 @@ class ExchangeTest {
   @Test
   void testGetStockBySymbol() {
     assertEquals(stock1, exchange.getStock(stock1.getSymbol()), "Should return the correct stock for an existing symbol");
-    assertNull(exchange.getStock("MSFT"), "Should return null for a non-existent stock symbol");
+    assertThrows(StockNotFoundException.class, () -> exchange.getStock("MSFT"));
   }
 
   @Test
@@ -117,10 +118,7 @@ class ExchangeTest {
 
   @Test
   void testBuyNonExistentStock() {
-    Transaction purchase = exchange.buy("MSFT", new BigDecimal("10"), player);
-    assertNull(purchase, "Purchase should be null for non-existent stock");
-    assertEquals(0, startingMoney.compareTo(player.getMoney()), "Player's money should not change");
-    assertTrue(player.getPortfolio().getShares().isEmpty(), "Player's portfolio should be empty");
+    assertThrows(StockNotFoundException.class, () -> exchange.buy("MSFT", new BigDecimal("10"), player));
   }
 
   @Test
@@ -181,7 +179,7 @@ class ExchangeTest {
         "Losers list should only have 3 stocks");
     assertEquals(stock3, losersList.getFirst(), "Stock 3 should be first");
     assertEquals(stock2, losersList.get(1), "Stock 2 should be second");
-    assertEquals(stock1, losersList.get(2), "Stock 3 should be third");
+    assertEquals(stock1, losersList.get(2), "Stock 1 should be third");
   }
 
   @Test

@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.exceptions.InsufficientSharesException;
+import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,19 +89,8 @@ class SaleTest {
 
   @Test
   void testCommittingTwoTimes() {
-
-
     sale.commit(player);
-
-    BigDecimal moneyAfterCommit = player.getMoney();
-
-
-    sale.commit(player);
-
-    assertEquals(0, player.getMoney().compareTo(moneyAfterCommit),
-        "Money should be the same after first commit");
-
-    // TODO: Should throw exception
+    assertThrows(TransactionAlreadyCommittedException.class, () -> sale.commit(player));
   }
 
   @Test
@@ -109,15 +100,7 @@ class SaleTest {
 
     Sale saleThatIsIllegal = new Sale(shareNotOwned, 1);
 
-    List<Share> listOfSharesBeforeCommit = player.getPortfolio().getShares();
-
-    saleThatIsIllegal.commit(player);
-
-    assertEquals(player.getPortfolio().getShares(), listOfSharesBeforeCommit);
-
-    // TODO: Should throw exception
-
-
+    assertThrows(InsufficientSharesException.class, () -> saleThatIsIllegal.commit(player));
   }
 
   @Test

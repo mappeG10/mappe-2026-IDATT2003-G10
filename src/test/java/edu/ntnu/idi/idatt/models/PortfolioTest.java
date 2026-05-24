@@ -39,7 +39,7 @@ class PortfolioTest {
 
   @Test
   void testAddShareFails() {
-    assertFalse(portfolio.addShare(null), "Null should not be added as a share");
+    assertThrows(IllegalArgumentException.class, () -> portfolio.addShare(null));
   }
 
   @Test
