@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.transaction.Purchase;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.util.ArrayList;
 import java.util.List;

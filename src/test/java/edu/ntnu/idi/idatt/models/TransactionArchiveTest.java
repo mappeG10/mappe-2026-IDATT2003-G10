@@ -7,6 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.ntnu.idi.idatt.models.transaction.Purchase;
+import edu.ntnu.idi.idatt.models.transaction.Sale;
+import edu.ntnu.idi.idatt.models.transaction.Transaction;
+import edu.ntnu.idi.idatt.models.transaction.TransactionArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

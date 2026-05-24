@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt.controllers;
 
 import edu.ntnu.idi.idatt.models.Exchange;
 import edu.ntnu.idi.idatt.models.Player;
-import edu.ntnu.idi.idatt.models.Transaction;
+import edu.ntnu.idi.idatt.models.transaction.Transaction;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import java.util.List;
 

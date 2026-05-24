@@ -1,7 +1,6 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.models.transaction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TransactionArchive {

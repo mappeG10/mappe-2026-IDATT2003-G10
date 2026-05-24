@@ -1,7 +1,10 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.models.transaction;
 
+import edu.ntnu.idi.idatt.models.Player;
+import edu.ntnu.idi.idatt.models.Share;
 import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
 import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.models.transaction.calculator.PurchaseCalculator;
 
 public class Purchase extends Transaction {
 

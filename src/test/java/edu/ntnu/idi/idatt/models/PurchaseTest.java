@@ -3,6 +3,9 @@ package edu.ntnu.idi.idatt.models;
 import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
 import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
 import java.util.List;
+
+import edu.ntnu.idi.idatt.models.transaction.Purchase;
+import edu.ntnu.idi.idatt.models.transaction.TransactionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

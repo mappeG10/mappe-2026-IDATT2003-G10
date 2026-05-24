@@ -1,11 +1,13 @@
 package edu.ntnu.idi.idatt.models;
 
-import static edu.ntnu.idi.idatt.models.TransactionType.PURCHASE;
+import static edu.ntnu.idi.idatt.models.transaction.TransactionType.PURCHASE;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.ntnu.idi.idatt.models.transaction.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

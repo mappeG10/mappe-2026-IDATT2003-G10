@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.models.transaction.calculator;
 
 import java.math.BigDecimal;
 

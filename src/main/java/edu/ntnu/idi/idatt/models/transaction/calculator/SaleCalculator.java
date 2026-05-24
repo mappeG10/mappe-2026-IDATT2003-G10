@@ -1,8 +1,10 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.models.transaction.calculator;
+
+import edu.ntnu.idi.idatt.models.Share;
 
 import java.math.BigDecimal;
 
-public class SaleCalculator implements TransactionCalculator{
+public class SaleCalculator implements TransactionCalculator {
 
 
   private final BigDecimal purchasePrice;
