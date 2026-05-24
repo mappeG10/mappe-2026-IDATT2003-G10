@@ -225,5 +225,6 @@ public class DashboardView extends VBox implements GameObserver {
 
     topGainersTable.setItems(FXCollections.observableArrayList(gainers));
     refreshTopLosers();
+    portfolioTable.refresh();
   }
 }
