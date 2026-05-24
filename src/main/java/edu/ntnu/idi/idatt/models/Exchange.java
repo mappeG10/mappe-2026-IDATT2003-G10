@@ -20,18 +20,15 @@ public class Exchange implements GameSubject {
     if (!observers.contains(observer)) {
       observers.add(observer);
     }
-    //TODO: Unit test or integration test this function
   }
 
   @Override
   public void unregister(GameObserver observer) {
     observers.remove(observer);
-    //TODO: Unit test or integration test this function
   }
 
   private void notifyObservers() {
     observers.forEach(GameObserver::update);
-    //TODO: Unit test or integration test this function
   }
 
   public Exchange(String name, List<Stock> stocks) {
@@ -150,8 +147,6 @@ public class Exchange implements GameSubject {
         .sorted(Comparator.comparing(Stock::getLatestPriceChangePercent).reversed())
         .limit(limit)
         .toList();
-
-    // TODO: Make unit tests to make sure this works
 
   }
 

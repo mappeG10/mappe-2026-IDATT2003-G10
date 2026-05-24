@@ -29,18 +29,15 @@ public class Player implements GameSubject {
     if (!observers.contains(observer)) {
       observers.add(observer);
     }
-    //TODO: Unit test or integration test this function
   }
 
   @Override
   public void unregister(GameObserver observer) {
     observers.remove(observer);
-    //TODO: Unit test or integration test this function
   }
 
   private void notifyObservers() {
     observers.forEach(GameObserver::update);
-    //TODO: Unit test or integration test this function
   }
 
   public Player(String name, BigDecimal startingMoney) {
