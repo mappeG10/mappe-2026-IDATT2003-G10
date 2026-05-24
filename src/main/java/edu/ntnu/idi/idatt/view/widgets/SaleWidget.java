@@ -28,10 +28,11 @@ public class SaleWidget extends TransactionWidget<Share> {
   protected void setupUI() {
     getStyleClass().add("widget-root");
 
-    this.titleLabel = new Label("Sell: " + target.getStock().getSymbol());
+    this.titleLabel = new Label("Sell: " + target.getSymbol());
     this.titleLabel.getStyleClass().add("widget-title");
 
-    Label subtitleLabel = new Label(target.getStock().getCompany() + " · Current price: " + ViewUtils.formatCurrency(target.getStock().getSalesPrice()));
+    Label subtitleLabel = new Label(target.getCompany() + " · Current price: "
+        + ViewUtils.formatCurrency(target.getCurrentPrice()));
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField(target.getQuantity().toPlainString());
