@@ -3,6 +3,8 @@ package edu.ntnu.idi.idatt.view.widgets;
 import edu.ntnu.idi.idatt.controllers.PortfolioController;
 import edu.ntnu.idi.idatt.controllers.TransactionPreview;
 import edu.ntnu.idi.idatt.models.Share;
+import edu.ntnu.idi.idatt.models.exceptions.InsufficientSharesException;
+import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
 import edu.ntnu.idi.idatt.view.ViewUtils;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
@@ -85,6 +87,10 @@ public class SaleWidget extends TransactionWidget<Share> {
       requestClose();
     } catch (NumberFormatException e) {
       ViewUtils.showErrorAlert("Invalid quantity", "Please enter a valid number");
+    } catch (InsufficientSharesException e) {
+      ViewUtils.showErrorAlert("Insufficient shares", e.getMessage());
+    } catch (TransactionAlreadyCommittedException e) {
+      ViewUtils.showErrorAlert("Error", e.getMessage());
     } catch (IllegalArgumentException e) {
       ViewUtils.showErrorAlert("Unable to sell", e.getMessage());
     }

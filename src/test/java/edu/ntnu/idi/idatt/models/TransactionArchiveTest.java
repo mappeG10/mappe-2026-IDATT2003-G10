@@ -120,10 +120,10 @@ public class TransactionArchiveTest {
   @Test
   void testCountDistinctWeeks() {
 
-    Purchase firstWeekFirstPurchase = new Purchase(share, 1);
-    Purchase secondWeekFirstPurchase = new Purchase(share, 2);
-    Purchase thirdWeekFirstPurchase = new Purchase(share, 3);
-    Purchase thirdWeekSecondPurchase = new Purchase(share, 3);
+    Purchase firstWeekFirstPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1);
+    Purchase secondWeekFirstPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2);
+    Purchase thirdWeekFirstPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3);
+    Purchase thirdWeekSecondPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3);
 
 
     firstWeekFirstPurchase.commit(player);
@@ -145,7 +145,7 @@ public class TransactionArchiveTest {
 
   @Test
   void testIsNotEmpty() {
-    Purchase purchase = new Purchase(share, 1);
+    Purchase purchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1);
 
     purchase.commit(player);
 
@@ -160,8 +160,8 @@ public class TransactionArchiveTest {
 
   @Test
   void testGetDistinctWeeksAsListSingleWeek() {
-    new Purchase(share, 1).commit(player);
-    new Purchase(share, 1).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1).commit(player);
 
     assertEquals(List.of(1), transactionArchive.getDistinctWeeksAsList(),
         "Should return [1] when all transactions are in week 1");
@@ -169,9 +169,9 @@ public class TransactionArchiveTest {
 
   @Test
   void testGetDistinctWeeksAsListMultipleWeeks() {
-    new Purchase(share, 1).commit(player);
-    new Purchase(share, 3).commit(player);
-    new Purchase(share, 2).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2).commit(player);
 
     assertEquals(List.of(1, 2, 3), transactionArchive.getDistinctWeeksAsList(),
         "Should return sorted list of distinct weeks");
@@ -179,9 +179,9 @@ public class TransactionArchiveTest {
 
   @Test
   void testGetDistinctWeeksAsListNoDuplicates() {
-    new Purchase(share, 2).commit(player);
-    new Purchase(share, 2).commit(player);
-    new Purchase(share, 4).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2).commit(player);
+    new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 4).commit(player);
 
     assertEquals(List.of(2, 4), transactionArchive.getDistinctWeeksAsList(),
         "Should not contain duplicate week numbers");

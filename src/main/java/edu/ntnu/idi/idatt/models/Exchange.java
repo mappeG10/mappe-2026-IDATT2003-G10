@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
 import edu.ntnu.idi.idatt.view.GameObserver;
 
 import java.math.BigDecimal;
@@ -19,18 +20,15 @@ public class Exchange implements GameSubject {
     if (!observers.contains(observer)) {
       observers.add(observer);
     }
-    //TODO: Unit test or integration test this function
   }
 
   @Override
   public void unregister(GameObserver observer) {
     observers.remove(observer);
-    //TODO: Unit test or integration test this function
   }
 
   private void notifyObservers() {
     observers.forEach(GameObserver::update);
-    //TODO: Unit test or integration test this function
   }
 
   public Exchange(String name, List<Stock> stocks) {
@@ -63,7 +61,11 @@ public class Exchange implements GameSubject {
   }
 
   public Stock getStock(String symbol) {
-    return stockMap.get(symbol);
+    Stock stock = stockMap.get(symbol);
+    if (stock == null) {
+      throw new StockNotFoundException("No stock with symbol: " + symbol);
+    }
+    return stock;
   }
 
   public List<Stock> getAllStocks() {
@@ -80,10 +82,6 @@ public class Exchange implements GameSubject {
   public Transaction buy(String symbol, BigDecimal quantity, Player player) {
     if (quantity == null || quantity.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("Quantity must be positive");
-    }
-
-    if (!hasStock(symbol)) {
-      return null; // TODO: add custom exceptions here?
     }
 
     Stock stock = getStock(symbol);
@@ -149,8 +147,6 @@ public class Exchange implements GameSubject {
         .sorted(Comparator.comparing(Stock::getLatestPriceChangePercent).reversed())
         .limit(limit)
         .toList();
-
-    // TODO: Make unit tests to make sure this works
 
   }
 

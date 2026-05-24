@@ -1,5 +1,8 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.exceptions.InsufficientFundsException;
+import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
+
 public class Purchase extends Transaction {
 
   public Purchase(Share share, int week) {
@@ -10,11 +13,13 @@ public class Purchase extends Transaction {
   public void commit(Player player) {
 
     if (isCommitted()) {
-      return; // TODO: add custom exceptions here?
+      throw new TransactionAlreadyCommittedException("Purchase has already been committed");
     }
 
     if (player.getMoney().compareTo(getCalculator().calculateTotal()) < 0) {
-      return; // TODO: add custom exceptions here?
+      throw new InsufficientFundsException(
+          "Insufficient funds. Required: " + getCalculator().calculateTotal()
+              + ", available: " + player.getMoney());
     }
 
     player.withdrawMoney(getCalculator().calculateTotal());

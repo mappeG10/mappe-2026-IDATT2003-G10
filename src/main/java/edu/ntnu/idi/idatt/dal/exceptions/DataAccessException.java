@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.dal;
+package edu.ntnu.idi.idatt.dal.exceptions;
 
 public class DataAccessException extends Exception {
   public DataAccessException(String message) {
