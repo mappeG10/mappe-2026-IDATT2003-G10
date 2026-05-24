@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

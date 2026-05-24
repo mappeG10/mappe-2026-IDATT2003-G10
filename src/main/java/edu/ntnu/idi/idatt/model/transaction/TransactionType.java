@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.models.transaction;
+package edu.ntnu.idi.idatt.model.transaction;
 
 public enum TransactionType {
   PURCHASE, SALE

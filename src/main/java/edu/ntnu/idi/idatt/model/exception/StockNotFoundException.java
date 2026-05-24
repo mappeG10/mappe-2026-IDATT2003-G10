@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.model.exceptions;
+package edu.ntnu.idi.idatt.model.exception;
 
 public class StockNotFoundException extends RuntimeException {
   public StockNotFoundException(String message) {

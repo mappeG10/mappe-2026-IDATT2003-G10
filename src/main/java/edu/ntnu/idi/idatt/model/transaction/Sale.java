@@ -1,9 +1,9 @@
-package edu.ntnu.idi.idatt.models.transaction;
+package edu.ntnu.idi.idatt.model.transaction;
 
-import edu.ntnu.idi.idatt.models.Player;
-import edu.ntnu.idi.idatt.models.Share;
-import edu.ntnu.idi.idatt.models.exceptions.InsufficientSharesException;
-import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Share;
+import edu.ntnu.idi.idatt.model.exception.InsufficientSharesException;
+import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
 
 public class Sale extends Transaction {
 

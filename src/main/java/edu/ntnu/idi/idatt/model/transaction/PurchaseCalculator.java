@@ -1,6 +1,6 @@
-package edu.ntnu.idi.idatt.models.transaction;
+package edu.ntnu.idi.idatt.model.transaction;
 
-import edu.ntnu.idi.idatt.models.Share;
+import edu.ntnu.idi.idatt.model.Share;
 
 import java.math.BigDecimal;
 

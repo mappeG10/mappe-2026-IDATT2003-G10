@@ -1,9 +1,9 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt.model;
 
-import edu.ntnu.idi.idatt.models.exceptions.StockNotFoundException;
-import edu.ntnu.idi.idatt.models.transaction.Purchase;
-import edu.ntnu.idi.idatt.models.transaction.Sale;
-import edu.ntnu.idi.idatt.models.transaction.Transaction;
+import edu.ntnu.idi.idatt.model.exception.StockNotFoundException;
+import edu.ntnu.idi.idatt.model.transaction.Purchase;
+import edu.ntnu.idi.idatt.model.transaction.Sale;
+import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.observer.GameSubject;
 
