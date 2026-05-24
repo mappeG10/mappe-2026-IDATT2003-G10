@@ -1,5 +1,8 @@
 package edu.ntnu.idi.idatt.models;
 
+import edu.ntnu.idi.idatt.models.exceptions.InsufficientSharesException;
+import edu.ntnu.idi.idatt.models.exceptions.TransactionAlreadyCommittedException;
+
 public class Sale extends Transaction {
 
   public Sale (Share share, int week) {
@@ -10,11 +13,11 @@ public class Sale extends Transaction {
   public void commit(Player player) {
 
     if (isCommitted()) {
-      return; // TODO: add custom exception here?
+      throw new TransactionAlreadyCommittedException("Sale has already been committed");
     }
 
     if (!player.getPortfolio().reduceShare(getShare(), getShare().getQuantity())) {
-      return; // TODO: add custom exceptions here?
+      throw new InsufficientSharesException("Portfolio does not contain the required shares");
     }
 
     player.addMoney(getCalculator().calculateTotal());
