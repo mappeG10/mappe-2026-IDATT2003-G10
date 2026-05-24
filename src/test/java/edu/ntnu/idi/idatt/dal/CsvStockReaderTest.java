@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.dal;
 
-import edu.ntnu.idi.idatt.dal.exceptions.DataAccessException;
-import edu.ntnu.idi.idatt.models.Stock;
+import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
+import edu.ntnu.idi.idatt.model.Stock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

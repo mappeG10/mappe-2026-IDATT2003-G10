@@ -1,0 +1,139 @@
+package edu.ntnu.idi.idatt.model;
+
+import edu.ntnu.idi.idatt.model.transaction.TransactionArchive;
+import edu.ntnu.idi.idatt.observer.GameObserver;
+import edu.ntnu.idi.idatt.observer.GameSubject;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Player implements GameSubject {
+
+  public enum Status {
+    NOVICE, INVESTOR, SPECULATOR
+  }
+
+  private final String name;
+  private final BigDecimal startingMoney;
+  private BigDecimal money;
+  private final Portfolio portfolio;
+  private final TransactionArchive transactionArchive;
+
+  private Status status;
+
+  private final List<GameObserver> observers = new ArrayList<>();
+
+  @Override
+  public void register(GameObserver observer) {
+    if (!observers.contains(observer)) {
+      observers.add(observer);
+    }
+  }
+
+  @Override
+  public void unregister(GameObserver observer) {
+    observers.remove(observer);
+  }
+
+  private void notifyObservers() {
+    observers.forEach(GameObserver::update);
+  }
+
+  public Player(String name, BigDecimal startingMoney) {
+
+    if (name == null || name.isBlank()) {
+      throw new IllegalArgumentException("Player name cannot be null or blank");
+    }
+    if (startingMoney == null || startingMoney.compareTo(BigDecimal.ZERO) < 0) {
+      throw new IllegalArgumentException("Start money cannot be negative");
+    }
+    this.name = name;
+    this.startingMoney = startingMoney;
+    this.money = startingMoney;
+    this.portfolio = new Portfolio();
+    this.transactionArchive = new TransactionArchive();
+
+    this.status = Status.NOVICE;
+  }
+
+
+
+  public String getName() {
+    return name;
+  }
+
+  public BigDecimal getMoney() {
+    return money;
+  }
+
+  public BigDecimal getStartingMoney() {
+    return startingMoney;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void addMoney(BigDecimal amount) {
+    if (amount == null  || amount.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("You cannot add negative money or zero");
+    } // TODO: migrate over to custom exceptions later
+    money = money.add(amount);
+
+  }
+
+  public void withdrawMoney(BigDecimal amount) {
+    if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("You cannot withdraw negative money or zero");
+    } // TODO: migrate over to custom exceptions later
+    money = money.subtract(amount);
+
+  }
+
+  public void updateStatus() {
+    if (startingMoney.compareTo(BigDecimal.ZERO) <= 0) return;
+
+    int weeks = this.transactionArchive.countDistinctWeeks();
+
+    BigDecimal profitPercent = money.subtract(startingMoney)
+        .divide(startingMoney, MathContext.DECIMAL128)
+        .multiply(new BigDecimal(100))
+        .setScale(2, RoundingMode.HALF_UP);
+
+    if (weeks >= 20 && profitPercent
+        .compareTo(new BigDecimal("100")) >= 0)
+      status = Status.SPECULATOR;
+
+    else if (weeks >= 10 && profitPercent
+        .compareTo(new BigDecimal("20")) >= 0)
+      status = Status.INVESTOR;
+
+    else status = Status.NOVICE;
+
+    notifyObservers();
+  }
+
+  public Portfolio getPortfolio() {
+    return portfolio;
+  }
+
+  public TransactionArchive getTransactionArchive() {
+    return transactionArchive;
+  }
+
+  public BigDecimal getNetWorth() {
+    return money.add(portfolio.getNetWorth());
+  }
+
+  public BigDecimal getTotalGainLossPercent() {
+    if (startingMoney.compareTo(BigDecimal.ZERO) == 0) {
+      return BigDecimal.ZERO;
+    }
+    return getNetWorth().subtract(startingMoney)
+        .divide(startingMoney, 4, RoundingMode.HALF_UP)
+        .multiply(new BigDecimal("100"));
+  }
+}
