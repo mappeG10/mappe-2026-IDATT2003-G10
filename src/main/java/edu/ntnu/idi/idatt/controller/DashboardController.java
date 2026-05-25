@@ -4,7 +4,6 @@ import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class DashboardController extends BaseController {
   }
 
   public BigDecimal getTotalGainLoss() {
-    return player.getNetWorth().subtract(player.getStartingMoney());
+    return player.getTotalGainLoss();
   }
 
   public BigDecimal getTotalGainLossPercent() {

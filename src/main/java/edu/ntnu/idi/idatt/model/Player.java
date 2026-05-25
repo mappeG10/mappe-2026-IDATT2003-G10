@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.model;
 import edu.ntnu.idi.idatt.model.transaction.TransactionArchive;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.observer.GameSubject;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -80,7 +79,7 @@ public class Player implements GameSubject {
   public void addMoney(BigDecimal amount) {
     if (amount == null  || amount.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("You cannot add negative money or zero");
-    } // TODO: migrate over to custom exceptions later
+    }
     money = money.add(amount);
 
   }
@@ -88,7 +87,7 @@ public class Player implements GameSubject {
   public void withdrawMoney(BigDecimal amount) {
     if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("You cannot withdraw negative money or zero");
-    } // TODO: migrate over to custom exceptions later
+    }
     money = money.subtract(amount);
 
   }
@@ -140,6 +139,10 @@ public class Player implements GameSubject {
 
   public BigDecimal getNetWorth() {
     return money.add(portfolio.getNetWorth());
+  }
+
+  public BigDecimal getTotalGainLoss() {
+    return getNetWorth().subtract(getStartingMoney());
   }
 
   public BigDecimal getTotalGainLossPercent() {

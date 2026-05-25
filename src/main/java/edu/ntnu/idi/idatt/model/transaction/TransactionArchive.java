@@ -26,22 +26,6 @@ public class TransactionArchive {
         .toList();
   }
 
-  public List<Purchase> getPurchases(int week) {
-    return transactions.stream()
-        .filter(transaction -> transaction.getWeek() == week)
-        .filter(transaction -> transaction instanceof Purchase)
-        .map(transaction -> (Purchase) transaction)
-        .toList();
-  }
-
-  public List<Sale> getSales(int week) {
-    return transactions.stream()
-        .filter(transaction -> transaction.getWeek() == week)
-        .filter(transaction -> transaction instanceof Sale)
-        .map(transaction -> (Sale) transaction)
-        .toList();
-  }
-
   public int countDistinctWeeks() {
     return (int) transactions.stream()
         .map(Transaction::getWeek)

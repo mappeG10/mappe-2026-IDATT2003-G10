@@ -3,10 +3,8 @@ package edu.ntnu.idi.idatt.model;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PortfolioTest {
@@ -163,6 +161,46 @@ class PortfolioTest {
     BigDecimal actualTotalInvested = portfolio.getTotalInvested().setScale(2, java.math.RoundingMode.HALF_UP);
     assertEquals(0, expectedTotalInvested.compareTo(actualTotalInvested),
         "Total invested should be 592.70 (492.70 original + 100.00 new)");
+  }
+
+  @Test
+  void testGetUnrealisedPnLIsZeroWhenPriceUnchanged() {
+    BigDecimal unrealisedPnL = portfolio.getUnrealisedPnL();
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(unrealisedPnL),
+        "Unrealised PnL should be zero when current price equals purchase price");
+  }
+
+  @Test
+  void testGetUnrealisedPnLPositive() {
+    stock1.addNewSalesPrice(new BigDecimal("200.00"));
+    BigDecimal expected = new BigDecimal("17.50");
+
+    BigDecimal unrealisedPnL = portfolio.getUnrealisedPnL();
+
+    assertEquals(0, expected.compareTo(unrealisedPnL),
+        "Unrealised PnL should be positive when current price exceeds purchase price");
+  }
+
+  @Test
+  void testGetUnrealisedPnLNegative() {
+    stock1.addNewSalesPrice(new BigDecimal("150.00"));
+    BigDecimal expected = new BigDecimal("-32.50");
+
+    BigDecimal unrealisedPnL = portfolio.getUnrealisedPnL();
+
+    assertEquals(0, expected.compareTo(unrealisedPnL),
+        "Unrealised PnL should be negative when current price is below purchase price");
+  }
+
+  @Test
+  void testGetUnrealisedPnLEmptyPortfolio() {
+    Portfolio emptyPortfolio = new Portfolio();
+
+    BigDecimal unrealisedPnL = emptyPortfolio.getUnrealisedPnL();
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(unrealisedPnL),
+        "Unrealised PnL should be zero for an empty portfolio");
   }
 
   @Test

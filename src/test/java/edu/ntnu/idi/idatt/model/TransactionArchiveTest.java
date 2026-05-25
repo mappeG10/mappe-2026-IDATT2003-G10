@@ -3,11 +3,9 @@ package edu.ntnu.idi.idatt.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.ntnu.idi.idatt.model.transaction.Purchase;
 import edu.ntnu.idi.idatt.model.transaction.Sale;
 import edu.ntnu.idi.idatt.model.transaction.Transaction;
@@ -92,33 +90,6 @@ public class TransactionArchiveTest {
     List<Transaction> transactions = new ArrayList<>(List.of(purchase, sale));
 
     assertEquals(transactions, player.getTransactionArchive().getTransactions(1));
-
-  }
-
-  @Test
-  void testGetPurchases() {
-    Purchase purchase = new Purchase(share, 1);
-    Sale sale = new Sale(share, 1);
-
-    purchase.commit(player);
-    sale.commit(player);
-
-    List<Transaction> purchases = new ArrayList<>(List.of(purchase));
-
-    assertEquals(purchases, player.getTransactionArchive().getPurchases(1));
-  }
-
-  @Test
-  void testGetSales() {
-    Purchase purchase = new Purchase(share, 1);
-    Sale sale = new Sale(share, 1);
-
-    purchase.commit(player);
-    sale.commit(player);
-
-    List<Transaction> sales = new ArrayList<>(List.of(sale));
-
-    assertEquals(sales, player.getTransactionArchive().getSales(1));
 
   }
 

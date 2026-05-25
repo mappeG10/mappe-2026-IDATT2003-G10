@@ -7,9 +7,11 @@ import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import edu.ntnu.idi.idatt.view.component.PurchaseWidget;
 import javafx.collections.FXCollections;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -83,6 +85,7 @@ public class MarketView extends VBox implements GameObserver {
 
   private void refreshTable(String searchTerm) {
     if (searchTerm == null || searchTerm.isBlank()) {
+      marketTable.setItems(FXCollections.observableArrayList(marketController.getAllStocks()));
       return;
     }
     marketTable.setItems(FXCollections.observableArrayList(marketController.findStocks(searchTerm)));

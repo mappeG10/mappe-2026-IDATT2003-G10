@@ -22,7 +22,6 @@ public class Share {
     this.stock = stock;
     this.quantity = quantity;
     this.purchasePrice = purchasePrice;
-    // TODO: Add purchase price as new stock price on construction?
   }
 
   public Stock getStock() {

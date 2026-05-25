@@ -102,5 +102,9 @@ public class Portfolio {
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
+  public BigDecimal getUnrealisedPnL() {
+    return getNetWorth().subtract(getTotalInvested());
+  }
+
 
 }

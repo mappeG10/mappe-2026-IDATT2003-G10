@@ -3,11 +3,9 @@ package edu.ntnu.idi.idatt.model;
 import edu.ntnu.idi.idatt.model.transaction.SaleCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SaleCalculatorTest {
@@ -73,5 +71,38 @@ class SaleCalculatorTest {
         "Gross for 5 shares at $150 should be $750");
     assertEquals(0, new BigDecimal("669.75").compareTo(partialCalculator.calculateTotal()),
         "Total for partial sale should be proportionally half of full sale");
+  }
+
+  @Test
+  void testCalculateTaxIsZeroOnLoss() {
+    Stock losingStock = new Stock("AAPL", "Apple",
+        new ArrayList<>(List.of(new BigDecimal("80.00"))));
+    SaleCalculator losingCalculator = new SaleCalculator(
+        new Share(losingStock, new BigDecimal("10"), new BigDecimal("150.00")));
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(losingCalculator.calculateTax()),
+        "Tax should be zero when selling at a loss");
+  }
+
+  @Test
+  void testCalculateTotalDoesNotBoostOnLoss() {
+    Stock losingStock = new Stock("AAPL", "Apple",
+        new ArrayList<>(List.of(new BigDecimal("80.00"))));
+    SaleCalculator losingCalculator = new SaleCalculator(
+        new Share(losingStock, new BigDecimal("10"), new BigDecimal("150.00")));
+
+    assertEquals(0, new BigDecimal("792.00").compareTo(losingCalculator.calculateTotal()),
+        "Total should be gross minus commission only when selling at a loss");
+  }
+
+  @Test
+  void testCalculateTaxIsZeroAtBreakEven() {
+    Stock breakEvenStock = new Stock("AAPL", "Apple",
+        new ArrayList<>(List.of(new BigDecimal("100.00"))));
+    SaleCalculator breakEvenCalculator = new SaleCalculator(
+        new Share(breakEvenStock, new BigDecimal("10"), new BigDecimal("100.00")));
+
+    assertEquals(0, BigDecimal.ZERO.compareTo(breakEvenCalculator.calculateTax()),
+        "Tax should be zero when selling at break-even");
   }
 }

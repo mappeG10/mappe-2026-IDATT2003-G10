@@ -2,7 +2,6 @@ package edu.ntnu.idi.idatt.model.transaction;
 
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Share;
-
 import java.math.BigDecimal;
 
 public abstract class Transaction {
