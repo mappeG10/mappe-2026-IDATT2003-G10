@@ -48,8 +48,7 @@ public class PortfolioController extends BaseController {
   }
 
   public Transaction executeSell(Share share, BigDecimal quantity) {
-    Transaction sale = exchange.sell(share, quantity, player);
-    return sale;
+    return exchange.sell(share, quantity, player);
   }
 
 
