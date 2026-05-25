@@ -6,9 +6,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class ErrorWidget extends BaseModal<String> {
+public class InfoWidget extends BaseModal<String> {
 
-  public ErrorWidget(String title, String message) {
+  public InfoWidget(String title, String message) {
     super(message);
     setupUI();
     titleLabel.setText(title);
@@ -19,14 +19,14 @@ public class ErrorWidget extends BaseModal<String> {
     getStyleClass().add("widget-root");
     setSpacing(0);
 
-    Label badgeLabel = new Label("!");
-    badgeLabel.getStyleClass().addAll("alert-icon-badge", "alert-icon-badge-error", "alert-badge-text");
+    Label badgeLabel = new Label("i");
+    badgeLabel.getStyleClass().addAll("alert-icon-badge", "alert-icon-badge-info", "alert-badge-text");
 
-    this.titleLabel = new Label("Error");
+    this.titleLabel = new Label("Info");
     this.titleLabel.getStyleClass().add("alert-title");
 
     HBox header = new HBox(12, badgeLabel, titleLabel);
-    header.getStyleClass().addAll("alert-header", "alert-header-error");
+    header.getStyleClass().addAll("alert-header", "alert-header-info");
 
     Label messageLabel = new Label(target);
     messageLabel.getStyleClass().add("alert-message");
@@ -42,7 +42,7 @@ public class ErrorWidget extends BaseModal<String> {
     cancelButton.setOnAction(e -> requestClose());
 
     this.closeButton = new Button("OK");
-    this.closeButton.getStyleClass().add("btn-alert-ok-error");
+    this.closeButton.getStyleClass().add("btn-alert-ok-info");
 
     HBox btnRow = new HBox(12, cancelButton, closeButton);
     btnRow.getStyleClass().add("alert-btn-row");
