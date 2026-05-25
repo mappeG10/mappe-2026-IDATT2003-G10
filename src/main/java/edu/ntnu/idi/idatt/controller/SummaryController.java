@@ -14,9 +14,9 @@ public class SummaryController extends BaseController {
 
   public GameSummary finishGame() {
     List<Share> shares = List.copyOf(player.getPortfolio().getShares());
-    for (Share share : shares) {
+    shares.forEach(share -> {
       exchange.sell(share, share.getQuantity(), player);
-    }
+    });
     player.updateStatus();
     return new GameSummary(
         player.getName(),
