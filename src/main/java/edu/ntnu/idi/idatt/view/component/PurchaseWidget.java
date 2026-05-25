@@ -25,7 +25,6 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     this.controller = controller;
     setupUI();
     setupTransactionListeners();
-    closeButton.setOnAction(e -> requestClose());
   }
 
   @Override

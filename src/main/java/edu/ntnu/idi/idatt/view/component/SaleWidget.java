@@ -24,7 +24,6 @@ public class SaleWidget extends TransactionWidget<Share> {
     this.controller = controller;
     setupUI();
     setupTransactionListeners();
-    closeButton.setOnAction(e -> requestClose());
     updatedPreview(target.getQuantity().toPlainString());
   }
 

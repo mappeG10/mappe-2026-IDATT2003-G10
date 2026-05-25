@@ -40,7 +40,6 @@ public class StockChartWidget extends BaseModal<Stock> {
 
     this.closeButton = new Button("Close");
     this.closeButton.getStyleClass().add("btn-cancel");
-    this.closeButton.setOnAction(e -> requestClose());
 
     setSpacing(16);
     getChildren().addAll(
