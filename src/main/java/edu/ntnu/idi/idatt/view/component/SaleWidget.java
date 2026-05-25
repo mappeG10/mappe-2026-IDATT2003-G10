@@ -2,9 +2,11 @@ package edu.ntnu.idi.idatt.view.component;
 
 import edu.ntnu.idi.idatt.controller.PortfolioController;
 import edu.ntnu.idi.idatt.controller.dto.TransactionPreview;
+import edu.ntnu.idi.idatt.controller.dto.TransactionReceipt;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.exception.InsufficientSharesException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
@@ -13,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class SaleWidget extends TransactionWidget<Share> {
   private final PortfolioController controller;
@@ -100,8 +104,10 @@ public class SaleWidget extends TransactionWidget<Share> {
   protected void handleAction() {
     try {
       BigDecimal quantity = new BigDecimal(quantityField.getText());
-      controller.executeSell(target, quantity);
+      Transaction transaction = controller.executeSell(target, quantity);
+      Window owner = ((Stage) getScene().getWindow()).getOwner();
       requestClose();
+      new ReceiptWidget(TransactionReceipt.from(transaction)).openDialog(owner);
     } catch (NumberFormatException e) {
       ViewUtility.showErrorAlert("Invalid quantity", "Please enter a valid number");
     } catch (InsufficientSharesException e) {
