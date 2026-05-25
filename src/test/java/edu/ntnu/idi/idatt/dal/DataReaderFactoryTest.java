@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.dal;
 
+import edu.ntnu.idi.idatt.dal.dto.GameStateDto;
 import edu.ntnu.idi.idatt.model.Stock;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -39,6 +40,22 @@ class DataReaderFactoryTest {
   void testGetStockReaderThrowsExceptionForUnsupportedFormat() {
     assertThrows(IllegalArgumentException.class, () -> {
       DataReaderFactory.getStockReader("data.xml");
+    }, "Should throw IllegalArgumentException for unsupported formats like .xml");
+  }
+
+  @Test
+  void testGetGameReaderReturnsJsonReaderForMillionsFile() {
+    DataReader<GameStateDto> reader = DataReaderFactory.getGameReader("save.millions");
+
+    assertNotNull(reader, "Reader should not be null");
+    assertInstanceOf(JsonGameReader.class, reader,
+        "Should return an instance of JsonGameReader for .millions files");
+  }
+
+  @Test
+  void testGetGameReaderThrowsExceptionForUnsupportedFormat() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      DataReaderFactory.getGameReader("data.xml");
     }, "Should throw IllegalArgumentException for unsupported formats like .xml");
   }
 
