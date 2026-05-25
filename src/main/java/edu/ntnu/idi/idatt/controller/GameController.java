@@ -14,6 +14,7 @@ public class GameController extends BaseController{
   private final MarketController marketController;
   private final TransactionHistoryController transactionHistoryController;
   private final PortfolioController portfolioController;
+  private final SummaryController summaryController;
 
   public GameController(Exchange exchange, Player player) {
     super(exchange, player);
@@ -21,7 +22,7 @@ public class GameController extends BaseController{
     this.marketController =  new MarketController(exchange, player);
     this.transactionHistoryController = new TransactionHistoryController(exchange, player);
     this.portfolioController = new PortfolioController(exchange, player);
-
+    this.summaryController = new SummaryController(exchange, player);
   }
 
   public void save(String path) throws DataAccessException {
@@ -44,6 +45,10 @@ public class GameController extends BaseController{
 
   public PortfolioController getPortfolioController() {
     return portfolioController;
+  }
+
+  public SummaryController getSummaryController() {
+    return summaryController;
   }
 
   public int getCurrentWeek() {
