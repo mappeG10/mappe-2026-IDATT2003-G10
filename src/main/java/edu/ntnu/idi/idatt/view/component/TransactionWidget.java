@@ -12,10 +12,9 @@ public abstract class TransactionWidget<T> extends BaseModal<T> {
 
   protected TransactionWidget(T target) {
     super(target);
-    setupTransactionListeners();
   }
 
-  private void setupTransactionListeners() {
+  protected void setupTransactionListeners() {
     if (quantityField != null) {
       quantityField.textProperty()
           .addListener((_, _, newValue) -> updatedPreview(newValue));
