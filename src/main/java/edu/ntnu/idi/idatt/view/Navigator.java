@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controller.GameController;
+import edu.ntnu.idi.idatt.controller.dto.GameSetup;
 import edu.ntnu.idi.idatt.controller.init.GameFactory;
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
@@ -25,23 +26,34 @@ public class Navigator {
   }
 
   public void toStart(){
-    StartView startView = new StartView(gameSetup -> {
-      try {
-        GameController gc = GameFactory.createController(gameSetup);
-        this.toGame(gc);
-      } catch (DataAccessException | IOException e){
-        ViewUtility.showErrorAlert("Data Error",
-            "Could not load Stocks: " + e.getMessage());
-      } catch (Exception e) {
-        ViewUtility.showErrorAlert("Error",
-            "An unexpected error occurred: " + e.getMessage());
-      }
-    });
+    StartView startView = new StartView(
+        this::handleOnStartRequested,
+        this::handleOnLoadRequested);
 
     Scene scene = new Scene(startView, WIDTH, HEIGHT);
     applyStylesheet(scene);
     stage.setScene(scene);
     stage.setFullScreen(true);
+  }
+
+  private void handleInitRequested(String errorTitle, String errorPrefix, GameControllerSupplier supplier) {
+    try {
+      this.toGame(supplier.get());
+    } catch (DataAccessException | IOException e){
+      ViewUtility.showErrorAlert(errorTitle,
+          errorPrefix + ": " + e.getMessage());
+    } catch (Exception e){
+      ViewUtility.showErrorAlert(errorTitle,
+          "Unexpected error: " + e.getMessage());
+    }
+  }
+  private void handleOnStartRequested(GameSetup gameSetup) {
+    handleInitRequested("Start Error", "Could not start game",
+        () -> GameFactory.createController(gameSetup));
+  }
+  private void handleOnLoadRequested(String path) {
+    handleInitRequested("Load Error", "Could not load save file",
+        () -> GameFactory.createControllerFromSave(path));
   }
 
   public void toGame(GameController gc) {
@@ -66,10 +78,15 @@ public class Navigator {
       case PORTFOLIO ->  new PortfolioView(gameController.getPortfolioController());
       case HISTORY ->  new TransactionHistoryView(gameController.getTransactionHistoryController());
       case DASHBOARD -> new DashboardView(gameController.getDashboardController());
-      case SETTINGS -> new SettingsView();
+      case SETTINGS -> new SettingsView(gameController);
     };
 
     mainView.setContent(content);
+  }
+
+  @FunctionalInterface
+  private interface GameControllerSupplier {
+    GameController get() throws Exception;
   }
 
 }

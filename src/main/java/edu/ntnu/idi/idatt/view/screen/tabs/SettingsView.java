@@ -1,16 +1,25 @@
 package edu.ntnu.idi.idatt.view.screen.tabs;
 
+import edu.ntnu.idi.idatt.controller.GameController;
+import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
+import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
+import java.io.File;
+import java.io.IOException;
+
 public class SettingsView extends VBox {
+  private final GameController controller;
 
-
-  public SettingsView() {
+  public SettingsView(GameController controller) {
+    this.controller = controller;
     getStyleClass().add("content-view");
 
     Label titleLabel = new Label("Settings");
@@ -78,8 +87,30 @@ public class SettingsView extends VBox {
   }
 
   private void handleSaveGame() {
+    String formattedSavePlayerName =
+        controller.getPlayerName().toLowerCase()
+            .replaceAll("\\s+", "_")
+            .replaceAll("[^a-z0-9\\-_]", "");
 
-    System.out.println("Save progression hook triggered");
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Save game");
+    fileChooser.setInitialFileName(formattedSavePlayerName);
+    fileChooser.getExtensionFilters().add(
+        new FileChooser.ExtensionFilter("Millions Save File", "*.millions")
+    );
+    File file = fileChooser.showSaveDialog(getScene().getWindow());
+    if (file != null) {
+      try {
+        controller.save(file.getAbsolutePath());
+      } catch (DataAccessException e){
+        ViewUtility.showErrorAlert("Save Error",
+            "Could not save game: " + e.getMessage());
+      } catch (Exception e) {
+        ViewUtility.showErrorAlert("Save Error",
+            "An unecpected error occurred saving: "
+                + e.getMessage());
+      }
+    }
   }
 
   private void handleFinishGame() {
