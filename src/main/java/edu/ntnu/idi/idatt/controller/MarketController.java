@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.controller;
 
 import edu.ntnu.idi.idatt.controller.dto.TransactionPreview;
+import edu.ntnu.idi.idatt.controller.dto.TransactionReceipt;
 import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Share;
@@ -42,8 +43,8 @@ public class MarketController extends BaseController {
     return new TransactionPreview(previewCalculator.calculateGross(), previewCalculator.calculateCommission(), previewCalculator.calculateTax(), previewCalculator.calculateTotal());
   }
 
-  public Transaction executeBuy(String symbol, BigDecimal quantity) {
-    return exchange.buy(symbol, quantity, player);
+  public TransactionReceipt executeBuy(String symbol, BigDecimal quantity) {
+    return TransactionReceipt.from(exchange.buy(symbol, quantity, player));
   }
 
 

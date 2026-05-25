@@ -7,7 +7,6 @@ import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.model.exception.InsufficientFundsException;
 import edu.ntnu.idi.idatt.model.exception.StockNotFoundException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
-import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
@@ -105,10 +104,10 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
   protected void handleAction() {
     try {
       BigDecimal quantity = new BigDecimal(quantityField.getText());
-      Transaction transaction = controller.executeBuy(this.target.getSymbol(), quantity);
+      TransactionReceipt receipt = controller.executeBuy(this.target.getSymbol(), quantity);
       Window owner = ((Stage) getScene().getWindow()).getOwner();
       requestClose();
-      new ReceiptWidget(TransactionReceipt.from(transaction)).openDialog(owner);
+      new ReceiptWidget(receipt).openDialog(owner);
     } catch (NumberFormatException e) {
       ViewUtility.showErrorAlert("Invalid quantity", "Please enter a valid number");
     } catch (InsufficientFundsException e) {
