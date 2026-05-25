@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.controller.DashboardController;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;
+import edu.ntnu.idi.idatt.view.component.StockChartWidget;
 import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
@@ -112,6 +113,7 @@ public class DashboardView extends VBox implements GameObserver {
         "Gain/Loss", s -> ViewUtility.formatPriceChange(s.getGainLoss()));
 
     portfolioTable.getColumns().addAll(quantityCol, currentCol, gainLossLCol);
+    portfolioTable.setRowFactory(ViewUtility.doubleClickRowFactory(StockChartWidget::open));
     ViewUtility.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
   }

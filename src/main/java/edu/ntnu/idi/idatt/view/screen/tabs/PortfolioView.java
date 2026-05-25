@@ -3,8 +3,9 @@ package edu.ntnu.idi.idatt.view.screen.tabs;
 import edu.ntnu.idi.idatt.controller.PortfolioController;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.observer.GameObserver;
-import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.component.SaleWidget;
+import edu.ntnu.idi.idatt.view.component.StockChartWidget;
+import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -75,6 +77,7 @@ public class PortfolioView extends VBox implements GameObserver {
     });
 
     portfolioTable.getColumns().addAll(quantityCol, currentCol, gainLossCol, gainLossPercentCol, sellButtonCol);
+    portfolioTable.setRowFactory(ViewUtility.doubleClickRowFactory(StockChartWidget::open));
     ViewUtility.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
   }
@@ -114,6 +117,7 @@ public class PortfolioView extends VBox implements GameObserver {
   private Button buildSellButton(TableCell<Share, String> cell) {
     Button button = new Button("Sell");
     button.getStyleClass().add("btn-sell");
+    button.addEventFilter(MouseEvent.MOUSE_CLICKED, MouseEvent::consume);
     button.setOnAction(event -> {
       if (cell.getTableRow() != null) {
         Share share = cell.getTableRow().getItem();
