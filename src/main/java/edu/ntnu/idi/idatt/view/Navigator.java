@@ -37,9 +37,14 @@ public class Navigator {
     stage.setFullScreen(true);
   }
 
-  private void handleInitRequested(String errorTitle, String errorPrefix, GameControllerSupplier supplier) {
+  private void handleInitRequested(String errorTitle, String errorPrefix,
+      String successTitle, String successMessage, GameControllerSupplier supplier) {
     try {
-      this.toGame(supplier.get());
+      GameController gc = supplier.get();
+      if (successTitle != null) {
+        ViewUtility.showSuccessAlert(successTitle, successMessage);
+      }
+      this.toGame(gc);
     } catch (DataAccessException | IOException e){
       ViewUtility.showErrorAlert(errorTitle,
           errorPrefix + ": " + e.getMessage());
@@ -49,11 +54,12 @@ public class Navigator {
     }
   }
   private void handleOnStartRequested(GameSetup gameSetup) {
-    handleInitRequested("Start Error", "Could not start game",
+    handleInitRequested("Start Error", "Could not start game", null, null,
         () -> GameFactory.createController(gameSetup));
   }
   private void handleOnLoadRequested(String path) {
     handleInitRequested("Load Error", "Could not load save file",
+        "Game Loaded", "Your save file was loaded successfully.",
         () -> GameFactory.createControllerFromSave(path));
   }
 

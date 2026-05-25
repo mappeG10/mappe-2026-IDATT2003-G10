@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.view.util;
 
 import edu.ntnu.idi.idatt.view.component.ErrorWidget;
+import edu.ntnu.idi.idatt.view.component.InfoWidget;
 import java.math.BigDecimal;
 import java.util.function.BiConsumer;
 import javafx.scene.control.Labeled;
@@ -74,5 +75,13 @@ public class ViewUtility {
         .reduce((a, b) -> b)
         .orElse(null);
     new ErrorWidget(title, message).openDialog(owner);
+  }
+
+  public static void showSuccessAlert(String title, String message) {
+    Window owner = Window.getWindows().stream()
+        .filter(Window::isShowing)
+        .reduce((a, b) -> b)
+        .orElse(null);
+    new InfoWidget(title, message).openDialog(owner);
   }
 }
