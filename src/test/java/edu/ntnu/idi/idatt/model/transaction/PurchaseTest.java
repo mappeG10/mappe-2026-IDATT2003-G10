@@ -1,10 +1,11 @@
-package edu.ntnu.idi.idatt.model;
+package edu.ntnu.idi.idatt.model.transaction;
 
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Share;
+import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.model.exception.InsufficientFundsException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
 import java.util.List;
-import edu.ntnu.idi.idatt.model.transaction.Purchase;
-import edu.ntnu.idi.idatt.model.transaction.TransactionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;

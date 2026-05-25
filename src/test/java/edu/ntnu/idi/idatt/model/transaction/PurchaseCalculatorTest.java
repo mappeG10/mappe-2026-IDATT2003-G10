@@ -1,6 +1,7 @@
-package edu.ntnu.idi.idatt.model;
+package edu.ntnu.idi.idatt.model.transaction;
 
-import edu.ntnu.idi.idatt.model.transaction.PurchaseCalculator;
+import edu.ntnu.idi.idatt.model.Share;
+import edu.ntnu.idi.idatt.model.Stock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
