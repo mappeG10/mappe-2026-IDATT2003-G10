@@ -14,7 +14,7 @@ public class ViewUtility {
   private ViewUtility() {}
 
   public static String formatCurrency(BigDecimal amount) {
-    return String.format("$%.2f", amount);
+    return String.format("$%,.2f", amount);
   }
 
   public static String formatPercentage(BigDecimal value) {
@@ -24,7 +24,7 @@ public class ViewUtility {
 
   public static String formatPriceChange(BigDecimal change) {
     String sign = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
-    return String.format("%s$%.2f", sign, change);
+    return String.format("%s$%,.2f", sign, change);
   }
 
   public static String formatBigDecimalToString(BigDecimal amount) {
