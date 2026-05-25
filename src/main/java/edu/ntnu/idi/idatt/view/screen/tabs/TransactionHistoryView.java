@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.view.screen.tabs;
 import edu.ntnu.idi.idatt.controller.TransactionHistoryController;
 import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.observer.GameObserver;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.util.ArrayList;
@@ -96,19 +97,19 @@ public class TransactionHistoryView extends VBox implements GameObserver {
         "Qty",
         TransactionRow::isHeader,
         row -> "",
-        row -> ViewUtility.formatBigDecimalToString(row.getTransaction().getQuantity()));
+        row -> FormatUtil.formatBigDecimalToString(row.getTransaction().getQuantity()));
 
     TableColumn<TransactionRow, String> priceCol = TableColumnFactory.createHeaderAwareColumn(
         "Price",
         TransactionRow::isHeader,
         row -> "",
-        row -> ViewUtility.formatCurrency(row.getTransaction().getPurchasePrice()));
+        row -> FormatUtil.formatCurrency(row.getTransaction().getPurchasePrice()));
 
     TableColumn<TransactionRow, String> commissionCol = TableColumnFactory.createHeaderAwareColumn(
         "Commission",
         TransactionRow::isHeader,
         row -> "",
-        row -> ViewUtility.formatCurrency(row.getTransaction().getCommission()));
+        row -> FormatUtil.formatCurrency(row.getTransaction().getCommission()));
 
     TableColumn<TransactionRow, String> taxCol = TableColumnFactory.createHeaderAwareColumn(
         "Tax",
@@ -116,14 +117,14 @@ public class TransactionHistoryView extends VBox implements GameObserver {
         row -> "",
         row -> switch (row.getTransaction().getTransactionType()) {
           case PURCHASE -> "-";
-          case SALE -> ViewUtility.formatCurrency(row.getTransaction().getTax());
+          case SALE -> FormatUtil.formatCurrency(row.getTransaction().getTax());
         });
 
     TableColumn<TransactionRow, String> netTotalCol = TableColumnFactory.createHeaderAwareColumn(
         "Net Total",
         TransactionRow::isHeader,
         row -> "",
-        row -> ViewUtility.formatCurrency(row.getTransaction().getTotalCost()));
+        row -> FormatUtil.formatCurrency(row.getTransaction().getTotalCost()));
 
     TableView<TransactionRow> table = new TableView<>();
     table.getColumns().addAll(weekCol, typeCol, symbolCol, companyCol, quantityCol, priceCol, commissionCol, taxCol, netTotalCol);

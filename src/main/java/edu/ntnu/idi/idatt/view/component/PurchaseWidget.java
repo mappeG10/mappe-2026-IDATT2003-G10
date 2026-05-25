@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.model.exception.InsufficientFundsException;
 import edu.ntnu.idi.idatt.model.exception.StockNotFoundException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
@@ -24,7 +25,6 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     this.controller = controller;
     setupUI();
     setupTransactionListeners();
-    closeButton.setOnAction(e -> requestClose());
   }
 
   @Override
@@ -34,7 +34,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     this.titleLabel = new Label("Buy: " + target.getSymbol());
     this.titleLabel.getStyleClass().add("widget-title");
 
-    Label subtitleLabel = new Label(target.getCompany() + " · Current price: " + ViewUtility.formatCurrency(target.getSalesPrice()));
+    Label subtitleLabel = new Label(target.getCompany() + " · Current price: " + FormatUtil.formatCurrency(target.getSalesPrice()));
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField();
@@ -87,9 +87,9 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
       BigDecimal quantity = new BigDecimal(quantityStr);
       TransactionPreview preview = controller.previewBuy(target.getSymbol(), quantity);
 
-      grossValueLabel.setText(ViewUtility.formatCurrency(preview.gross()));
-      commissionValueLabel.setText(ViewUtility.formatCurrency(preview.commission()));
-      totalLabel.setText(ViewUtility.formatCurrency(preview.total()));
+      grossValueLabel.setText(FormatUtil.formatCurrency(preview.gross()));
+      commissionValueLabel.setText(FormatUtil.formatCurrency(preview.commission()));
+      totalLabel.setText(FormatUtil.formatCurrency(preview.total()));
     } catch (IllegalArgumentException ignoredException) {
       grossValueLabel.setText("$0.00");
       commissionValueLabel.setText("$0.00");

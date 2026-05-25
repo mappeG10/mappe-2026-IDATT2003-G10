@@ -2,9 +2,13 @@ package edu.ntnu.idi.idatt.view.util;
 
 import edu.ntnu.idi.idatt.view.component.ErrorWidget;
 import java.math.BigDecimal;
+import java.util.function.BiConsumer;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
@@ -12,24 +16,6 @@ import javafx.util.Callback;
 
 public class ViewUtility {
   private ViewUtility() {}
-
-  public static String formatCurrency(BigDecimal amount) {
-    return String.format("$%,.2f", amount);
-  }
-
-  public static String formatPercentage(BigDecimal value) {
-    String sign = value.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
-    return String.format("%s%.2f", sign, value) + "%";
-  }
-
-  public static String formatPriceChange(BigDecimal change) {
-    String sign = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
-    return String.format("%s$%,.2f", sign, change);
-  }
-
-  public static String formatBigDecimalToString(BigDecimal amount) {
-    return amount.stripTrailingZeros().toPlainString();
-  }
 
   public static void applySignStyleClass(Labeled node, BigDecimal value) {
     node.getStyleClass().removeAll("text-positive", "text-negative");
@@ -65,6 +51,21 @@ public class ViewUtility {
     node.widthProperty().addListener((obs, old, w) -> clip.setWidth(w.doubleValue()));
     node.heightProperty().addListener((obs, old, h) -> clip.setHeight(h.doubleValue()));
     node.setClip(clip);
+  }
+
+  public static <T> Callback<TableView<T>, TableRow<T>> doubleClickRowFactory(
+      BiConsumer<T, Window> onDoubleClick) {
+    return tv -> {
+      TableRow<T> row = new TableRow<>();
+      row.setOnMouseClicked(event -> {
+        if (!row.isEmpty()
+            && event.getButton() == MouseButton.PRIMARY
+            && event.getClickCount() == 2) {
+          onDoubleClick.accept(row.getItem(), row.getScene().getWindow());
+        }
+      });
+      return row;
+    };
   }
 
   public static void showErrorAlert(String title, String message) {

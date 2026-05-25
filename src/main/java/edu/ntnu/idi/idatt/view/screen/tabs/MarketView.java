@@ -3,9 +3,11 @@ package edu.ntnu.idi.idatt.view.screen.tabs;
 import edu.ntnu.idi.idatt.controller.MarketController;
 import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;
+import edu.ntnu.idi.idatt.view.component.PurchaseWidget;
+import edu.ntnu.idi.idatt.view.component.StockChartWidget;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
-import edu.ntnu.idi.idatt.view.component.PurchaseWidget;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +15,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Window;
@@ -43,9 +46,9 @@ public class MarketView extends VBox implements GameObserver {
 
     TableColumn<Stock, String> priceCol = TableColumnFactory.createPriceColumn("Price", Stock::getSalesPrice);
     TableColumn<Stock, String> changeCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change", s -> ViewUtility.formatPriceChange(s.getLatestPriceChange()));
+        "Change", s -> FormatUtil.formatPriceChange(s.getLatestPriceChange()));
     TableColumn<Stock, String> changePercentCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change %", s -> ViewUtility.formatPercentage(s.getLatestPriceChangePercent()));
+        "Change %", s -> FormatUtil.formatPercentage(s.getLatestPriceChangePercent()));
 
     TableColumn<Stock, String> buyButtonCol = new TableColumn<>("Action");
     buyButtonCol.setCellFactory(param -> new TableCell<>() {
@@ -54,15 +57,13 @@ public class MarketView extends VBox implements GameObserver {
       @Override
       protected void updateItem(String s, boolean b) {
         super.updateItem(s, b);
-        if (b || getTableRow().getItem() == null) {
-          setGraphic(null);
-        } else {
-          setGraphic(button);
-        }
+        setGraphic((b || getTableRow().getItem() == null) ? null : button);
       }
     });
 
     marketTable.getColumns().addAll(priceCol, changeCol, changePercentCol, buyButtonCol);
+    marketTable.setRowFactory(ViewUtility.doubleClickRowFactory(StockChartWidget::open));
+
     ViewUtility.applyRoundedClip(marketTable, 12);
     return marketTable;
   }
@@ -93,11 +94,11 @@ public class MarketView extends VBox implements GameObserver {
 
   private Button buildBuyButton(TableCell<Stock, String> cell) {
     Button button = new Button("Buy");
+    button.addEventFilter(MouseEvent.MOUSE_CLICKED, MouseEvent::consume);
 
     button.setOnAction(event -> {
       if (cell.getTableRow() != null) {
-        Stock selectedStock = cell.getTableRow().getItem();
-        handlePurchase(selectedStock, cell.getScene().getWindow());
+        handlePurchase(cell.getTableRow().getItem(), cell.getScene().getWindow());
       }
     });
 

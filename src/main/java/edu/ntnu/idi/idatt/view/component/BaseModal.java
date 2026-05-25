@@ -20,9 +20,6 @@ public abstract class BaseModal<T> extends VBox {
 
   protected BaseModal(T target) {
     this.target = target;
-    if (closeButton != null) {
-      closeButton.setOnAction(e -> requestClose());
-    }
   }
 
   public void openDialog(Window owner) {
@@ -37,6 +34,9 @@ public abstract class BaseModal<T> extends VBox {
     stage.setScene(scene);
 
     setOnCloseRequested(stage::close);
+    if (closeButton != null) {
+      closeButton.setOnAction(e -> requestClose());
+    }
     stage.show();
 
     if (owner != null) {

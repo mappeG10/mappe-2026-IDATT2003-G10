@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.GameTab;
 import edu.ntnu.idi.idatt.view.component.FinishGameWidget;
-import edu.ntnu.idi.idatt.view.util.ViewUtility;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -131,7 +131,7 @@ public class MainView extends BorderPane implements GameObserver {
   @Override
   public void update() {
     weekLabel.setText("Week " + gameController.getCurrentWeek());
-    balanceLabel.setText(ViewUtility.formatCurrency(gameController.getPlayerMoney()));
+    balanceLabel.setText(FormatUtil.formatCurrency(gameController.getPlayerMoney()));
     playerNameLabel.setText(gameController.getPlayerName());
     applyStatusStyle(gameController.getPlayerStatus());
   }

@@ -4,6 +4,8 @@ import edu.ntnu.idi.idatt.controller.DashboardController;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;
+import edu.ntnu.idi.idatt.view.component.StockChartWidget;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
@@ -63,7 +65,7 @@ public class DashboardView extends VBox implements GameObserver {
     Label firstCardTitle = new Label("Net Worth");
     firstCardTitle.getStyleClass().add("stat-card-title");
     netWorthLabel.getStyleClass().add("stat-card-value");
-    Label firstCardSubLabel = new Label("Start: " + ViewUtility.formatCurrency(dashboardController.getStartingCapital()));
+    Label firstCardSubLabel = new Label("Start: " + FormatUtil.formatCurrency(dashboardController.getStartingCapital()));
     firstCardSubLabel.getStyleClass().add("stat-card-sub");
     firstCard.getChildren().addAll(firstCardTitle, netWorthLabel, firstCardSubLabel);
 
@@ -106,12 +108,13 @@ public class DashboardView extends VBox implements GameObserver {
     TableColumnFactory.addSymbolAndCompanyColToTable(portfolioTable, Share::getSymbol, Share::getCompany);
 
     TableColumn<Share, String> quantityCol = TableColumnFactory.<Share>createTextColumn(
-        "Quantity", s -> ViewUtility.formatBigDecimalToString(s.getQuantity()));
+        "Quantity", s -> FormatUtil.formatBigDecimalToString(s.getQuantity()));
     TableColumn<Share, String> currentCol = TableColumnFactory.createPriceColumn("Current", Share::getCurrentValue);
     TableColumn<Share, String> gainLossLCol = TableColumnFactory.<Share>createColoredChangeColumn(
-        "Gain/Loss", s -> ViewUtility.formatPriceChange(s.getGainLoss()));
+        "Gain/Loss", s -> FormatUtil.formatPriceChange(s.getGainLoss()));
 
     portfolioTable.getColumns().addAll(quantityCol, currentCol, gainLossLCol);
+    portfolioTable.setRowFactory(ViewUtility.doubleClickRowFactory(StockChartWidget::open));
     ViewUtility.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
   }
@@ -147,7 +150,7 @@ public class DashboardView extends VBox implements GameObserver {
     TableColumn<Stock, String> symbolCol = TableColumnFactory.<Stock>createTextColumn(
         "Stock", s -> s.getSymbol() + " " + s.getCompany());
     TableColumn<Stock, String> percentCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change", s -> ViewUtility.formatPercentage(s.getLatestPriceChangePercent()));
+        "Change", s -> FormatUtil.formatPercentage(s.getLatestPriceChangePercent()));
 
     TableView<Stock> gainersTable = new TableView<>();
     gainersTable.getColumns().addAll(symbolCol, percentCol);
@@ -177,7 +180,7 @@ public class DashboardView extends VBox implements GameObserver {
       stockTitle.getStyleClass().add("stat-card-title");
 
       BigDecimal change = stock.getLatestPriceChangePercent();
-      Label priceChange = new Label(ViewUtility.formatPercentage(change));
+      Label priceChange = new Label(FormatUtil.formatPercentage(change));
       priceChange.getStyleClass().add("stat-card-value");
       ViewUtility.applySignStyleClass(priceChange, change);
 
@@ -191,16 +194,16 @@ public class DashboardView extends VBox implements GameObserver {
   @Override
   public void update() {
     portfolioTable.setItems(FXCollections.observableArrayList(dashboardController.getAllSharesFromPortfolio()));
-    netWorthLabel.setText(ViewUtility.formatCurrency(dashboardController.getNetWorth()));
-    cashBalanceLabel.setText(ViewUtility.formatCurrency(dashboardController.getPlayerMoney()));
-    portfolioValueLabel.setText(ViewUtility.formatCurrency(dashboardController.getPortfolioValue()));
+    netWorthLabel.setText(FormatUtil.formatCurrency(dashboardController.getNetWorth()));
+    cashBalanceLabel.setText(FormatUtil.formatCurrency(dashboardController.getPlayerMoney()));
+    portfolioValueLabel.setText(FormatUtil.formatCurrency(dashboardController.getPortfolioValue()));
 
     BigDecimal gainLoss = dashboardController.getTotalGainLoss();
-    totalGainLossLabel.setText(ViewUtility.formatPriceChange(gainLoss));
+    totalGainLossLabel.setText(FormatUtil.formatPriceChange(gainLoss));
     ViewUtility.applySignStyleClass(totalGainLossLabel, gainLoss);
 
     BigDecimal gainLossPercent = dashboardController.getTotalGainLossPercent();
-    fourthCardSubLabel.setText(ViewUtility.formatPercentage(gainLossPercent) + " all time");
+    fourthCardSubLabel.setText(FormatUtil.formatPercentage(gainLossPercent) + " all time");
     ViewUtility.applySignStyleClass(fourthCardSubLabel, gainLossPercent);
 
     List<Stock> gainers = dashboardController.getGainers(TOP_GAINERS_LIMIT);
