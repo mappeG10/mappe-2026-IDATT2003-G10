@@ -79,6 +79,17 @@
     -fx-alignment: center;
 }
 
+/* ── 3a. Summary Screen ───────────────────────────────────────── */
+.summary-card {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 16;
+    -fx-padding: 40;
+    -fx-spacing: 24;
+    -fx-pref-width: 700;
+    -fx-max-width: 700;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 24, 0, 0, 4);
+}
+
 .start-card {
     -fx-background-color: bg-surface;
     -fx-background-radius: 12;
@@ -282,6 +293,20 @@
 
 .sidebar-btn.active:hover {
     -fx-background-color: white;
+}
+
+.sidebar-btn-secondary {
+    -fx-background-color: white;
+    -fx-text-fill: primary-dark;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+}
+.sidebar-btn-secondary:hover {
+    -fx-background-color: derive(white, -6%);
+}
+.sidebar-btn-secondary:pressed {
+    -fx-background-color: derive(white, -12%);
 }
 
 /* ── 5. Content Views ─────────────────────────────────────────── */

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.GameTab;
+import edu.ntnu.idi.idatt.view.component.FinishGameWidget;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,7 +31,7 @@ public class MainView extends BorderPane implements GameObserver {
   private final List<Button> sidebarBtns = new ArrayList<>();
   private Button activeBtn;
 
-  public MainView(GameController gameController, Consumer<GameTab> onTabSelected) {
+  public MainView(GameController gameController, Consumer<GameTab> onTabSelected, Runnable onFinish) {
     this.gameController = gameController;
 
     this.weekLabel = new Label();
@@ -40,7 +41,7 @@ public class MainView extends BorderPane implements GameObserver {
 
     getStyleClass().add("main-view");
     setTop(buildNavbar());
-    setLeft(buildSidebar(onTabSelected));
+    setLeft(buildSidebar(onTabSelected, onFinish));
     gameController.registerObserver(this);
     update();
   }
@@ -53,7 +54,7 @@ public class MainView extends BorderPane implements GameObserver {
     setCenter(content);
   }
 
-  private VBox buildSidebar(Consumer<GameTab> onTabSelected) {
+  private VBox buildSidebar(Consumer<GameTab> onTabSelected, Runnable onFinish) {
     Button dashboardBtn = new Button("Dashboard");
     Button marketBtn    = new Button("Market");
     Button portfolioBtn = new Button("Portfolio");
@@ -71,12 +72,16 @@ public class MainView extends BorderPane implements GameObserver {
 
     activateSidebarBtn(marketBtn);
 
+    Button finishBtn = new Button("Finish Game");
+    finishBtn.getStyleClass().addAll("sidebar-btn", "sidebar-btn-secondary");
+    finishBtn.setOnAction(e -> new FinishGameWidget(onFinish).openDialog(getScene().getWindow()));
+
     Region spacer = new Region();
     VBox.setVgrow(spacer, Priority.ALWAYS);
 
     VBox sidebar = new VBox();
     sidebar.getStyleClass().add("sidebar");
-    sidebar.getChildren().addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, settingsBtn);
+    sidebar.getChildren().addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, settingsBtn, finishBtn);
     return sidebar;
   }
 

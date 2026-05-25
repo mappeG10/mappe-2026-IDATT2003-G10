@@ -38,17 +38,9 @@ public class SettingsView extends VBox {
         this::handleSaveGame
     );
 
-    VBox finishGameCard = createSettingCard(
-        "Finish Game",
-        "Sell all shares and end the session",
-        "Finish",
-        this::handleFinishGame
-    );
-
     HBox.setHgrow(fullscreenCard, Priority.ALWAYS);
     HBox.setHgrow(saveGameCard,   Priority.ALWAYS);
-    HBox.setHgrow(finishGameCard, Priority.ALWAYS);
-    cardsContainer.getChildren().addAll(fullscreenCard, saveGameCard, finishGameCard);
+    cardsContainer.getChildren().addAll(fullscreenCard, saveGameCard);
 
 
     this.getChildren().addAll(headerContainer, cardsContainer);
@@ -78,13 +70,6 @@ public class SettingsView extends VBox {
   }
 
   private void handleSaveGame() {
-
     System.out.println("Save progression hook triggered");
-  }
-
-  private void handleFinishGame() {
-
-    System.out.println("Finish session hook triggered");
-
   }
 }
