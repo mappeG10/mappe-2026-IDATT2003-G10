@@ -24,17 +24,27 @@ public class Navigator {
   }
 
   public void toStart(){
-    StartView startView = new StartView(gameSetup -> {
-      try {
-        GameController gc = GameFactory.createController(gameSetup);
-        this.toGame(gc);
-      } catch (DataAccessException | IOException e){
-        ViewUtility.showErrorAlert("Data Error",
-            "Could not load Stocks: " + e.getMessage());
-      } catch (Exception e) {
-        ViewUtility.showErrorAlert("Error",
-            "An unexpected error occurred: " + e.getMessage());
-      }
+    StartView startView = new StartView(
+        gameSetup -> {
+          try {
+            this.toGame(GameFactory.createController(gameSetup));
+          } catch (DataAccessException | IOException e){
+            ViewUtility.showErrorAlert("Start Error",
+                "Could not start game: " + e.getMessage());
+          } catch (Exception e){
+            ViewUtility.showErrorAlert("Start Error",
+                "Unexpected error on start game: " + e.getMessage());
+          }
+        }, loadPath -> {
+          try {
+            this.toGame(GameFactory.createControllerFromSave(loadPath));
+          } catch (DataAccessException | IOException e){
+            ViewUtility.showErrorAlert("Load Error",
+                "Could not load save file: " + e.getMessage());
+          } catch (Exception e){
+            ViewUtility.showErrorAlert("Start error",
+                "Unexpected error on load save file: " + e.getMessage());
+          }
     });
 
     Scene scene = new Scene(startView, WIDTH, HEIGHT);
@@ -65,7 +75,7 @@ public class Navigator {
       case PORTFOLIO ->  new PortfolioView(gameController.getPortfolioController());
       case HISTORY ->  new TransactionHistoryView(gameController.getTransactionHistoryController());
       case DASHBOARD -> new DashboardView(gameController.getDashboardController());
-      case SETTINGS -> new SettingsView();
+      case SETTINGS -> new SettingsView(gameController);
     };
 
     mainView.setContent(content);
