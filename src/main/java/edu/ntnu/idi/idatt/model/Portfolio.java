@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.model;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,8 +74,9 @@ public class Portfolio {
   public boolean removeShare(Share share) {
     return shares.remove(share);
   }
+
   public List<Share> getShares() {
-    return shares;
+    return Collections.unmodifiableList(shares);
   }
   public List<Share> getShares(String symbol){
     return this.shares.stream().filter(
@@ -87,13 +89,9 @@ public class Portfolio {
 
 
   public BigDecimal getNetWorth() {
-    BigDecimal netWorth = BigDecimal.ZERO;
-
-    for (Share share : shares) {
-      netWorth = netWorth.add(share.getStock().getSalesPrice().multiply(share.getQuantity()));
-    }
-
-    return netWorth;
+    return shares.stream()
+        .map(share -> share.getStock().getSalesPrice().multiply(share.getQuantity()))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
   public BigDecimal getTotalInvested() {

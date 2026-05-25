@@ -100,7 +100,7 @@ public class Navigator {
 
   @FunctionalInterface
   private interface GameControllerSupplier {
-    GameController get() throws Exception;
+    GameController get() throws DataAccessException, IOException;
   }
 
 }
