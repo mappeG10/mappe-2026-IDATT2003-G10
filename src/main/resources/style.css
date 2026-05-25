@@ -14,6 +14,7 @@
     /* Semantic */
     success:         #2e7d33;
     success-bg:      #e0f7e3;
+    info-bg:         #f0f5ff;
     danger:          #dc2626;
     danger-bg:       #fce5e5;
     danger-border:   #fecbcb;
@@ -837,3 +838,87 @@
 .table-cell .button.btn-chart:hover {
     -fx-background-color: bg-page;
 }
+
+/* ── 17. Alert Modals (Info / Error) ─────────────────────────── */
+.alert-header {
+    -fx-padding: 20 24 20 24;
+    -fx-spacing: 12;
+    -fx-alignment: center-left;
+}
+.alert-header-info  { -fx-background-color: info-bg; }
+.alert-header-error { -fx-background-color: danger-bg; }
+
+.alert-icon-badge {
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 8;
+}
+.alert-icon-badge-info  { -fx-background-color: primary-dark; }
+.alert-icon-badge-error { -fx-background-color: danger; }
+
+.alert-badge-text {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.alert-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-body;
+}
+
+.alert-body {
+    -fx-padding: 16 24 16 24;
+}
+
+.alert-message {
+    -fx-font-size: 14px;
+    -fx-text-fill: text-secondary;
+    -fx-wrap-text: true;
+    -fx-pref-width: 372;
+}
+
+.alert-divider {
+    -fx-background-color: border-clr;
+    -fx-pref-height: 1;
+    -fx-max-height: 1;
+    -fx-min-height: 1;
+}
+
+.alert-btn-row {
+    -fx-padding: 16 24 20 24;
+    -fx-spacing: 12;
+    -fx-alignment: center-right;
+}
+
+.btn-alert-cancel {
+    -fx-background-color: bg-page;
+    -fx-border-color: border-clr;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: text-body;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+}
+.btn-alert-cancel:hover { -fx-background-color: derive(bg-page, -5%); }
+
+.btn-alert-ok-info {
+    -fx-background-color: primary-dark;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20 10 20;
+}
+.btn-alert-ok-info:hover { -fx-background-color: primary-mid; }
+
+.btn-alert-ok-error {
+    -fx-background-color: danger;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20 10 20;
+}
+.btn-alert-ok-error:hover { -fx-background-color: derive(danger, -10%); }

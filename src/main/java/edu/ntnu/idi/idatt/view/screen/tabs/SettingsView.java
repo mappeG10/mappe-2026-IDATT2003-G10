@@ -91,6 +91,7 @@ public class SettingsView extends VBox {
     if (file != null) {
       try {
         controller.save(file.getAbsolutePath());
+        ViewUtility.showSuccessAlert("Save Successful", "Game saved successfully.");
       } catch (DataAccessException e){
         ViewUtility.showErrorAlert("Save Error",
             "Could not save game: " + e.getMessage());
