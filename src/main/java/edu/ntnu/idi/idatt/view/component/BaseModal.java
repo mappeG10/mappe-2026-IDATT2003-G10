@@ -20,7 +20,6 @@ public abstract class BaseModal<T> extends VBox {
 
   protected BaseModal(T target) {
     this.target = target;
-    setupUI();
     if (closeButton != null) {
       closeButton.setOnAction(e -> requestClose());
     }

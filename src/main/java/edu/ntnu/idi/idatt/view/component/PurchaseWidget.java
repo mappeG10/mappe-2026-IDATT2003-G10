@@ -21,6 +21,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
 
   public PurchaseWidget(Stock target, MarketController controller) {
     super(target);
+    setupUI();
     this.controller = controller;
   }
 
@@ -87,7 +88,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
       grossValueLabel.setText(ViewUtility.formatCurrency(preview.gross()));
       commissionValueLabel.setText(ViewUtility.formatCurrency(preview.commission()));
       totalLabel.setText(ViewUtility.formatCurrency(preview.total()));
-    } catch (Exception _) {
+    } catch (IllegalArgumentException ignoredException) {
       grossValueLabel.setText("$0.00");
       commissionValueLabel.setText("$0.00");
       totalLabel.setText("$0.00");

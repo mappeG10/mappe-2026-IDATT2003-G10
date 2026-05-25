@@ -43,8 +43,7 @@ public class MarketController extends BaseController {
   }
 
   public Transaction executeBuy(String symbol, BigDecimal quantity) {
-    Transaction purchase = exchange.buy(symbol, quantity, player);
-    return purchase;
+    return exchange.buy(symbol, quantity, player);
   }
 
 

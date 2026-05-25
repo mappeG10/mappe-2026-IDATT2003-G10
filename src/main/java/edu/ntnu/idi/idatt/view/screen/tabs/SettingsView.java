@@ -10,10 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import javax.xml.crypto.Data;
 import java.io.File;
-import java.io.IOException;
 
 public class SettingsView extends VBox {
   private final GameController controller;
@@ -79,7 +76,6 @@ public class SettingsView extends VBox {
   }
 
   private void handleSaveGame() {
-    System.out.println("Save progression hook triggered");
     String formattedSavePlayerName =
         controller.getPlayerName().toLowerCase()
             .replaceAll("\\s+", "_")
@@ -100,7 +96,7 @@ public class SettingsView extends VBox {
             "Could not save game: " + e.getMessage());
       } catch (Exception e) {
         ViewUtility.showErrorAlert("Save Error",
-            "An unecpected error occurred saving: "
+            "An unexpected error occurred saving: "
                 + e.getMessage());
       }
     }

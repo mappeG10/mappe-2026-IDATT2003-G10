@@ -20,6 +20,7 @@ public class SaleWidget extends TransactionWidget<Share> {
 
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
+    setupUI();
     this.controller = controller;
     updatedPreview(target.getQuantity().toPlainString());
   }
@@ -86,7 +87,7 @@ public class SaleWidget extends TransactionWidget<Share> {
       grossValueLabel.setText(ViewUtility.formatCurrency(preview.gross()));
       taxValueLabel.setText(ViewUtility.formatCurrency(preview.tax()));
       totalLabel.setText(ViewUtility.formatCurrency(preview.total()));
-    } catch (Exception _) {
+    } catch (IllegalArgumentException ignoredException) {
       grossValueLabel.setText("$0.00");
       taxValueLabel.setText("$0.00");
       totalLabel.setText("$0.00");
