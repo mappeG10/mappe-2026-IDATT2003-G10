@@ -21,8 +21,10 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
 
   public PurchaseWidget(Stock target, MarketController controller) {
     super(target);
-    setupUI();
     this.controller = controller;
+    setupUI();
+    setupTransactionListeners();
+    closeButton.setOnAction(e -> requestClose());
   }
 
   @Override

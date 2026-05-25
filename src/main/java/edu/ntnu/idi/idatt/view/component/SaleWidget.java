@@ -20,8 +20,10 @@ public class SaleWidget extends TransactionWidget<Share> {
 
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
-    setupUI();
     this.controller = controller;
+    setupUI();
+    setupTransactionListeners();
+    closeButton.setOnAction(e -> requestClose());
     updatedPreview(target.getQuantity().toPlainString());
   }
 
