@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controller.GameController;
+import edu.ntnu.idi.idatt.controller.dto.GameSummary;
 import edu.ntnu.idi.idatt.controller.init.GameFactory;
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
@@ -46,13 +47,26 @@ public class Navigator {
 
   public void toGame(GameController gc) {
     this.gameController = gc;
-    this.mainView = new MainView(gc, this::navigateTo);
+    this.mainView = new MainView(gc, this::navigateTo, this::finishGame);
 
     this.navigateTo(GameTab.MARKET);
     Scene scene = new Scene(this.mainView, WIDTH, HEIGHT);
     applyStylesheet(scene);
     stage.setScene(scene);
     stage.setFullScreen(true);
+  }
+
+  public void toSummary(GameSummary summary) {
+    SummaryView summaryView = new SummaryView(summary, this::toStart);
+    Scene scene = new Scene(summaryView, WIDTH, HEIGHT);
+    applyStylesheet(scene);
+    stage.setScene(scene);
+    stage.setFullScreen(true);
+  }
+
+  private void finishGame() {
+    GameSummary summary = gameController.getSummaryController().finishGame();
+    toSummary(summary);
   }
 
   private void applyStylesheet(Scene scene) {
