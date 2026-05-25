@@ -116,6 +116,8 @@ class PurchaseTest {
         "getTax() should delegate to the calculator");
     assertEquals(0, purchase.getCalculator().calculateTotal().compareTo(purchase.getTotalCost()),
         "getTotalCost() should delegate to the calculator");
+    assertEquals(0, purchase.getCalculator().calculateGross().compareTo(purchase.getGross()),
+        "getGross() should delegate to the calculator");
     assertEquals(0, share.getPurchasePrice().compareTo(purchase.getPurchasePrice()),
         "getPurchasePrice() should delegate to the inner Share");
   }

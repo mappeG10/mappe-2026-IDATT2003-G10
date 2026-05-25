@@ -55,6 +55,10 @@ public abstract class Transaction {
     return share.getPurchasePrice();
   }
 
+  public BigDecimal getGross() {
+    return calculator.calculateGross();
+  }
+
   public BigDecimal getTotalCost() {
     return calculator.calculateTotal();
   }

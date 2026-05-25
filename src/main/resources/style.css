@@ -733,6 +733,10 @@
     -fx-background-color: bg-page;
 }
 
+.receipt-total-purchase {
+    -fx-text-fill: primary-light;
+}
+
 /* ── 14. Scrollbars ───────────────────────────────────────────── */
 .scroll-bar {
     -fx-background-color: transparent;
