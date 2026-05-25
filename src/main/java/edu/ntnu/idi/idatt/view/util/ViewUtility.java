@@ -2,9 +2,13 @@ package edu.ntnu.idi.idatt.view.util;
 
 import edu.ntnu.idi.idatt.view.component.ErrorWidget;
 import java.math.BigDecimal;
+import java.util.function.BiConsumer;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
@@ -65,6 +69,21 @@ public class ViewUtility {
     node.widthProperty().addListener((obs, old, w) -> clip.setWidth(w.doubleValue()));
     node.heightProperty().addListener((obs, old, h) -> clip.setHeight(h.doubleValue()));
     node.setClip(clip);
+  }
+
+  public static <T> Callback<TableView<T>, TableRow<T>> doubleClickRowFactory(
+      BiConsumer<T, Window> onDoubleClick) {
+    return tv -> {
+      TableRow<T> row = new TableRow<>();
+      row.setOnMouseClicked(event -> {
+        if (!row.isEmpty()
+            && event.getButton() == MouseButton.PRIMARY
+            && event.getClickCount() == 2) {
+          onDoubleClick.accept(row.getItem(), row.getScene().getWindow());
+        }
+      });
+      return row;
+    };
   }
 
   public static void showErrorAlert(String title, String message) {
