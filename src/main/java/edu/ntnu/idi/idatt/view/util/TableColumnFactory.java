@@ -34,7 +34,7 @@ public final class TableColumnFactory {
     TableColumn<S, String> col = new TableColumn<>(title);
     col.setCellValueFactory(data ->
         new SimpleStringProperty(
-            ViewUtility.formatCurrency(valueExtractor.apply(data.getValue()))));
+            FormatUtil.formatCurrency(valueExtractor.apply(data.getValue()))));
     return col;
   }
 

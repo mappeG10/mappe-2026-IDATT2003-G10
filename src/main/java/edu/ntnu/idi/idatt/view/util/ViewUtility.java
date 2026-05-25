@@ -17,24 +17,6 @@ import javafx.util.Callback;
 public class ViewUtility {
   private ViewUtility() {}
 
-  public static String formatCurrency(BigDecimal amount) {
-    return String.format("$%,.2f", amount);
-  }
-
-  public static String formatPercentage(BigDecimal value) {
-    String sign = value.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
-    return String.format("%s%.2f", sign, value) + "%";
-  }
-
-  public static String formatPriceChange(BigDecimal change) {
-    String sign = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
-    return String.format("%s$%,.2f", sign, change);
-  }
-
-  public static String formatBigDecimalToString(BigDecimal amount) {
-    return amount.stripTrailingZeros().toPlainString();
-  }
-
   public static void applySignStyleClass(Labeled node, BigDecimal value) {
     node.getStyleClass().removeAll("text-positive", "text-negative");
     int cmp = value.compareTo(BigDecimal.ZERO);

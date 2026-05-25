@@ -5,6 +5,7 @@ import edu.ntnu.idi.idatt.controller.dto.TransactionPreview;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.exception.InsufficientSharesException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
 import javafx.scene.control.Button;
@@ -35,7 +36,7 @@ public class SaleWidget extends TransactionWidget<Share> {
     this.titleLabel.getStyleClass().add("widget-title");
 
     Label subtitleLabel = new Label(target.getCompany() + " · Current price: "
-        + ViewUtility.formatCurrency(target.getCurrentPrice()));
+        + FormatUtil.formatCurrency(target.getCurrentPrice()));
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField(target.getQuantity().toPlainString());
@@ -86,9 +87,9 @@ public class SaleWidget extends TransactionWidget<Share> {
     try {
       BigDecimal quantity = new BigDecimal(quantityStr);
       TransactionPreview preview = controller.previewSell(target, quantity);
-      grossValueLabel.setText(ViewUtility.formatCurrency(preview.gross()));
-      taxValueLabel.setText(ViewUtility.formatCurrency(preview.tax()));
-      totalLabel.setText(ViewUtility.formatCurrency(preview.total()));
+      grossValueLabel.setText(FormatUtil.formatCurrency(preview.gross()));
+      taxValueLabel.setText(FormatUtil.formatCurrency(preview.tax()));
+      totalLabel.setText(FormatUtil.formatCurrency(preview.total()));
     } catch (IllegalArgumentException ignoredException) {
       grossValueLabel.setText("$0.00");
       taxValueLabel.setText("$0.00");

@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt.view.component;
 
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
-import edu.ntnu.idi.idatt.view.util.ViewUtility;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import javafx.stage.Window;
 import java.math.BigDecimal;
 import java.util.List;
@@ -66,7 +66,7 @@ public class StockChartWidget extends BaseModal<Stock> {
     Label keyLabel = new Label(label);
     keyLabel.getStyleClass().add("widget-label-key");
 
-    Label valueLabel = new Label(ViewUtility.formatCurrency(value));
+    Label valueLabel = new Label(FormatUtil.formatCurrency(value));
     valueLabel.getStyleClass().add("widget-label-value");
 
     return new VBox(2, keyLabel, valueLabel);

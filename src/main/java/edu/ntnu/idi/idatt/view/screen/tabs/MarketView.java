@@ -5,6 +5,7 @@ import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.component.PurchaseWidget;
 import edu.ntnu.idi.idatt.view.component.StockChartWidget;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.TableColumnFactory;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import javafx.collections.FXCollections;
@@ -45,9 +46,9 @@ public class MarketView extends VBox implements GameObserver {
 
     TableColumn<Stock, String> priceCol = TableColumnFactory.createPriceColumn("Price", Stock::getSalesPrice);
     TableColumn<Stock, String> changeCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change", s -> ViewUtility.formatPriceChange(s.getLatestPriceChange()));
+        "Change", s -> FormatUtil.formatPriceChange(s.getLatestPriceChange()));
     TableColumn<Stock, String> changePercentCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change %", s -> ViewUtility.formatPercentage(s.getLatestPriceChangePercent()));
+        "Change %", s -> FormatUtil.formatPercentage(s.getLatestPriceChangePercent()));
 
     TableColumn<Stock, String> buyButtonCol = new TableColumn<>("Action");
     buyButtonCol.setCellFactory(param -> new TableCell<>() {

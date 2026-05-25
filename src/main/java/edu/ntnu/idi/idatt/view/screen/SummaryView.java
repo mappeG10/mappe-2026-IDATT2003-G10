@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.view.screen;
 
 import edu.ntnu.idi.idatt.controller.dto.GameSummary;
+import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -60,14 +61,14 @@ public class SummaryView extends StackPane {
 
   private HBox buildStatRow(GameSummary summary) {
     VBox startCard = buildStatCard("Starting Capital",
-        ViewUtility.formatCurrency(summary.startingCapital()), null);
+        FormatUtil.formatCurrency(summary.startingCapital()), null);
     VBox finalCard = buildStatCard("Final Balance",
-        ViewUtility.formatCurrency(summary.finalBalance()), null);
+        FormatUtil.formatCurrency(summary.finalBalance()), null);
 
-    Label gainLossLabel = new Label(ViewUtility.formatPriceChange(summary.totalGainLoss()));
+    Label gainLossLabel = new Label(FormatUtil.formatPriceChange(summary.totalGainLoss()));
     gainLossLabel.getStyleClass().add("stat-card-value");
     ViewUtility.applySignStyleClass(gainLossLabel, summary.totalGainLoss());
-    Label gainLossSub = new Label(ViewUtility.formatPercentage(summary.totalGainLossPercent()) + " all time");
+    Label gainLossSub = new Label(FormatUtil.formatPercentage(summary.totalGainLossPercent()) + " all time");
     gainLossSub.getStyleClass().add("stat-card-sub");
     ViewUtility.applySignStyleClass(gainLossSub, summary.totalGainLossPercent());
     VBox gainLossCard = new VBox(4);
