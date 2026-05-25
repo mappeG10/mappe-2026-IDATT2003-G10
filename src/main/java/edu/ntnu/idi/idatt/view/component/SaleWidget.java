@@ -6,7 +6,6 @@ import edu.ntnu.idi.idatt.controller.dto.TransactionReceipt;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.exception.InsufficientSharesException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
-import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.math.BigDecimal;
@@ -104,10 +103,10 @@ public class SaleWidget extends TransactionWidget<Share> {
   protected void handleAction() {
     try {
       BigDecimal quantity = new BigDecimal(quantityField.getText());
-      Transaction transaction = controller.executeSell(target, quantity);
+      TransactionReceipt receipt = controller.executeSell(target, quantity);
       Window owner = ((Stage) getScene().getWindow()).getOwner();
       requestClose();
-      new ReceiptWidget(TransactionReceipt.from(transaction)).openDialog(owner);
+      new ReceiptWidget(receipt).openDialog(owner);
     } catch (NumberFormatException e) {
       ViewUtility.showErrorAlert("Invalid quantity", "Please enter a valid number");
     } catch (InsufficientSharesException e) {

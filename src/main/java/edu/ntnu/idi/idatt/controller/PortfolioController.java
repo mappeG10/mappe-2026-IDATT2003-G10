@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.controller;
 
 import edu.ntnu.idi.idatt.controller.dto.TransactionPreview;
+import edu.ntnu.idi.idatt.controller.dto.TransactionReceipt;
 import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Share;
@@ -47,8 +48,8 @@ public class PortfolioController extends BaseController {
         previewCalculator.calculateTotal());
   }
 
-  public Transaction executeSell(Share share, BigDecimal quantity) {
-    return exchange.sell(share, quantity, player);
+  public TransactionReceipt executeSell(Share share, BigDecimal quantity) {
+    return TransactionReceipt.from(exchange.sell(share, quantity, player));
   }
 
 
