@@ -21,12 +21,15 @@ public class StartView extends StackPane {
   private final TextField capitalField = new TextField();
   private final Label fileNameLabel = new Label("No file selected");
   private final Label errorLabel = new Label();
-  private String csvPath;
+  private String sourcePath;
 
   private final Consumer<GameSetup> onStartRequested;
+  private final Consumer<String> onLoadRequested;
 
-  public StartView(Consumer<GameSetup> onStartRequested) {
+  public StartView(Consumer<GameSetup> onStartRequested, Consumer<String> onLoadRequested) {
     this.onStartRequested = onStartRequested;
+    this.onLoadRequested = onLoadRequested;
+
     getStyleClass().add("start-view");
     getChildren().add(buildCard());
   }
@@ -122,6 +125,7 @@ public class StartView extends StackPane {
     Button btn = new Button("Load Game");
     btn.getStyleClass().add("btn-secondary");
     btn.setMaxWidth(Double.MAX_VALUE);
+    btn.setOnAction(e -> handleLoadGame());
     return btn;
   }
 
@@ -133,9 +137,21 @@ public class StartView extends StackPane {
     );
     File file = fileChooser.showOpenDialog(getScene().getWindow());
     if (file != null) {
-      csvPath = file.getAbsolutePath();
+      sourcePath = file.getAbsolutePath();
       fileNameLabel.setText(file.getName());
       showError(null);
+    }
+  }
+
+  private void handleLoadGame() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Load Millions Save File");
+    fileChooser.getExtensionFilters().add(
+        new FileChooser.ExtensionFilter("Millions Save File", "*.millions")
+    );
+    File file = fileChooser.showOpenDialog(getScene().getWindow());
+    if (file != null) {
+      onLoadRequested.accept(file.getAbsolutePath());
     }
   }
 
@@ -144,7 +160,7 @@ public class StartView extends StackPane {
       GameSetup setup = new GameSetup(
           nameField.getText(),
           new BigDecimal(capitalField.getText()),
-          csvPath
+          sourcePath
       );
       showError(null);
       onStartRequested.accept(setup);

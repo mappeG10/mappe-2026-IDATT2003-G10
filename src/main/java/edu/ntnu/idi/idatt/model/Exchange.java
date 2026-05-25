@@ -145,6 +145,13 @@ public class Exchange implements GameSubject {
     notifyObservers();
   }
 
+  public void setWeek(int week) {
+    if (week < 1) {
+      throw new IllegalArgumentException("Week must be at least 1");
+    }
+    this.week = week;
+  }
+
   public List<Stock> getGainers(int limit) {
     if (limit < 1) {
       throw new IllegalArgumentException("The limit can not be less than 1");
