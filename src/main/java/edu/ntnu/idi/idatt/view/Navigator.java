@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controller.GameController;
+import edu.ntnu.idi.idatt.controller.dto.GameSetup;
 import edu.ntnu.idi.idatt.controller.init.GameFactory;
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
@@ -26,32 +27,33 @@ public class Navigator {
 
   public void toStart(){
     StartView startView = new StartView(
-        gameSetup -> {
-          try {
-            this.toGame(GameFactory.createController(gameSetup));
-          } catch (DataAccessException | IOException e){
-            ViewUtility.showErrorAlert("Start Error",
-                "Could not start game: " + e.getMessage());
-          } catch (Exception e){
-            ViewUtility.showErrorAlert("Start Error",
-                "Unexpected error on start game: " + e.getMessage());
-          }
-        }, loadPath -> {
-          try {
-            this.toGame(GameFactory.createControllerFromSave(loadPath));
-          } catch (DataAccessException | IOException e){
-            ViewUtility.showErrorAlert("Load Error",
-                "Could not load save file: " + e.getMessage());
-          } catch (Exception e){
-            ViewUtility.showErrorAlert("Start error",
-                "Unexpected error on load save file: " + e.getMessage());
-          }
-    });
+        this::handleOnStartRequested,
+        this::handleOnLoadRequested);
 
     Scene scene = new Scene(startView, WIDTH, HEIGHT);
     applyStylesheet(scene);
     stage.setScene(scene);
     stage.setFullScreen(true);
+  }
+
+  private void handleInitRequested(String errorTitle, String errorPrefix, GameControllerSupplier supplier) {
+    try {
+      this.toGame(supplier.get());
+    } catch (DataAccessException | IOException e){
+      ViewUtility.showErrorAlert(errorTitle,
+          errorPrefix + ": " + e.getMessage());
+    } catch (Exception e){
+      ViewUtility.showErrorAlert(errorTitle,
+          "Unexpected error: " + e.getMessage());
+    }
+  }
+  private void handleOnStartRequested(GameSetup gameSetup) {
+    handleInitRequested("Start Error", "Could not start game",
+        () -> GameFactory.createController(gameSetup));
+  }
+  private void handleOnLoadRequested(String path) {
+    handleInitRequested("Load Error", "Could not load save file",
+        () -> GameFactory.createControllerFromSave(path));
   }
 
   public void toGame(GameController gc) {
@@ -80,6 +82,11 @@ public class Navigator {
     };
 
     mainView.setContent(content);
+  }
+
+  @FunctionalInterface
+  private interface GameControllerSupplier {
+    GameController get() throws Exception;
   }
 
 }
