@@ -7,6 +7,7 @@ public class ErrorWidget extends BaseModal<String> {
 
   public ErrorWidget(String title, String message) {
     super(message);
+    setupUI();
     titleLabel.setText(title);
   }
 

@@ -11,6 +11,7 @@ public class FinishGameWidget extends BaseModal<Void> {
 
   public FinishGameWidget(Runnable onConfirm) {
     super(null);
+    setupUI();
     this.onConfirm = onConfirm;
   }
 

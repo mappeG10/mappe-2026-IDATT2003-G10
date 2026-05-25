@@ -20,6 +20,7 @@ public class SaleWidget extends TransactionWidget<Share> {
 
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
+    setupUI();
     this.controller = controller;
     updatedPreview(target.getQuantity().toPlainString());
   }
