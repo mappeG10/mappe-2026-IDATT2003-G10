@@ -4,7 +4,9 @@ import edu.ntnu.idi.idatt.controller.GameController;
 import edu.ntnu.idi.idatt.controller.dto.GameSetup;
 import edu.ntnu.idi.idatt.dal.DataReader;
 import edu.ntnu.idi.idatt.dal.DataReaderFactory;
+import edu.ntnu.idi.idatt.dal.dto.GameStateDto;
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
+import edu.ntnu.idi.idatt.dal.mapper.GameMapper;
 import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Stock;
@@ -24,5 +26,13 @@ public class GameFactory {
     List<Stock> stockList = stockReader.read(setup.source());
     Exchange exchange = new Exchange(EXCHANGE_NAME, stockList);
     return new GameController(exchange, player);
+  }
+
+  public static GameController createControllerFromSave(String source) throws IOException, DataAccessException {
+    DataReader<GameStateDto> gameReader = DataReaderFactory.getGameReader(source);
+    GameStateDto dto = gameReader.read(source);
+    GameMapper.GameState state = GameMapper.fromDto(dto);
+
+    return new GameController(state.exchange(), state.player());
   }
 }

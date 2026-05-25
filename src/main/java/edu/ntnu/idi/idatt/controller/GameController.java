@@ -1,5 +1,9 @@
 package edu.ntnu.idi.idatt.controller;
 
+import edu.ntnu.idi.idatt.dal.JsonGameWriter;
+import edu.ntnu.idi.idatt.dal.dto.GameStateDto;
+import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
+import edu.ntnu.idi.idatt.dal.mapper.GameMapper;
 import edu.ntnu.idi.idatt.model.Exchange;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.observer.GameObserver;
@@ -22,6 +26,12 @@ public class GameController {
     this.transactionHistoryController = new TransactionHistoryController(exchange, player);
     this.portfolioController = new PortfolioController(exchange, player);
 
+  }
+
+  public void save(String path) throws DataAccessException {
+    GameStateDto gameStateDto = GameMapper.toDto(player, exchange);
+    JsonGameWriter writer = new JsonGameWriter();
+    writer.write(path, gameStateDto);
   }
 
   public void registerObserver(GameObserver observer) {
