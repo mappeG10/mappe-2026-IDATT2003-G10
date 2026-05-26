@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.model.transaction.TransactionArchive;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.observer.GameSubject;
@@ -127,6 +128,18 @@ public class Player implements GameSubject {
     else status = Status.NOVICE;
 
     notifyObservers();
+  }
+
+  public void addShareToPortfolio(Share share) {
+    portfolio.addShare(share);
+  }
+
+  public boolean reduceShareInPortfolio(Share share, BigDecimal amount) {
+    return portfolio.reduceShare(share, amount);
+  }
+
+  public void archiveTransaction(Transaction transaction) {
+    transactionArchive.add(transaction);
   }
 
   public Portfolio getPortfolio() {

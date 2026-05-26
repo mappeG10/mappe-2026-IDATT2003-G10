@@ -18,12 +18,12 @@ public class Sale extends Transaction {
       throw new TransactionAlreadyCommittedException("Sale has already been committed");
     }
 
-    if (!player.getPortfolio().reduceShare(getShare(), getShare().getQuantity())) {
+    if (!player.reduceShareInPortfolio(getShare(), getShare().getQuantity())) {
       throw new InsufficientSharesException("Portfolio does not contain the required shares");
     }
 
     player.addMoney(getCalculator().calculateTotal());
-    player.getTransactionArchive().add(this);
+    player.archiveTransaction(this);
     player.updateStatus();
 
     this.setCommitted();

@@ -273,6 +273,55 @@ class PlayerTest {
   }
 
 
+  @Test
+  void testAddShareToPortfolioAddsShare() {
+    Stock stock = new Stock("AAPL", "Apple", new ArrayList<>(List.of(new BigDecimal("150"))));
+    Share share = new Share(stock, new BigDecimal("5"), new BigDecimal("150"));
+
+    player.addShareToPortfolio(share);
+
+    assertEquals(1, player.getPortfolio().getShares().size(),
+        "Portfolio should contain the added share");
+    assertTrue(player.getPortfolio().contains(share),
+        "Portfolio should contain the exact share that was added");
+  }
+
+  @Test
+  void testReduceShareInPortfolioReducesQuantity() {
+    Stock stock = new Stock("AAPL", "Apple", new ArrayList<>(List.of(new BigDecimal("150"))));
+    Share share = new Share(stock, new BigDecimal("10"), new BigDecimal("150"));
+    player.addShareToPortfolio(share);
+
+    boolean result = player.reduceShareInPortfolio(share, new BigDecimal("4"));
+
+    assertTrue(result, "Reduce should succeed when quantity is available");
+    assertEquals(0, new BigDecimal("6")
+            .compareTo(player.getPortfolio().getShares("AAPL").getFirst().getQuantity()),
+        "Remaining quantity should be 6");
+  }
+
+  @Test
+  void testReduceShareInPortfolioReturnsFalseWhenNotFound() {
+    Stock stock = new Stock("MSFT", "Microsoft", new ArrayList<>(List.of(new BigDecimal("300"))));
+    Share unowned = new Share(stock, new BigDecimal("1"), new BigDecimal("300"));
+
+    boolean result = player.reduceShareInPortfolio(unowned, new BigDecimal("1"));
+
+    assertFalse(result, "Reduce should return false when share is not in portfolio");
+  }
+
+  @Test
+  void testArchiveTransactionStoresTransaction() {
+    Stock stock = new Stock("AAPL", "Apple", new ArrayList<>(List.of(new BigDecimal("150"))));
+    Share share = new Share(stock, new BigDecimal("1"), new BigDecimal("150"));
+    Purchase purchase = new Purchase(share, 1);
+
+    player.archiveTransaction(purchase);
+
+    assertEquals(1, player.getTransactionArchive().getTransactions(1).size(),
+        "Archive should contain the transaction for week 1");
+  }
+
   /**
    * Helper method to populate the archive with transactions across X weeks.
    */
