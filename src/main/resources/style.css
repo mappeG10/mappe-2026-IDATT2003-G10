@@ -376,29 +376,6 @@
     -fx-text-fill: text-muted;
 }
 
-/* ── 7b. Portfolio Stat Cards ─────────────────────────────────── */
-.portfolio-stat-cards-row {
-    -fx-spacing: 12;
-}
-
-.portfolio-stat-card {
-    -fx-background-color: bg-surface;
-    -fx-background-radius: 8;
-    -fx-padding: 12 16 12 16;
-    -fx-spacing: 4;
-    -fx-min-width: 140;
-}
-
-.portfolio-stat-card-title {
-    -fx-font-size: 11px;
-    -fx-text-fill: text-secondary;
-}
-
-.portfolio-stat-card-value {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: text-primary;
-}
 
 /* ── 7c. Dashboard Section Containers ────────────────────────── */
 .gainers-losers-section {
@@ -825,19 +802,6 @@
     -fx-stroke: transparent;
 }
 
-/* Chart button (neutral secondary, inside table-cell) */
-.table-cell .button.btn-chart {
-    -fx-background-color: transparent;
-    -fx-border-color: border-clr;
-    -fx-border-width: 1;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-text-fill: text-body;
-}
-
-.table-cell .button.btn-chart:hover {
-    -fx-background-color: bg-page;
-}
 
 /* ── 17. Alert Modals (Info / Error) ─────────────────────────── */
 .alert-header {
