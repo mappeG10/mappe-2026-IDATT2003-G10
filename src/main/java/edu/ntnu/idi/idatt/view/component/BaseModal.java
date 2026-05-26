@@ -23,13 +23,8 @@ import javafx.stage.Window;
  */
 public abstract class BaseModal<T> extends VBox {
 
-  /** The primary data object this widget is built around. */
   protected final T target;
-
-  /** The title label rendered at the top of the widget; set by subclasses in {@link #setupUI()}. */
   protected Label titleLabel;
-
-  /** The primary close/dismiss button; wired to {@link #requestClose()} by {@link #openDialog}. */
   protected Button closeButton;
 
   private Runnable onCloseRequested;

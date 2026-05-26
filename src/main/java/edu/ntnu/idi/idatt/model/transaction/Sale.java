@@ -19,6 +19,7 @@ public class Sale extends Transaction {
    *
    * @param share the share to be sold; must not be {@code null}
    * @param week  the game week in which the sale takes place; must be at least 1
+   * @throws IllegalArgumentException if {@code share} is {@code null} or {@code week} is less than 1
    */
   public Sale(Share share, int week) {
     super(share, week, new SaleCalculator(share));

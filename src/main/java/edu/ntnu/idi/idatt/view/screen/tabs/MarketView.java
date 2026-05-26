@@ -41,13 +41,8 @@ import javafx.stage.Window;
  */
 public class MarketView extends VBox implements GameObserver {
 
-  /** Controller providing stock data and purchase operations. */
   private final MarketController marketController;
-
-  /** Table displaying all available stocks. */
   private final TableView<Stock> marketTable;
-
-  /** Text field used to filter the market table by symbol or company name. */
   private final TextField searchField;
 
   /**
@@ -104,6 +99,7 @@ public class MarketView extends VBox implements GameObserver {
     buyButtonCol.setCellFactory(param -> new TableCell<>() {
       private final Button button = buildBuyButton(this);
 
+      /** {@inheritDoc} */
       @Override
       protected void updateItem(String s, boolean b) {
         super.updateItem(s, b);

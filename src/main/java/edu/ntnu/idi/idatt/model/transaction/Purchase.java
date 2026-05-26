@@ -19,6 +19,7 @@ public class Purchase extends Transaction {
    *
    * @param share the share to be purchased; must not be {@code null}
    * @param week  the game week in which the purchase takes place; must be at least 1
+   * @throws IllegalArgumentException if {@code share} is {@code null} or {@code week} is less than 1
    */
   public Purchase(Share share, int week) {
     super(share, week, new PurchaseCalculator(share));

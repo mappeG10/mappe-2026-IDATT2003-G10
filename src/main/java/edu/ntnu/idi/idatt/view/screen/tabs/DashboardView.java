@@ -40,41 +40,18 @@ import javafx.scene.layout.VBox;
  */
 public class DashboardView extends VBox implements GameObserver {
 
-  /** Controller providing all data displayed on this view. */
   private final DashboardController dashboardController;
-
-  /** Table displaying the player's current share positions. */
   private final TableView<Share> portfolioTable;
-
-  /** Table displaying the top-gaining stocks for the current week. */
   private final TableView<Stock> topGainersTable;
-
-  /** Horizontal strip of mini-cards showing the top-losing stocks for the current week. */
   private final HBox topLosersStockRows;
-
-  /** Label displaying the player's total net worth (cash + portfolio value). */
   private final Label netWorthLabel;
-
-  /** Label displaying the player's available cash balance. */
   private final Label cashBalanceLabel;
-
-  /** Label displaying the current market value of all portfolio positions. */
   private final Label portfolioValueLabel;
-
-  /** Label displaying the total unrealised gain or loss since the game started. */
   private final Label totalGainLossLabel;
-
-  /** Sub-label beneath the gain/loss value, showing the all-time percentage change. */
   private final Label fourthCardSubLabel;
-
-  /** Container for the bottom top-losers section; hidden until week two. */
   private final VBox bottomContainer;
-
-  /** Maximum number of stocks shown in the top-gainers table. */
-  private final static int TOP_GAINERS_LIMIT = 5;
-
-  /** Maximum number of stocks shown in the top-losers strip. */
-  private final static int TOP_LOSERS_LIMIT = 5;
+  private static final int TOP_GAINERS_LIMIT = 5;
+  private static final int TOP_LOSERS_LIMIT = 5;
 
   /**
    * Constructs the dashboard view, builds all sub-sections, registers as a game observer,

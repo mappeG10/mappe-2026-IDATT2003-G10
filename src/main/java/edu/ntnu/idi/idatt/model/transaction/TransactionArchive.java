@@ -24,9 +24,8 @@ public class TransactionArchive {
   /**
    * Adds a transaction to the archive.
    *
-   * @param transaction the transaction to be added
-   * @return true if the transaction was added successfully, false otherwise
-   * @throws IllegalArgumentException if the transaction is null
+   * @param transaction the transaction to be added; must not be {@code null}
+   * @return {@code true} if the transaction was added successfully
    */
   public boolean add(Transaction transaction) {
     return transactions.add(transaction);

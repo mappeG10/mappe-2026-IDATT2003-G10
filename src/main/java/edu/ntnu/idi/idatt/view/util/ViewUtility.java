@@ -24,6 +24,7 @@ import javafx.util.Callback;
  */
 public class ViewUtility {
 
+  /** Prevents instantiation of this static utility class. */
   private ViewUtility() {}
 
   /**
@@ -60,6 +61,7 @@ public class ViewUtility {
    */
   public static <S> Callback<TableColumn<S, String>, TableCell<S, String>> coloredStringCellFactory() {
     return col -> new TableCell<>() {
+      /** {@inheritDoc} */
       @Override
       protected void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);

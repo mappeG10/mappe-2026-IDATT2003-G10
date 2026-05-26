@@ -33,7 +33,6 @@ public class Navigator {
 
   private static final double WIDTH = 1280;
   private static final double HEIGHT = 800;
-
   private final Stage stage;
   private MainView mainView;
   private GameController gameController;

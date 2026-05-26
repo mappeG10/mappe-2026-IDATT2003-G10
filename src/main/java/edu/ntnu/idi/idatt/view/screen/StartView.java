@@ -31,7 +31,6 @@ public class StartView extends StackPane {
   private final Label fileNameLabel = new Label("No file selected");
   private final Label errorLabel = new Label();
   private String sourcePath;
-
   private final Consumer<GameSetup> onStartRequested;
   private final Consumer<String> onLoadRequested;
 

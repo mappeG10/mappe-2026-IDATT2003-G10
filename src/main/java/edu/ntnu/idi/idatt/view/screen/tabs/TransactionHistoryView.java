@@ -38,21 +38,10 @@ import javafx.scene.layout.VBox;
  */
 public class TransactionHistoryView extends VBox implements GameObserver {
 
-  /** Controller providing the transaction log and distinct-week list. */
   private final TransactionHistoryController transactionHistoryController;
-
-  /** Table displaying transaction rows and week-header separator rows. */
   private final TableView<TransactionRow> mainTable;
-
-  /** Horizontal bar holding the "All Weeks" button and one button per distinct week. */
   private final HBox weekFilterBar;
-
-  /** Toggle group ensuring only one week filter button is active at a time. */
   private final ToggleGroup weekFilter;
-
-  /**
-   * The currently selected week filter, or {@code null} when "All Weeks" is active.
-   */
   private Integer selectedWeek;
 
   /**
@@ -64,15 +53,8 @@ public class TransactionHistoryView extends VBox implements GameObserver {
    */
   private static class TransactionRow {
 
-    /** {@code true} if this row is a week-group header; {@code false} for data rows. */
     private final boolean isHeader;
-
-    /** The game week this row belongs to. */
     private final int week;
-
-    /**
-     * The transaction for data rows, or {@code null} for header rows.
-     */
     private final Transaction transaction;
 
     /**
@@ -228,6 +210,7 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     table.setPlaceholder(new Label("No transactions yet. Start trading to see your history here."));
 
     table.setRowFactory(tv -> new TableRow<>() {
+      /** {@inheritDoc} */
       @Override
       protected void updateItem(TransactionRow item, boolean empty) {
         super.updateItem(item, empty);

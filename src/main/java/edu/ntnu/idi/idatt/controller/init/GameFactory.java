@@ -30,6 +30,9 @@ public class GameFactory {
 
   private static final String EXCHANGE_NAME = "Millions Exchange";
 
+  /** Prevents instantiation of this static utility class. */
+  private GameFactory() {}
+
   /**
    * Creates a new {@link GameController} from the provided setup configuration.
    *

@@ -85,6 +85,8 @@ public class PortfolioController extends BaseController {
    * @param quantity the number of shares to include in the preview; must be positive and
    *                 not greater than the quantity held
    * @return a {@link TransactionPreview} containing the proceeds breakdown
+   * @throws IllegalArgumentException if {@code share} or {@code quantity} is {@code null},
+   *                                  or if {@code quantity} is not positive
    */
   public TransactionPreview previewSell(Share share, BigDecimal quantity) {
     Share previewShare = new Share(share.getStock(), quantity, share.getPurchasePrice());
