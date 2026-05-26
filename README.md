@@ -61,6 +61,44 @@ https://github.com/mappeG10/mappe-2026-IDATT2003-G10
 Javadoc and test coverage reports are published to GitHub Pages:  
 https://mappeg10.github.io/mappe-2026-IDATT2003-G10/
 
+## Prerequisites
+
+The following must be installed before building or running the project:
+
+- **Java 25**
+- **Maven 3.9+**
+
+
+## Compile
+
+To compile the project:
+
+```bash
+mvn compile
+```
+
+For a clean build (removes previous build output before compiling):
+
+```bash
+mvn clean compile
+```
+
+## Checkstyle
+
+The project enforces Google Java Style via the `maven-checkstyle-plugin`. To check for style violations:
+
+```bash
+mvn checkstyle:check
+```
+
+Violations are printed to the console and the build fails if any are found.
+
+To automatically format the source code to match the style rules, run:
+
+```bash
+mvn fmt:format
+```
+
 ## How to run the project
 
 The project is set up with the JavaFX Maven plugin, which is configured to launch `edu.ntnu.idi.idatt.App` as the main class.  

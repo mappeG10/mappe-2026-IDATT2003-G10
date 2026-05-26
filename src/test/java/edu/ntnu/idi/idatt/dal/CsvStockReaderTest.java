@@ -1,20 +1,20 @@
 package edu.ntnu.idi.idatt.dal;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
 import edu.ntnu.idi.idatt.model.Stock;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class CsvStockReaderTest {
 
-  @TempDir
-  Path tempDir;
+  @TempDir Path tempDir;
 
   private CsvStockReader stockReader;
 
@@ -27,35 +27,37 @@ class CsvStockReaderTest {
   void testReadValidData() throws IOException, DataAccessException {
     // Create a temporary CSV file
     Path filePath = tempDir.resolve("test_stocks.csv");
-    String content = """
+    String content =
+        """
                 # Ticker,Name,Price
                 NVDA, Nvidia, 191.27
-                
+
                 AAPL, Apple Inc., 276.43
                 """;
     Files.writeString(filePath, content);
 
     List<Stock> stocks = stockReader.read(filePath.toString());
 
-    assertEquals(2, stocks.size(), "Should parse exactly two stocks, skipping comments and blank lines");
+    assertEquals(
+        2, stocks.size(), "Should parse exactly two stocks, skipping comments and blank lines");
     assertEquals("NVDA", stocks.get(0).getSymbol());
     assertEquals("Apple Inc.", stocks.get(1).getCompany());
   }
 
   @Test
-  void testReadInvalidDataThrowsDataAccessException() throws IOException{
+  void testReadInvalidDataThrowsDataAccessException() throws IOException {
     Path filePath = tempDir.resolve("test_stocks.csv");
-    String content = """
+    String content =
+        """
                 # Ticker,Name,Price
                 NVDA, nvm, nv, 2019
-                
+
                 129, 129, hello
                 """;
 
     Files.writeString(filePath, content);
 
     assertThrows(DataAccessException.class, () -> stockReader.read(filePath.toString()));
-
   }
 
   @Test
@@ -69,28 +71,34 @@ class CsvStockReaderTest {
     Path filePath = tempDir.resolve("empty.csv");
     Files.writeString(filePath, "");
 
-    assertThrows(DataAccessException.class, () -> stockReader.read(filePath.toString()),
+    assertThrows(
+        DataAccessException.class,
+        () -> stockReader.read(filePath.toString()),
         "Empty file should throw DataAccessException");
   }
 
   @Test
   void testReadOnlyCommentsAndBlankLinesThrowsDataAccessException() throws IOException {
     Path filePath = tempDir.resolve("comments_only.csv");
-    String content = """
+    String content =
+        """
         # Ticker,Name,Price
 
         # Another comment
         """;
     Files.writeString(filePath, content);
 
-    assertThrows(DataAccessException.class, () -> stockReader.read(filePath.toString()),
+    assertThrows(
+        DataAccessException.class,
+        () -> stockReader.read(filePath.toString()),
         "File with only comments and blank lines should throw DataAccessException");
   }
 
   @Test
   void testReadBlankSymbolSkipsLine() throws IOException, DataAccessException {
     Path filePath = tempDir.resolve("blank_symbol.csv");
-    String content = """
+    String content =
+        """
         , Apple Inc., 276.43
         NVDA, Nvidia, 191.27
         """;
@@ -105,7 +113,8 @@ class CsvStockReaderTest {
   @Test
   void testReadBlankCompanySkipsLine() throws IOException, DataAccessException {
     Path filePath = tempDir.resolve("blank_company.csv");
-    String content = """
+    String content =
+        """
         AAPL, , 276.43
         NVDA, Nvidia, 191.27
         """;
@@ -120,7 +129,8 @@ class CsvStockReaderTest {
   @Test
   void testReadZeroPriceSkipsLine() throws IOException, DataAccessException {
     Path filePath = tempDir.resolve("zero_price.csv");
-    String content = """
+    String content =
+        """
         AAPL, Apple Inc., 0
         NVDA, Nvidia, 191.27
         """;
@@ -135,7 +145,8 @@ class CsvStockReaderTest {
   @Test
   void testReadNegativePriceSkipsLine() throws IOException, DataAccessException {
     Path filePath = tempDir.resolve("negative_price.csv");
-    String content = """
+    String content =
+        """
         AAPL, Apple Inc., -50.00
         NVDA, Nvidia, 191.27
         """;
@@ -148,9 +159,11 @@ class CsvStockReaderTest {
   }
 
   @Test
-  void testReadInvalidLinesAreSkippedAndValidOnesReturned() throws IOException, DataAccessException {
+  void testReadInvalidLinesAreSkippedAndValidOnesReturned()
+      throws IOException, DataAccessException {
     Path filePath = tempDir.resolve("mixed.csv");
-    String content = """
+    String content =
+        """
         AAPL, Apple Inc., 276.43
         BAD_ROW_TOO_MANY, Extra, Columns, Here
         NVDA, Nvidia, not_a_number
@@ -164,5 +177,4 @@ class CsvStockReaderTest {
     assertEquals("AAPL", stocks.get(0).getSymbol());
     assertEquals("GOOG", stocks.get(1).getSymbol());
   }
-
 }

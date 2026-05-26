@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.view.screen;
 
 import edu.ntnu.idi.idatt.controller.dto.GameSetup;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.function.Consumer;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,18 +14,15 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.function.Consumer;
 
 /**
  * The application's start screen where the player configures a new game or loads a saved one.
  *
- * <p>Provides a centred card form with fields for the player name, starting capital, and a
- * CSV stock-data file selection. Input validation is performed in-line: a non-numeric capital
- * or a missing file selection causes an error label to appear. The "Start Game" button fires
- * the {@code onStartRequested} callback with a fully populated {@link GameSetup}; the
- * "Load Game" button opens a file chooser and fires the {@code onLoadRequested} callback.</p>
+ * <p>Provides a centred card form with fields for the player name, starting capital, and a CSV
+ * stock-data file selection. Input validation is performed in-line: a non-numeric capital or a
+ * missing file selection causes an error label to appear. The "Start Game" button fires the {@code
+ * onStartRequested} callback with a fully populated {@link GameSetup}; the "Load Game" button opens
+ * a file chooser and fires the {@code onLoadRequested} callback.
  */
 public class StartView extends StackPane {
 
@@ -37,10 +37,10 @@ public class StartView extends StackPane {
   /**
    * Constructs the start view and wires the provided callbacks to the form buttons.
    *
-   * @param onStartRequested a callback invoked with a {@link GameSetup} when the player
-   *                         submits a valid new-game form
-   * @param onLoadRequested  a callback invoked with the absolute path of the selected save
-   *                         file when the player chooses to load a game
+   * @param onStartRequested a callback invoked with a {@link GameSetup} when the player submits a
+   *     valid new-game form
+   * @param onLoadRequested a callback invoked with the absolute path of the selected save file when
+   *     the player chooses to load a game
    */
   public StartView(Consumer<GameSetup> onStartRequested, Consumer<String> onLoadRequested) {
     this.onStartRequested = onStartRequested;
@@ -58,16 +58,16 @@ public class StartView extends StackPane {
   private VBox buildCard() {
     VBox card = new VBox(20);
     card.getStyleClass().add("start-card");
-    card.getChildren().addAll(
-        buildTitleSection(),
-        buildDivider(),
-        buildTextField("Player Name", nameField, "Enter your name"),
-        buildTextField("Starting Capital ($)", capitalField, "e.g. 10 000"),
-        buildFileField(),
-        buildErrorLabel(),
-        buildStartButton(),
-        buildLoadButton()
-    );
+    card.getChildren()
+        .addAll(
+            buildTitleSection(),
+            buildDivider(),
+            buildTextField("Player Name", nameField, "Enter your name"),
+            buildTextField("Starting Capital ($)", capitalField, "e.g. 10 000"),
+            buildFileField(),
+            buildErrorLabel(),
+            buildStartButton(),
+            buildLoadButton());
     return card;
   }
 
@@ -105,8 +105,8 @@ public class StartView extends StackPane {
    * Builds a labelled text-field form group.
    *
    * @param labelText the text of the field's descriptive label
-   * @param field     the {@link TextField} to include in the group
-   * @param prompt    the placeholder text shown inside the field when empty
+   * @param field the {@link TextField} to include in the group
+   * @param prompt the placeholder text shown inside the field when empty
    * @return the assembled form-field {@link VBox}
    */
   private VBox buildTextField(String labelText, TextField field, String prompt) {
@@ -188,15 +188,14 @@ public class StartView extends StackPane {
     return btn;
   }
 
-  /**
-   * Opens a file chooser filtered to CSV files and stores the selected path.
-   */
+  /** Opens a file chooser filtered to CSV files and stores the selected path. */
   private void handleBrowseFile() {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().addAll(
-        new FileChooser.ExtensionFilter("CSV File", "*.csv"),
-        new FileChooser.ExtensionFilter("All Files", "*.*")
-    );
+    fileChooser
+        .getExtensionFilters()
+        .addAll(
+            new FileChooser.ExtensionFilter("CSV File", "*.csv"),
+            new FileChooser.ExtensionFilter("All Files", "*.*"));
     File file = fileChooser.showOpenDialog(getScene().getWindow());
     if (file != null) {
       sourcePath = file.getAbsolutePath();
@@ -205,15 +204,13 @@ public class StartView extends StackPane {
     }
   }
 
-  /**
-   * Opens a file chooser filtered to {@code .millions} save files and fires the load callback.
-   */
+  /** Opens a file chooser filtered to {@code .millions} save files and fires the load callback. */
   private void handleLoadGame() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Load Millions Save File");
-    fileChooser.getExtensionFilters().add(
-        new FileChooser.ExtensionFilter("Millions Save File", "*.millions")
-    );
+    fileChooser
+        .getExtensionFilters()
+        .add(new FileChooser.ExtensionFilter("Millions Save File", "*.millions"));
     File file = fileChooser.showOpenDialog(getScene().getWindow());
     if (file != null) {
       onLoadRequested.accept(file.getAbsolutePath());
@@ -223,16 +220,13 @@ public class StartView extends StackPane {
   /**
    * Validates the form and fires the start-game callback if all fields are valid.
    *
-   * <p>Displays an inline error if the starting capital is not a valid number or if any
-   * other {@link IllegalArgumentException} is raised during {@link GameSetup} construction.</p>
+   * <p>Displays an inline error if the starting capital is not a valid number or if any other
+   * {@link IllegalArgumentException} is raised during {@link GameSetup} construction.
    */
   private void handleStartGame() {
     try {
-      GameSetup setup = new GameSetup(
-          nameField.getText(),
-          new BigDecimal(capitalField.getText()),
-          sourcePath
-      );
+      GameSetup setup =
+          new GameSetup(nameField.getText(), new BigDecimal(capitalField.getText()), sourcePath);
       showError(null);
       onStartRequested.accept(setup);
     } catch (NumberFormatException e) {

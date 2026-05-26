@@ -15,41 +15,38 @@ import java.util.logging.Logger;
 /**
  * Reads stock data from a comma-separated values (CSV) file.
  *
- * <p>Each non-comment, non-blank line in the file must contain exactly three
- * comma-separated fields in the following order:
+ * <p>Each non-comment, non-blank line in the file must contain exactly three comma-separated fields
+ * in the following order:
+ *
  * <ol>
- *   <li><strong>symbol</strong> — the ticker symbol of the stock</li>
- *   <li><strong>company</strong> — the full name of the issuing company</li>
- *   <li><strong>price</strong> — the initial market price as a decimal number</li>
+ *   <li><strong>symbol</strong> — the ticker symbol of the stock
+ *   <li><strong>company</strong> — the full name of the issuing company
+ *   <li><strong>price</strong> — the initial market price as a decimal number
  * </ol>
  *
- * <p>Lines beginning with {@code #} and blank lines are silently skipped. Lines that fail
- * to parse are logged as warnings and skipped; only a completely empty result (no valid
- * stocks at all) causes a {@link StockParsingException} to be thrown.
+ * <p>Lines beginning with {@code #} and blank lines are silently skipped. Lines that fail to parse
+ * are logged as warnings and skipped; only a completely empty result (no valid stocks at all)
+ * causes a {@link StockParsingException} to be thrown.
  */
 public class CsvStockReader implements DataReader<List<Stock>> {
 
   private static final Logger LOGGER = Logger.getLogger(CsvStockReader.class.getName());
   private static final int EXPECTED_COLUMN_COUNT = 3;
 
-  /**
-   * Constructs a new {@code CsvStockReader}.
-   */
-  public CsvStockReader() {
-  }
+  /** Constructs a new {@code CsvStockReader}. */
+  public CsvStockReader() {}
 
   /**
    * Reads and parses all valid stocks from the CSV file at the given path.
    *
-   * <p>Each parseable line is converted into a {@link Stock} with a single initial price.
-   * Invalid lines are logged and skipped. If the file contains no valid stock entries
-   * after processing, a {@link StockParsingException} is thrown.</p>
+   * <p>Each parseable line is converted into a {@link Stock} with a single initial price. Invalid
+   * lines are logged and skipped. If the file contains no valid stock entries after processing, a
+   * {@link StockParsingException} is thrown.
    *
    * @param source the absolute or relative path to the CSV file to read
    * @return a non-empty list of {@link Stock} instances parsed from the file
-   * @throws IOException            if the file at {@code source} does not exist or is not
-   *                                readable
-   * @throws StockParsingException  if the file contains no valid stock entries after parsing
+   * @throws IOException if the file at {@code source} does not exist or is not readable
+   * @throws StockParsingException if the file contains no valid stock entries after parsing
    */
   @Override
   public List<Stock> read(String source) throws IOException, StockParsingException {
@@ -87,8 +84,7 @@ public class CsvStockReader implements DataReader<List<Stock>> {
   /**
    * Determines whether a line should be ignored during parsing.
    *
-   * <p>A line is skippable if it starts with {@code #} (comment) or consists solely
-   * of whitespace.</p>
+   * <p>A line is skippable if it starts with {@code #} (comment) or consists solely of whitespace.
    *
    * @param line the raw line read from the file
    * @return {@code true} if the line should be skipped; {@code false} otherwise
@@ -101,11 +97,10 @@ public class CsvStockReader implements DataReader<List<Stock>> {
    * Parses a single CSV line into a {@link Stock} with one initial price.
    *
    * @param line the raw CSV line to parse; must contain exactly {@value #EXPECTED_COLUMN_COUNT}
-   *             comma-separated fields
+   *     comma-separated fields
    * @return a {@link Stock} constructed from the parsed fields
-   * @throws StockParsingException if the line has the wrong number of columns, a blank
-   *                               symbol or company name, a non-numeric price, or a
-   *                               non-positive price value
+   * @throws StockParsingException if the line has the wrong number of columns, a blank symbol or
+   *     company name, a non-numeric price, or a non-positive price value
    */
   private static Stock parseLineToStock(String line) throws StockParsingException {
     String[] data = line.split(",");
@@ -134,11 +129,10 @@ public class CsvStockReader implements DataReader<List<Stock>> {
     }
 
     if (price.compareTo(BigDecimal.ZERO) <= 0) {
-      throw new StockParsingException("Price must be positive, got '"
-          + price + "' in line: " + line);
+      throw new StockParsingException(
+          "Price must be positive, got '" + price + "' in line: " + line);
     }
 
     return new Stock(symbol, company, new ArrayList<>(List.of(price)));
   }
-
 }

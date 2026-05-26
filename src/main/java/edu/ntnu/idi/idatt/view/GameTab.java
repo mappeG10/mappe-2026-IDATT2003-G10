@@ -3,9 +3,9 @@ package edu.ntnu.idi.idatt.view;
 /**
  * Enumerates the navigable tabs available within the main game screen.
  *
- * <p>Used by the {@link Navigator} and the sidebar in
- * {@link edu.ntnu.idi.idatt.view.screen.MainView} to identify which content panel
- * to render in the centre region of the layout.</p>
+ * <p>Used by the {@link Navigator} and the sidebar in {@link
+ * edu.ntnu.idi.idatt.view.screen.MainView} to identify which content panel to render in the centre
+ * region of the layout.
  */
 public enum GameTab {
 

@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The TransactionArchive class is responsible for storing
- * and managing all historical transactions made by a player.
+ * The TransactionArchive class is responsible for storing and managing all historical transactions
+ * made by a player.
  *
- * <p>It provides methods to add new transactions, retrieve transactions for a specific week,
- * and analyze the transaction history (e.g., counting distinct weeks).</p>
+ * <p>It provides methods to add new transactions, retrieve transactions for a specific week, and
+ * analyze the transaction history (e.g., counting distinct weeks).
  */
 public class TransactionArchive {
 
   private final List<Transaction> transactions;
 
-  /**
-   * Constructs a new TransactionArchive with an empty list of transactions.
-   */
+  /** Constructs a new TransactionArchive with an empty list of transactions. */
   public TransactionArchive() {
     this.transactions = new ArrayList<>();
   }
@@ -47,9 +45,7 @@ public class TransactionArchive {
    * @return a list of transactions that occurred in the specified week
    */
   public List<Transaction> getTransactions(int week) {
-    return transactions.stream()
-        .filter(transaction -> transaction.getWeek() == week)
-        .toList();
+    return transactions.stream().filter(transaction -> transaction.getWeek() == week).toList();
   }
 
   /**
@@ -58,10 +54,7 @@ public class TransactionArchive {
    * @return the count of distinct weeks with transactions
    */
   public int countDistinctWeeks() {
-    return (int) transactions.stream()
-        .map(Transaction::getWeek)
-        .distinct()
-        .count();
+    return (int) transactions.stream().map(Transaction::getWeek).distinct().count();
   }
 
   /**
@@ -70,10 +63,6 @@ public class TransactionArchive {
    * @return a sorted list of distinct week numbers with transactions
    */
   public List<Integer> getDistinctWeeksAsList() {
-    return transactions.stream()
-        .map(Transaction::getWeek)
-        .distinct()
-        .sorted()
-        .toList();
+    return transactions.stream().map(Transaction::getWeek).distinct().sorted().toList();
   }
 }

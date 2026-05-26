@@ -11,8 +11,7 @@ import java.util.List;
  * Controller providing data and actions for the dashboard view.
  *
  * <p>The dashboard is the primary overview screen, displaying the player's current financial
- * position, portfolio composition, top market movers, and controls to advance the game
- * by one week.</p>
+ * position, portfolio composition, top market movers, and controls to advance the game by one week.
  */
 public class DashboardController extends BaseController {
 
@@ -20,7 +19,7 @@ public class DashboardController extends BaseController {
    * Constructs a new {@code DashboardController} for the given exchange and player.
    *
    * @param exchange the stock exchange for this game session; must not be {@code null}
-   * @param player   the player for this game session; must not be {@code null}
+   * @param player the player for this game session; must not be {@code null}
    */
   public DashboardController(Exchange exchange, Player player) {
     super(exchange, player);
@@ -114,8 +113,7 @@ public class DashboardController extends BaseController {
   /**
    * Advances the game by one week, randomising stock prices and updating the player's status.
    *
-   * <p>Calling this method triggers observer notifications on both the exchange and the
-   * player.</p>
+   * <p>Calling this method triggers observer notifications on both the exchange and the player.
    */
   public void advanceWeek() {
     exchange.advance();

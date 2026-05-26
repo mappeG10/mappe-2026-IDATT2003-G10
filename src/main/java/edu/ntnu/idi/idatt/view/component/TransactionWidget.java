@@ -7,17 +7,17 @@ import javafx.scene.control.TextField;
 /**
  * Abstract base class for buy and sell transaction modal widgets.
  *
- * <p>Provides the common UI scaffolding for transaction dialogs: a quantity input field,
- * a running total label, and an action button. Subclasses implement the preview update
- * logic and the action handler that commits the trade.</p>
+ * <p>Provides the common UI scaffolding for transaction dialogs: a quantity input field, a running
+ * total label, and an action button. Subclasses implement the preview update logic and the action
+ * handler that commits the trade.
  *
- * <p>Listeners are not attached during construction; subclasses must call
- * {@link #setupTransactionListeners()} after {@link #setupUI()} has populated
- * {@link #quantityField} and {@link #actionButton}.</p>
+ * <p>Listeners are not attached during construction; subclasses must call {@link
+ * #setupTransactionListeners()} after {@link #setupUi()} has populated {@link #quantityField} and
+ * {@link #actionButton}.
  *
- * @param <T> the type of the subject the transaction operates on (e.g.,
- *            {@link edu.ntnu.idi.idatt.model.Stock} for purchases or
- *            {@link edu.ntnu.idi.idatt.model.Share} for sales)
+ * @param <T> the type of the subject the transaction operates on (e.g., {@link
+ *     edu.ntnu.idi.idatt.model.Stock} for purchases or {@link edu.ntnu.idi.idatt.model.Share} for
+ *     sales)
  */
 public abstract class TransactionWidget<T> extends BaseModal<T> {
 
@@ -37,13 +37,14 @@ public abstract class TransactionWidget<T> extends BaseModal<T> {
   /**
    * Wires the quantity field and action button to their respective handlers.
    *
-   * <p>Must be called by the subclass after {@link #setupUI()} has assigned
-   * {@link #quantityField} and {@link #actionButton}.</p>
+   * <p>Must be called by the subclass after {@link #setupUi()} has assigned {@link #quantityField}
+   * and {@link #actionButton}.
    */
   protected void setupTransactionListeners() {
     if (quantityField != null) {
-      quantityField.textProperty()
-          .addListener((_, _, newValue) -> updatedPreview(newValue));
+      quantityField
+          .textProperty()
+          .addListener((observable, oldValue, newValue) -> updatedPreview(newValue));
     }
     if (actionButton != null) {
       actionButton.setOnAction(event -> handleAction());
@@ -53,9 +54,9 @@ public abstract class TransactionWidget<T> extends BaseModal<T> {
   /**
    * Updates the cost or proceeds preview based on the quantity currently entered.
    *
-   * <p>Called every time the text in {@link #quantityField} changes. Implementations
-   * should update the relevant labels in the widget and silently swallow
-   * {@link IllegalArgumentException}s that occur when the input is not yet a valid number.</p>
+   * <p>Called every time the text in {@link #quantityField} changes. Implementations should update
+   * the relevant labels in the widget and silently swallow {@link IllegalArgumentException}s that
+   * occur when the input is not yet a valid number.
    *
    * @param quantity the raw text currently in the quantity field; may be empty or invalid
    */
@@ -64,11 +65,11 @@ public abstract class TransactionWidget<T> extends BaseModal<T> {
   /**
    * Executes the trade when the player clicks the action button.
    *
-   * <p>Implementations should validate the quantity, invoke the appropriate controller
-   * method, close this dialog, and open a {@link ReceiptWidget} on success. Exceptions
-   * such as {@link edu.ntnu.idi.idatt.model.exception.InsufficientFundsException} or
-   * {@link edu.ntnu.idi.idatt.model.exception.InsufficientSharesException} should be
-   * shown to the player via {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showErrorAlert}.</p>
+   * <p>Implementations should validate the quantity, invoke the appropriate controller method,
+   * close this dialog, and open a {@link ReceiptWidget} on success. Exceptions such as {@link
+   * edu.ntnu.idi.idatt.model.exception.InsufficientFundsException} or {@link
+   * edu.ntnu.idi.idatt.model.exception.InsufficientSharesException} should be shown to the player
+   * via {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showErrorAlert}.
    */
   protected abstract void handleAction();
 }

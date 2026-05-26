@@ -1,20 +1,22 @@
 package edu.ntnu.idi.idatt.model;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ShareTest {
   Share share;
-  Stock stock = new Stock("AAPL",
-      "Apple",
-      new ArrayList<>(List.of(
-          new BigDecimal("182.50"),
-          new BigDecimal("183.75"),
-          new BigDecimal("181.20"))));
+  Stock stock =
+      new Stock(
+          "AAPL",
+          "Apple",
+          new ArrayList<>(
+              List.of(
+                  new BigDecimal("182.50"), new BigDecimal("183.75"), new BigDecimal("181.20"))));
   BigDecimal quantity = new BigDecimal("100");
   BigDecimal purchasePrice = stock.getSalesPrice().multiply(quantity);
 
@@ -33,18 +35,30 @@ class ShareTest {
 
   @Test
   void testConstructorWithInvalidArguments() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      new Share(null, quantity, purchasePrice);
-    }, "Constructor didn't throw IllegalArgumentException when argument is null");
-    assertThrows(IllegalArgumentException.class, () -> {
-      new Share(stock, null, purchasePrice);
-    }, "Constructor didn't throw IllegalArgumentException when argument is null");
-    assertThrows(IllegalArgumentException.class, () -> {
-      new Share(stock, quantity, null);
-    }, "Constructor didn't throw IllegalArgumentException when argument is null");
-    assertThrows(IllegalArgumentException.class, () -> {
-      new Share(stock, new BigDecimal(0), purchasePrice);
-    }, "Constructor didn't throw IllegalArgumentException when quantity is invalid");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Share(null, quantity, purchasePrice);
+        },
+        "Constructor didn't throw IllegalArgumentException when argument is null");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Share(stock, null, purchasePrice);
+        },
+        "Constructor didn't throw IllegalArgumentException when argument is null");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Share(stock, quantity, null);
+        },
+        "Constructor didn't throw IllegalArgumentException when argument is null");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Share(stock, new BigDecimal(0), purchasePrice);
+        },
+        "Constructor didn't throw IllegalArgumentException when quantity is invalid");
   }
 
   @Test
@@ -65,57 +79,61 @@ class ShareTest {
 
   @Test
   void testGetGainLoss() {
-    List<BigDecimal> gainPrices = new ArrayList<>(List.of(
-        new BigDecimal("100"),
-        new BigDecimal("150")));
+    List<BigDecimal> gainPrices =
+        new ArrayList<>(List.of(new BigDecimal("100"), new BigDecimal("150")));
     Stock gainStock = new Stock("MSFT", "Microsoft", gainPrices);
     Share gainShare = new Share(gainStock, new BigDecimal("10"), new BigDecimal("100"));
 
     BigDecimal expectedGainLoss = new BigDecimal("500");
 
-    assertEquals(0, expectedGainLoss.compareTo(gainShare.getGainLoss()),
+    assertEquals(
+        0,
+        expectedGainLoss.compareTo(gainShare.getGainLoss()),
         "Gain/loss should be 500 when 10 shares bought at 100 are now worth 150");
   }
 
   @Test
   void testGetGainLossNegative() {
-    List<BigDecimal> lossPrices = new ArrayList<>(List.of(
-        new BigDecimal("100"),
-        new BigDecimal("50")));
+    List<BigDecimal> lossPrices =
+        new ArrayList<>(List.of(new BigDecimal("100"), new BigDecimal("50")));
     Stock lossStock = new Stock("MSFT", "Microsoft", lossPrices);
     Share lossShare = new Share(lossStock, new BigDecimal("10"), new BigDecimal("100"));
 
     BigDecimal expectedGainLoss = new BigDecimal("-500");
 
-    assertEquals(0, expectedGainLoss.compareTo(lossShare.getGainLoss()),
+    assertEquals(
+        0,
+        expectedGainLoss.compareTo(lossShare.getGainLoss()),
         "Gain/loss should be -500 when 10 shares bought at 100 are now worth 50");
   }
 
   @Test
   void testGetGainLossPercent() {
-    List<BigDecimal> gainPrices = new ArrayList<>(List.of(
-        new BigDecimal("100"),
-        new BigDecimal("150")));
+    List<BigDecimal> gainPrices =
+        new ArrayList<>(List.of(new BigDecimal("100"), new BigDecimal("150")));
     Stock gainStock = new Stock("MSFT", "Microsoft", gainPrices);
     Share gainShare = new Share(gainStock, new BigDecimal("10"), new BigDecimal("100"));
 
     BigDecimal expectedPercent = new BigDecimal("50");
 
-    assertEquals(0, expectedPercent.compareTo(gainShare.getGainLossPercent()),
+    assertEquals(
+        0,
+        expectedPercent.compareTo(gainShare.getGainLossPercent()),
         "Gain/loss percent should be 50% when current price is 50% higher than purchase price");
   }
 
   @Test
   void testGetGainLossPercentNegative() {
-    List<BigDecimal> lossPrices = new ArrayList<>(List.of(
-        new BigDecimal("100"),
-        new BigDecimal("50")));
+    List<BigDecimal> lossPrices =
+        new ArrayList<>(List.of(new BigDecimal("100"), new BigDecimal("50")));
     Stock lossStock = new Stock("MSFT", "Microsoft", lossPrices);
     Share lossShare = new Share(lossStock, new BigDecimal("10"), new BigDecimal("100"));
 
     BigDecimal expectedPercent = new BigDecimal("-50");
 
-    assertEquals(0, expectedPercent.compareTo(lossShare.getGainLossPercent()),
+    assertEquals(
+        0,
+        expectedPercent.compareTo(lossShare.getGainLossPercent()),
         "Gain/loss percent should be -50% when current price is 50% lower than purchase price");
   }
 
@@ -127,18 +145,21 @@ class ShareTest {
 
     BigDecimal expectedPercent = BigDecimal.ZERO;
 
-    assertEquals(0, expectedPercent.compareTo(zeroPriceShare.getGainLossPercent()),
+    assertEquals(
+        0,
+        expectedPercent.compareTo(zeroPriceShare.getGainLossPercent()),
         "Gain/loss percent should be 0% when purchase price is zero");
   }
 
   @Test
   void testDelegateMethods() {
-    assertEquals(stock.getSymbol(), share.getSymbol(),
-        "getSymbol() should delegate to the inner Stock");
-    assertEquals(stock.getCompany(), share.getCompany(),
-        "getCompany() should delegate to the inner Stock");
-    assertEquals(0, stock.getSalesPrice().compareTo(share.getCurrentPrice()),
+    assertEquals(
+        stock.getSymbol(), share.getSymbol(), "getSymbol() should delegate to the inner Stock");
+    assertEquals(
+        stock.getCompany(), share.getCompany(), "getCompany() should delegate to the inner Stock");
+    assertEquals(
+        0,
+        stock.getSalesPrice().compareTo(share.getCurrentPrice()),
         "getCurrentPrice() should delegate getSalesPrice() from the inner Stock");
   }
-
 }

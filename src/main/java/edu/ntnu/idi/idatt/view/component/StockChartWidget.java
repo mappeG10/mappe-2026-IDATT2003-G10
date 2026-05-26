@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.view.component;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.view.util.FormatUtil;
-import javafx.stage.Window;
 import java.math.BigDecimal;
 import java.util.List;
 import javafx.scene.chart.AreaChart;
@@ -13,24 +12,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Window;
 
 /**
  * Modal dialog displaying a stock's complete price history as an area chart.
  *
- * <p>Shows current, all-time high, and all-time low prices in a stat row above the chart.
- * The horizontal axis represents the game week (starting at 1), and the vertical axis
- * represents the price in USD.</p>
+ * <p>Shows current, all-time high, and all-time low prices in a stat row above the chart. The
+ * horizontal axis represents the game week (starting at 1), and the vertical axis represents the
+ * price in USD.
  *
- * <p>Two static factory methods are provided for convenience: {@link #open(Stock, Window)}
- * for use from the market view, and {@link #open(Share, Window)} for use from the portfolio
- * or dashboard view.</p>
+ * <p>Two static factory methods are provided for convenience: {@link #open(Stock, Window)} for use
+ * from the market view, and {@link #open(Share, Window)} for use from the portfolio or dashboard
+ * view.
  */
 public class StockChartWidget extends BaseModal<Stock> {
 
   /**
    * Opens a {@code StockChartWidget} for the given stock anchored to the specified window.
    *
-   * <p>Has no effect if either argument is {@code null}.</p>
+   * <p>Has no effect if either argument is {@code null}.
    *
    * @param stock the stock whose price history to display; must not be {@code null}
    * @param owner the parent window to anchor the dialog to; must not be {@code null}
@@ -45,10 +45,10 @@ public class StockChartWidget extends BaseModal<Stock> {
   /**
    * Opens a {@code StockChartWidget} for the stock underlying the given share position.
    *
-   * <p>Has no effect if either argument is {@code null}.</p>
+   * <p>Has no effect if either argument is {@code null}.
    *
-   * @param share the share position whose stock's price history to display; must not be
-   *              {@code null}
+   * @param share the share position whose stock's price history to display; must not be {@code
+   *     null}
    * @param owner the parent window to anchor the dialog to; must not be {@code null}
    */
   public static void open(Share share, Window owner) {
@@ -65,14 +65,12 @@ public class StockChartWidget extends BaseModal<Stock> {
    */
   public StockChartWidget(Stock target) {
     super(target);
-    setupUI();
+    setupUi();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().addAll("widget-root", "stock-chart-widget");
 
     this.titleLabel = new Label(target.getSymbol() + " — " + target.getCompany());
@@ -82,12 +80,7 @@ public class StockChartWidget extends BaseModal<Stock> {
     this.closeButton.getStyleClass().add("btn-cancel");
 
     setSpacing(16);
-    getChildren().addAll(
-        titleLabel,
-        buildStatsRow(),
-        buildChart(),
-        closeButton
-    );
+    getChildren().addAll(titleLabel, buildStatsRow(), buildChart(), closeButton);
   }
 
   /**
@@ -98,11 +91,11 @@ public class StockChartWidget extends BaseModal<Stock> {
   private HBox buildStatsRow() {
     HBox row = new HBox(24);
     row.getStyleClass().add("widget-summary");
-    row.getChildren().addAll(
-        buildStatCard("Current", target.getSalesPrice()),
-        buildStatCard("High",    target.getHighestPrice()),
-        buildStatCard("Low",     target.getLowestPrice())
-    );
+    row.getChildren()
+        .addAll(
+            buildStatCard("Current", target.getSalesPrice()),
+            buildStatCard("High", target.getHighestPrice()),
+            buildStatCard("Low", target.getLowestPrice()));
     return row;
   }
 
@@ -129,18 +122,18 @@ public class StockChartWidget extends BaseModal<Stock> {
    * @return a configured {@link AreaChart} containing one data series for this stock
    */
   private AreaChart<Number, Number> buildChart() {
-    NumberAxis xAxis = new NumberAxis();
-    xAxis.setLabel("Week");
-    xAxis.setAutoRanging(false);
-    xAxis.setLowerBound(1);
-    xAxis.setUpperBound(Math.max(target.getHistoricalPrices().size(), 2));
-    xAxis.setTickUnit(1);
-    xAxis.setMinorTickVisible(false);
+    NumberAxis weekAxis = new NumberAxis();
+    weekAxis.setLabel("Week");
+    weekAxis.setAutoRanging(false);
+    weekAxis.setLowerBound(1);
+    weekAxis.setUpperBound(Math.max(target.getHistoricalPrices().size(), 2));
+    weekAxis.setTickUnit(1);
+    weekAxis.setMinorTickVisible(false);
 
-    NumberAxis yAxis = new NumberAxis();
-    yAxis.setLabel("Price ($)");
+    NumberAxis priceAxis = new NumberAxis();
+    priceAxis.setLabel("Price ($)");
 
-    AreaChart<Number, Number> chart = new AreaChart<>(xAxis, yAxis);
+    AreaChart<Number, Number> chart = new AreaChart<>(weekAxis, priceAxis);
     chart.setLegendVisible(false);
     chart.setAnimated(false);
     chart.setCreateSymbols(false);

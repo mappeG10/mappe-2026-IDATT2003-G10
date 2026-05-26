@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Represents a player participating in the stock-market simulation game.
  *
- * <p>A player holds a cash balance, a {@link Portfolio} of share positions, and a
- * {@link TransactionArchive} that records every trade. The player's activity level is
- * summarised by a {@link Status} that is re-evaluated after each committed transaction,
- * based on how many distinct weeks they have traded and how much profit they have earned.</p>
+ * <p>A player holds a cash balance, a {@link Portfolio} of share positions, and a {@link
+ * TransactionArchive} that records every trade. The player's activity level is summarised by a
+ * {@link Status} that is re-evaluated after each committed transaction, based on how many distinct
+ * weeks they have traded and how much profit they have earned.
  *
- * <p>The player implements {@link GameSubject}, so UI components can register as
- * {@link GameObserver}s and refresh automatically whenever the player's state changes.</p>
+ * <p>The player implements {@link GameSubject}, so UI components can register as {@link
+ * GameObserver}s and refresh automatically whenever the player's state changes.
  */
 public class Player implements GameSubject {
 
@@ -27,11 +27,11 @@ public class Player implements GameSubject {
    * Describes the player's level of market activity and profitability.
    *
    * <ul>
-   *   <li>{@link #NOVICE} — the default starting status.</li>
-   *   <li>{@link #INVESTOR} — awarded after trading for at least 10 distinct weeks with
-   *       a profit of at least 20%.</li>
-   *   <li>{@link #SPECULATOR} — awarded after trading for at least 20 distinct weeks with
-   *       a profit of at least 100%.</li>
+   *   <li>{@link #NOVICE} — the default starting status.
+   *   <li>{@link #INVESTOR} — awarded after trading for at least 10 distinct weeks with a profit of
+   *       at least 20%.
+   *   <li>{@link #SPECULATOR} — awarded after trading for at least 20 distinct weeks with a profit
+   *       of at least 100%.
    * </ul>
    */
   public enum Status {
@@ -54,7 +54,7 @@ public class Player implements GameSubject {
   /**
    * {@inheritDoc}
    *
-   * <p>Duplicate registrations are silently ignored.</p>
+   * <p>Duplicate registrations are silently ignored.
    */
   @Override
   public void register(GameObserver observer) {
@@ -63,17 +63,13 @@ public class Player implements GameSubject {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public void unregister(GameObserver observer) {
     observers.remove(observer);
   }
 
-  /**
-   * Notifies all registered observers that this player's state has changed.
-   */
+  /** Notifies all registered observers that this player's state has changed. */
   private void notifyObservers() {
     observers.forEach(GameObserver::update);
   }
@@ -81,13 +77,13 @@ public class Player implements GameSubject {
   /**
    * Constructs a new player with the given display name and starting cash balance.
    *
-   * <p>The player's portfolio and transaction archive are initialised as empty, and their
-   * initial status is set to {@link Status#NOVICE}.</p>
+   * <p>The player's portfolio and transaction archive are initialised as empty, and their initial
+   * status is set to {@link Status#NOVICE}.
    *
-   * @param name          the display name of the player; must not be {@code null} or blank
+   * @param name the display name of the player; must not be {@code null} or blank
    * @param startingMoney the initial cash balance; must not be {@code null} or negative
-   * @throws IllegalArgumentException if {@code name} is {@code null} or blank, or if
-   *                                  {@code startingMoney} is {@code null} or negative
+   * @throws IllegalArgumentException if {@code name} is {@code null} or blank, or if {@code
+   *     startingMoney} is {@code null} or negative
    */
   public Player(String name, BigDecimal startingMoney) {
 
@@ -153,14 +149,13 @@ public class Player implements GameSubject {
       throw new IllegalArgumentException("You cannot add negative money or zero");
     }
     money = money.add(amount);
-
   }
 
   /**
    * Decreases the player's cash balance by the specified amount.
    *
-   * <p>This method does not enforce a minimum balance; the caller is responsible for
-   * verifying that the player has sufficient funds before invoking it.</p>
+   * <p>This method does not enforce a minimum balance; the caller is responsible for verifying that
+   * the player has sufficient funds before invoking it.
    *
    * @param amount the amount to subtract; must be positive and not {@code null}
    * @throws IllegalArgumentException if {@code amount} is {@code null}, zero, or negative
@@ -170,13 +165,12 @@ public class Player implements GameSubject {
       throw new IllegalArgumentException("You cannot withdraw negative money or zero");
     }
     money = money.subtract(amount);
-
   }
 
   /**
    * Replaces the player's current cash balance with the specified value.
    *
-   * <p>Intended for use during game-state restoration (e.g., loading a saved game).</p>
+   * <p>Intended for use during game-state restoration (e.g., loading a saved game).
    *
    * @param money the new balance; must not be {@code null} or negative
    * @throws IllegalArgumentException if {@code money} is {@code null} or negative
@@ -191,8 +185,8 @@ public class Player implements GameSubject {
   /**
    * Overrides the player's current status with the specified value.
    *
-   * <p>Intended for use during game-state restoration. Under normal gameplay, status is
-   * managed automatically by {@link #updateStatus()}.</p>
+   * <p>Intended for use during game-state restoration. Under normal gameplay, status is managed
+   * automatically by {@link #updateStatus()}.
    *
    * @param status the status to assign; must not be {@code null}
    * @throws IllegalArgumentException if {@code status} is {@code null}
@@ -205,20 +199,21 @@ public class Player implements GameSubject {
   }
 
   /**
-   * Re-evaluates and updates the player's {@link Status} based on current trading history
-   * and profitability.
+   * Re-evaluates and updates the player's {@link Status} based on current trading history and
+   * profitability.
    *
    * <p>The promotion rules are:
+   *
    * <ul>
-   *   <li>{@link Status#SPECULATOR} — at least 20 distinct trading weeks and a profit of
-   *       at least 100%.</li>
-   *   <li>{@link Status#INVESTOR} — at least 10 distinct trading weeks and a profit of
-   *       at least 20%.</li>
-   *   <li>{@link Status#NOVICE} — all other cases.</li>
+   *   <li>{@link Status#SPECULATOR} — at least 20 distinct trading weeks and a profit of at least
+   *       100%.
+   *   <li>{@link Status#INVESTOR} — at least 10 distinct trading weeks and a profit of at least
+   *       20%.
+   *   <li>{@link Status#NOVICE} — all other cases.
    * </ul>
    *
-   * <p>If the starting balance is zero, status is not updated. All registered observers
-   * are notified after a status change.
+   * <p>If the starting balance is zero, status is not updated. All registered observers are
+   * notified after a status change.
    */
   public void updateStatus() {
     if (startingMoney.compareTo(BigDecimal.ZERO) <= 0) {
@@ -227,16 +222,16 @@ public class Player implements GameSubject {
 
     int weeks = this.transactionArchive.countDistinctWeeks();
 
-    BigDecimal profitPercent = money.subtract(startingMoney)
-        .divide(startingMoney, MathContext.DECIMAL128)
-        .multiply(new BigDecimal(100))
-        .setScale(2, RoundingMode.HALF_UP);
+    BigDecimal profitPercent =
+        money
+            .subtract(startingMoney)
+            .divide(startingMoney, MathContext.DECIMAL128)
+            .multiply(new BigDecimal(100))
+            .setScale(2, RoundingMode.HALF_UP);
 
-    if (weeks >= 20 && profitPercent
-        .compareTo(new BigDecimal("100")) >= 0) {
+    if (weeks >= 20 && profitPercent.compareTo(new BigDecimal("100")) >= 0) {
       status = Status.SPECULATOR;
-    } else if (weeks >= 10 && profitPercent
-        .compareTo(new BigDecimal("20")) >= 0) {
+    } else if (weeks >= 10 && profitPercent.compareTo(new BigDecimal("20")) >= 0) {
       status = Status.INVESTOR;
     } else {
       status = Status.NOVICE;
@@ -258,10 +253,10 @@ public class Player implements GameSubject {
   /**
    * Reduces a share position in this player's portfolio by the specified quantity.
    *
-   * @param share  the share position to reduce; matched by stock symbol
+   * @param share the share position to reduce; matched by stock symbol
    * @param amount the quantity to subtract
-   * @return {@code true} if the reduction was successful; {@code false} if the position
-   *         was not found or the amount exceeded the held quantity
+   * @return {@code true} if the reduction was successful; {@code false} if the position was not
+   *     found or the amount exceeded the held quantity
    */
   public boolean reduceShareInPortfolio(Share share, BigDecimal amount) {
     return portfolio.reduceShare(share, amount);
@@ -295,8 +290,8 @@ public class Player implements GameSubject {
   }
 
   /**
-   * Calculates the player's total net worth as cash plus the current market value of
-   * all portfolio positions.
+   * Calculates the player's total net worth as cash plus the current market value of all portfolio
+   * positions.
    *
    * @return the sum of cash balance and portfolio market value
    */
@@ -307,8 +302,8 @@ public class Player implements GameSubject {
   /**
    * Calculates the absolute gain or loss relative to the player's starting balance.
    *
-   * <p>Computed as {@code netWorth - startingMoney}. A positive value indicates overall
-   * profit; a negative value indicates a loss.</p>
+   * <p>Computed as {@code netWorth - startingMoney}. A positive value indicates overall profit; a
+   * negative value indicates a loss.
    *
    * @return the total gain (positive) or loss (negative) since the game started
    */
@@ -319,17 +314,18 @@ public class Player implements GameSubject {
   /**
    * Calculates the percentage gain or loss relative to the player's starting balance.
    *
-   * <p>Returns {@link BigDecimal#ZERO} if the starting balance is zero to prevent
-   * division by zero. The result is scaled to four decimal places.</p>
+   * <p>Returns {@link BigDecimal#ZERO} if the starting balance is zero to prevent division by zero.
+   * The result is scaled to four decimal places.
    *
-   * @return the percentage gain (positive) or loss (negative) relative to the starting
-   *         balance; {@link BigDecimal#ZERO} if the starting balance is zero
+   * @return the percentage gain (positive) or loss (negative) relative to the starting balance;
+   *     {@link BigDecimal#ZERO} if the starting balance is zero
    */
   public BigDecimal getTotalGainLossPercent() {
     if (startingMoney.compareTo(BigDecimal.ZERO) == 0) {
       return BigDecimal.ZERO;
     }
-    return getNetWorth().subtract(startingMoney)
+    return getNetWorth()
+        .subtract(startingMoney)
         .divide(startingMoney, 4, RoundingMode.HALF_UP)
         .multiply(new BigDecimal("100"));
   }

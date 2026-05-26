@@ -1,32 +1,38 @@
 package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.controller.GameController;
-import edu.ntnu.idi.idatt.controller.dto.GameSummary;
 import edu.ntnu.idi.idatt.controller.dto.GameSetup;
+import edu.ntnu.idi.idatt.controller.dto.GameSummary;
 import edu.ntnu.idi.idatt.controller.init.GameFactory;
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
+import edu.ntnu.idi.idatt.view.screen.MainView;
+import edu.ntnu.idi.idatt.view.screen.StartView;
+import edu.ntnu.idi.idatt.view.screen.SummaryView;
+import edu.ntnu.idi.idatt.view.screen.tabs.DashboardView;
+import edu.ntnu.idi.idatt.view.screen.tabs.MarketView;
+import edu.ntnu.idi.idatt.view.screen.tabs.PortfolioView;
+import edu.ntnu.idi.idatt.view.screen.tabs.SettingsView;
+import edu.ntnu.idi.idatt.view.screen.tabs.TransactionHistoryView;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
-import edu.ntnu.idi.idatt.view.screen.*;
-import edu.ntnu.idi.idatt.view.screen.tabs.*;
+import java.io.IOException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 /**
  * Manages all screen transitions for the application.
  *
- * <p>The navigator is the single point responsible for constructing scenes, applying
- * the global stylesheet, and swapping the content of the primary {@link Stage}. It
- * decouples individual screens from each other: no screen holds a reference to another;
- * instead, each screen accepts callback lambdas that delegate back to the navigator.</p>
+ * <p>The navigator is the single point responsible for constructing scenes, applying the global
+ * stylesheet, and swapping the content of the primary {@link Stage}. It decouples individual
+ * screens from each other: no screen holds a reference to another; instead, each screen accepts
+ * callback lambdas that delegate back to the navigator.
  *
  * <p>The three top-level screens are:
+ *
  * <ul>
- *   <li><strong>Start</strong> — collects setup information or loads a save file.</li>
- *   <li><strong>Game</strong> — the main in-game shell with a sidebar and content area.</li>
- *   <li><strong>Summary</strong> — displays end-game statistics after the session ends.</li>
+ *   <li><strong>Start</strong> — collects setup information or loads a save file.
+ *   <li><strong>Game</strong> — the main in-game shell with a sidebar and content area.
+ *   <li><strong>Summary</strong> — displays end-game statistics after the session ends.
  * </ul>
  */
 public class Navigator {
@@ -46,13 +52,9 @@ public class Navigator {
     this.stage = stage;
   }
 
-  /**
-   * Navigates to the start screen, replacing the current scene.
-   */
+  /** Navigates to the start screen, replacing the current scene. */
   public void toStart() {
-    StartView startView = new StartView(
-        this::handleOnStartRequested,
-        this::handleOnLoadRequested);
+    StartView startView = new StartView(this::handleOnStartRequested, this::handleOnLoadRequested);
 
     Scene scene = new Scene(startView, WIDTH, HEIGHT);
     applyStylesheet(scene);
@@ -63,14 +65,18 @@ public class Navigator {
   /**
    * Handles game initialisation using the provided supplier, showing an error alert on failure.
    *
-   * @param errorTitle     the title for the error alert dialog
-   * @param errorPrefix    a prefix prepended to the exception message in the error dialog
-   * @param successTitle   the title for a success alert, or {@code null} to skip showing one
+   * @param errorTitle the title for the error alert dialog
+   * @param errorPrefix a prefix prepended to the exception message in the error dialog
+   * @param successTitle the title for a success alert, or {@code null} to skip showing one
    * @param successMessage the body of the success alert, or {@code null} to skip showing one
-   * @param supplier       a functional interface that creates or loads a {@link GameController}
+   * @param supplier a functional interface that creates or loads a {@link GameController}
    */
-  private void handleInitRequested(String errorTitle, String errorPrefix,
-      String successTitle, String successMessage, GameControllerSupplier supplier) {
+  private void handleInitRequested(
+      String errorTitle,
+      String errorPrefix,
+      String successTitle,
+      String successMessage,
+      GameControllerSupplier supplier) {
     try {
       GameController gc = supplier.get();
       if (successTitle != null) {
@@ -78,11 +84,9 @@ public class Navigator {
       }
       this.toGame(gc);
     } catch (DataAccessException | IOException e) {
-      ViewUtility.showErrorAlert(errorTitle,
-          errorPrefix + ": " + e.getMessage());
+      ViewUtility.showErrorAlert(errorTitle, errorPrefix + ": " + e.getMessage());
     } catch (Exception e) {
-      ViewUtility.showErrorAlert(errorTitle,
-          "Unexpected error: " + e.getMessage());
+      ViewUtility.showErrorAlert(errorTitle, "Unexpected error: " + e.getMessage());
     }
   }
 
@@ -92,7 +96,11 @@ public class Navigator {
    * @param gameSetup the setup configuration submitted by the player
    */
   private void handleOnStartRequested(GameSetup gameSetup) {
-    handleInitRequested("Start Error", "Could not start game", null, null,
+    handleInitRequested(
+        "Start Error",
+        "Could not start game",
+        null,
+        null,
         () -> GameFactory.createController(gameSetup));
   }
 
@@ -102,18 +110,21 @@ public class Navigator {
    * @param path the absolute path to the {@code .millions} save file chosen by the player
    */
   private void handleOnLoadRequested(String path) {
-    handleInitRequested("Load Error", "Could not load save file",
-        "Game Loaded", "Your save file was loaded successfully.",
+    handleInitRequested(
+        "Load Error",
+        "Could not load save file",
+        "Game Loaded",
+        "Your save file was loaded successfully.",
         () -> GameFactory.createControllerFromSave(path));
   }
 
   /**
    * Navigates to the main game screen using the given controller.
    *
-   * <p>The market tab is shown by default on entry.</p>
+   * <p>The market tab is shown by default on entry.
    *
-   * @param gc the fully initialised {@link GameController} for this session; must not be
-   *           {@code null}
+   * @param gc the fully initialised {@link GameController} for this session; must not be {@code
+   *     null}
    */
   public void toGame(GameController gc) {
     this.gameController = gc;
@@ -129,8 +140,8 @@ public class Navigator {
   /**
    * Navigates to the summary screen displaying the given end-game statistics.
    *
-   * @param summary the final performance statistics produced by
-   *                {@link edu.ntnu.idi.idatt.controller.SummaryController#finishGame()}
+   * @param summary the final performance statistics produced by {@link
+   *     edu.ntnu.idi.idatt.controller.SummaryController#finishGame()}
    */
   public void toSummary(GameSummary summary) {
     SummaryView summaryView = new SummaryView(summary, this::toStart);
@@ -140,9 +151,7 @@ public class Navigator {
     stage.setFullScreen(true);
   }
 
-  /**
-   * Finalises the current game session and navigates to the summary screen.
-   */
+  /** Finalises the current game session and navigates to the summary screen. */
   private void finishGame() {
     GameSummary summary = gameController.getSummaryController().finishGame();
     toSummary(summary);
@@ -164,20 +173,22 @@ public class Navigator {
    * @param tab the tab to activate; must not be {@code null}
    */
   public void navigateTo(GameTab tab) {
-    Parent content = switch (tab) {
-      case MARKET -> new MarketView(gameController.getMarketController());
-      case PORTFOLIO -> new PortfolioView(gameController.getPortfolioController());
-      case HISTORY -> new TransactionHistoryView(gameController.getTransactionHistoryController());
-      case DASHBOARD -> new DashboardView(gameController.getDashboardController());
-      case SETTINGS -> new SettingsView(gameController);
-    };
+    Parent content =
+        switch (tab) {
+          case MARKET -> new MarketView(gameController.getMarketController());
+          case PORTFOLIO -> new PortfolioView(gameController.getPortfolioController());
+          case HISTORY ->
+              new TransactionHistoryView(gameController.getTransactionHistoryController());
+          case DASHBOARD -> new DashboardView(gameController.getDashboardController());
+          case SETTINGS -> new SettingsView(gameController);
+        };
 
     mainView.setContent(content);
   }
 
   /**
-   * Functional interface used internally to abstract over the two game-creation paths
-   * (new game and load game), both of which may throw checked exceptions.
+   * Functional interface used internally to abstract over the two game-creation paths (new game and
+   * load game), both of which may throw checked exceptions.
    */
   @FunctionalInterface
   private interface GameControllerSupplier {
@@ -187,9 +198,8 @@ public class Navigator {
      *
      * @return a fully initialised {@link GameController}
      * @throws DataAccessException if the data source cannot be read or parsed
-     * @throws IOException         if an I/O error occurs while reading the source
+     * @throws IOException if an I/O error occurs while reading the source
      */
     GameController get() throws DataAccessException, IOException;
   }
-
 }

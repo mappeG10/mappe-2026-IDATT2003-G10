@@ -6,10 +6,10 @@ import java.math.RoundingMode;
 /**
  * Represents an immutable position in a specific stock held by a player.
  *
- * <p>A share records the underlying {@link Stock}, the quantity held, and the average
- * price at which the position was acquired. Current-value and gain/loss figures are
- * derived dynamically from the stock's live market price, so they reflect the latest
- * price appended to the stock's price history at the time of the call.</p>
+ * <p>A share records the underlying {@link Stock}, the quantity held, and the average price at
+ * which the position was acquired. Current-value and gain/loss figures are derived dynamically from
+ * the stock's live market price, so they reflect the latest price appended to the stock's price
+ * history at the time of the call.
  */
 public class Share {
 
@@ -20,12 +20,12 @@ public class Share {
   /**
    * Constructs a new share position with the given stock, quantity, and purchase price.
    *
-   * @param stock         the stock this position is held in; must not be {@code null}
-   * @param quantity      the number of shares held; must be positive and not {@code null}
-   * @param purchasePrice the average price per share at which this position was acquired;
-   *                      must not be {@code null}
-   * @throws IllegalArgumentException if {@code stock} or {@code purchasePrice} is {@code null},
-   *                                  or if {@code quantity} is {@code null}, zero, or negative
+   * @param stock the stock this position is held in; must not be {@code null}
+   * @param quantity the number of shares held; must be positive and not {@code null}
+   * @param purchasePrice the average price per share at which this position was acquired; must not
+   *     be {@code null}
+   * @throws IllegalArgumentException if {@code stock} or {@code purchasePrice} is {@code null}, or
+   *     if {@code quantity} is {@code null}, zero, or negative
    */
   public Share(Stock stock, BigDecimal quantity, BigDecimal purchasePrice) {
     if (stock == null) {
@@ -100,7 +100,7 @@ public class Share {
   /**
    * Calculates the absolute gain or loss on this position at the current market price.
    *
-   * <p>Computed as {@code currentValue - (purchasePrice × quantity)}.</p>
+   * <p>Computed as {@code currentValue - (purchasePrice × quantity)}.
    *
    * @return the unrealised gain (positive) or loss (negative) for this position
    */
@@ -111,19 +111,19 @@ public class Share {
   /**
    * Calculates the percentage gain or loss on this position relative to its purchase cost.
    *
-   * <p>Returns {@link BigDecimal#ZERO} if the purchase value is zero to avoid division
-   * by zero. The result is scaled to four decimal places using
-   * {@link RoundingMode#HALF_UP}.</p>
+   * <p>Returns {@link BigDecimal#ZERO} if the purchase value is zero to avoid division by zero. The
+   * result is scaled to four decimal places using {@link RoundingMode#HALF_UP}.
    *
-   * @return the percentage gain (positive) or loss (negative); {@link BigDecimal#ZERO} if
-   *         the purchase value is zero
+   * @return the percentage gain (positive) or loss (negative); {@link BigDecimal#ZERO} if the
+   *     purchase value is zero
    */
   public BigDecimal getGainLossPercent() {
     BigDecimal purchaseValue = purchasePrice.multiply(quantity);
     if (purchaseValue.compareTo(BigDecimal.ZERO) == 0) {
       return BigDecimal.ZERO;
     }
-    return getCurrentValue().subtract(purchaseValue)
+    return getCurrentValue()
+        .subtract(purchaseValue)
         .divide(purchaseValue, 4, RoundingMode.HALF_UP)
         .multiply(new BigDecimal("100"));
   }
@@ -131,12 +131,11 @@ public class Share {
   /**
    * Calculates the total current market value of this position.
    *
-   * <p>Computed as {@code currentPrice × quantity}.</p>
+   * <p>Computed as {@code currentPrice × quantity}.
    *
    * @return the current market value of the entire position
    */
   public BigDecimal getCurrentValue() {
     return stock.getSalesPrice().multiply(quantity);
   }
-
 }

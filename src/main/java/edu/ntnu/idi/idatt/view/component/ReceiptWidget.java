@@ -13,10 +13,10 @@ import javafx.scene.layout.VBox;
 /**
  * Modal dialog displaying the confirmed details of a committed transaction.
  *
- * <p>Shows the transaction type (buy/sell), the stock traded, the per-share price,
- * and a fee breakdown (gross, commission, optionally tax, net total). A single "Done"
- * button closes the dialog. The caption colours and labels adapt based on whether the
- * transaction was a purchase or a sale.</p>
+ * <p>Shows the transaction type (buy/sell), the stock traded, the per-share price, and a fee
+ * breakdown (gross, commission, optionally tax, net total). A single "Done" button closes the
+ * dialog. The caption colours and labels adapt based on whether the transaction was a purchase or a
+ * sale.
  */
 public class ReceiptWidget extends BaseModal<TransactionReceipt> {
 
@@ -27,73 +27,81 @@ public class ReceiptWidget extends BaseModal<TransactionReceipt> {
    */
   public ReceiptWidget(TransactionReceipt receipt) {
     super(receipt);
-    setupUI();
+    setupUi();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().add("widget-root");
 
-    this.titleLabel = new Label(switch (target.type()) {
-      case PURCHASE -> "Purchase Confirmed";
-      case SALE     -> "Sale Confirmed";
-    });
+    this.titleLabel =
+        new Label(
+            switch (target.type()) {
+              case PURCHASE -> "Purchase Confirmed";
+              case SALE -> "Sale Confirmed";
+            });
     this.titleLabel.getStyleClass().add("widget-title");
 
     Label subtitleLabel = new Label(target.company() + " · Week " + target.week());
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
-    BigDecimal pricePerShare = target.gross()
-        .divide(target.quantity(), 2, RoundingMode.HALF_UP);
-    Label detailLabel = new Label(
-        switch (target.type()) { case PURCHASE -> "Bought "; case SALE -> "Sold "; }
-            + FormatUtil.formatBigDecimalToString(target.quantity())
-            + " share(s) of " + target.symbol()
-            + " @ " + FormatUtil.formatCurrency(pricePerShare)
-    );
+    BigDecimal pricePerShare = target.gross().divide(target.quantity(), 2, RoundingMode.HALF_UP);
+    Label detailLabel =
+        new Label(
+            switch (target.type()) {
+                  case PURCHASE -> "Bought ";
+                  case SALE -> "Sold ";
+                }
+                + FormatUtil.formatBigDecimalToString(target.quantity())
+                + " share(s) of "
+                + target.symbol()
+                + " @ "
+                + FormatUtil.formatCurrency(pricePerShare));
     detailLabel.getStyleClass().add("widget-subtitle");
 
     this.closeButton = new Button("Done");
-    this.closeButton.getStyleClass().add(switch (target.type()) {
-      case PURCHASE -> "btn-purchase";
-      case SALE     -> "btn-sale";
-    });
+    this.closeButton
+        .getStyleClass()
+        .add(
+            switch (target.type()) {
+              case PURCHASE -> "btn-purchase";
+              case SALE -> "btn-sale";
+            });
     this.closeButton.setMaxWidth(Double.MAX_VALUE);
 
     this.setSpacing(12);
-    this.getChildren().addAll(
-        titleLabel,
-        subtitleLabel,
-        detailLabel,
-        buildSummaryRow(),
-        closeButton
-    );
+    this.getChildren()
+        .addAll(titleLabel, subtitleLabel, detailLabel, buildSummaryRow(), closeButton);
   }
 
   /**
-   * Builds the fee breakdown panel, conditionally including a capital-gains tax row for
-   * profitable sales.
+   * Builds the fee breakdown panel, conditionally including a capital-gains tax row for profitable
+   * sales.
    *
    * @return an {@link HBox} containing the aligned key-value rows
    */
   private HBox buildSummaryRow() {
-    Label grossKey = new Label(switch (target.type()) {
-      case PURCHASE -> "Gross Cost";
-      case SALE     -> "Gross Proceeds";
-    });
+    Label grossKey =
+        new Label(
+            switch (target.type()) {
+              case PURCHASE -> "Gross Cost";
+              case SALE -> "Gross Proceeds";
+            });
     grossKey.getStyleClass().add("widget-label-key");
-    Label commKey = new Label(switch (target.type()) {
-      case PURCHASE -> "Commission (0.5%)";
-      case SALE     -> "Commission (1%)";
-    });
+    Label commKey =
+        new Label(
+            switch (target.type()) {
+              case PURCHASE -> "Commission (0.5%)";
+              case SALE -> "Commission (1%)";
+            });
     commKey.getStyleClass().add("widget-label-key");
-    Label totalKey = new Label(switch (target.type()) {
-      case PURCHASE -> "Total Cost";
-      case SALE     -> "Net Proceeds";
-    });
+    Label totalKey =
+        new Label(
+            switch (target.type()) {
+              case PURCHASE -> "Total Cost";
+              case SALE -> "Net Proceeds";
+            });
     totalKey.getStyleClass().add("widget-label-total");
 
     Label grossValue = new Label(FormatUtil.formatCurrency(target.gross()));
@@ -101,10 +109,14 @@ public class ReceiptWidget extends BaseModal<TransactionReceipt> {
     Label commValue = new Label(FormatUtil.formatCurrency(target.commission()));
     commValue.getStyleClass().add("widget-label-value");
     Label totalValue = new Label(FormatUtil.formatCurrency(target.total()));
-    totalValue.getStyleClass().addAll("widget-label-total", switch (target.type()) {
-      case PURCHASE -> "receipt-total-purchase";
-      case SALE     -> "text-positive";
-    });
+    totalValue
+        .getStyleClass()
+        .addAll(
+            "widget-label-total",
+            switch (target.type()) {
+              case PURCHASE -> "receipt-total-purchase";
+              case SALE -> "text-positive";
+            });
 
     VBox keys = new VBox(6, grossKey, commKey);
     VBox values = new VBox(6, grossValue, commValue);

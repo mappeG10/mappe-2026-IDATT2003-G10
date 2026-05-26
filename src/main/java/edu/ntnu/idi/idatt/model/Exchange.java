@@ -17,13 +17,13 @@ import java.util.Random;
 /**
  * Represents a stock exchange that hosts a collection of tradable stocks.
  *
- * <p>The exchange maintains the current game week, routes buy and sell orders to the
- * appropriate transaction logic, and advances the simulation by one week at a time.
- * Each call to {@link #advance()} applies a random price change of up to ±7.5% to every
- * listed stock and notifies all registered {@link GameObserver}s.</p>
+ * <p>The exchange maintains the current game week, routes buy and sell orders to the appropriate
+ * transaction logic, and advances the simulation by one week at a time. Each call to {@link
+ * #advance()} applies a random price change of up to ±7.5% to every listed stock and notifies all
+ * registered {@link GameObserver}s.
  *
- * <p>The exchange implements {@link GameSubject}, so controllers and UI components can
- * register as observers and react to week advances or completed trades.</p>
+ * <p>The exchange implements {@link GameSubject}, so controllers and UI components can register as
+ * observers and react to week advances or completed trades.
  */
 public class Exchange implements GameSubject {
 
@@ -36,7 +36,7 @@ public class Exchange implements GameSubject {
   /**
    * {@inheritDoc}
    *
-   * <p>Duplicate registrations are silently ignored.</p>
+   * <p>Duplicate registrations are silently ignored.
    */
   @Override
   public void register(GameObserver observer) {
@@ -45,17 +45,13 @@ public class Exchange implements GameSubject {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public void unregister(GameObserver observer) {
     observers.remove(observer);
   }
 
-  /**
-   * Notifies all registered observers that the exchange state has changed.
-   */
+  /** Notifies all registered observers that the exchange state has changed. */
   private void notifyObservers() {
     observers.forEach(GameObserver::update);
   }
@@ -63,14 +59,13 @@ public class Exchange implements GameSubject {
   /**
    * Constructs a new exchange with the given name and initial set of listed stocks.
    *
-   * <p>Each stock is indexed by its ticker symbol for O(1) look-ups. The week counter
-   * starts at 1.</p>
+   * <p>Each stock is indexed by its ticker symbol for O(1) look-ups. The week counter starts at 1.
    *
-   * @param name   the display name of this exchange; must not be {@code null} or blank
-   * @param stocks the initial list of stocks to list on this exchange; must not be
-   *               {@code null} or empty
-   * @throws IllegalArgumentException if {@code name} is {@code null} or blank, or if
-   *                                  {@code stocks} is {@code null} or empty
+   * @param name the display name of this exchange; must not be {@code null} or blank
+   * @param stocks the initial list of stocks to list on this exchange; must not be {@code null} or
+   *     empty
+   * @throws IllegalArgumentException if {@code name} is {@code null} or blank, or if {@code stocks}
+   *     is {@code null} or empty
    */
   public Exchange(String name, List<Stock> stocks) {
     if (name == null || name.isBlank()) {
@@ -86,7 +81,6 @@ public class Exchange implements GameSubject {
       stockMap.put(stock.getSymbol(), stock);
     }
     this.random = new Random();
-
   }
 
   /**
@@ -144,37 +138,36 @@ public class Exchange implements GameSubject {
   /**
    * Searches for stocks whose symbol or company name matches the given search term.
    *
-   * <p>The symbol comparison is case-insensitive and exact; the company name comparison
-   * is a case-insensitive substring match.</p>
+   * <p>The symbol comparison is case-insensitive and exact; the company name comparison is a
+   * case-insensitive substring match.
    *
    * @param searchTerm the text to search for; matched against both symbol and company name
    * @return a list of stocks matching the search term; empty if none match
    */
   public List<Stock> findStock(String searchTerm) {
     return stockMap.values().stream()
-        .filter(stock -> stock.getSymbol().equalsIgnoreCase(searchTerm.toLowerCase())
-            || stock.getCompany().toLowerCase().contains(searchTerm.toLowerCase()))
+        .filter(
+            stock ->
+                stock.getSymbol().equalsIgnoreCase(searchTerm.toLowerCase())
+                    || stock.getCompany().toLowerCase().contains(searchTerm.toLowerCase()))
         .toList();
   }
 
   /**
    * Executes a purchase of the specified stock on behalf of the given player.
    *
-   * <p>A new {@link Share} is created at the stock's current sales price, wrapped in a
-   * {@link edu.ntnu.idi.idatt.model.transaction.Purchase} transaction, and committed against
-   * the player's account. All registered observers are notified if the transaction commits
-   * successfully.</p>
+   * <p>A new {@link Share} is created at the stock's current sales price, wrapped in a {@link
+   * edu.ntnu.idi.idatt.model.transaction.Purchase} transaction, and committed against the player's
+   * account. All registered observers are notified if the transaction commits successfully.
    *
-   * @param symbol   the ticker symbol of the stock to buy
+   * @param symbol the ticker symbol of the stock to buy
    * @param quantity the number of shares to purchase; must be positive and not {@code null}
-   * @param player   the player executing the purchase
+   * @param player the player executing the purchase
    * @return the committed {@link Transaction}
-   * @throws IllegalArgumentException                                                   if
-   *         {@code quantity} is {@code null} or not positive
-   * @throws StockNotFoundException                                                      if no
-   *         stock with the given symbol is listed on this exchange
-   * @throws edu.ntnu.idi.idatt.model.exception.InsufficientFundsException              if the
-   *         player's balance is lower than the total purchase cost
+   * @throws IllegalArgumentException if {@code quantity} is {@code null} or not positive
+   * @throws StockNotFoundException if no stock with the given symbol is listed on this exchange
+   * @throws edu.ntnu.idi.idatt.model.exception.InsufficientFundsException if the player's balance
+   *     is lower than the total purchase cost
    */
   public Transaction buy(String symbol, BigDecimal quantity, Player player) {
     if (quantity == null || quantity.compareTo(BigDecimal.ZERO) <= 0) {
@@ -185,8 +178,8 @@ public class Exchange implements GameSubject {
 
     Share share = new Share(stock, quantity, stock.getSalesPrice());
 
-    Transaction purchase = TransactionFactory
-        .createTransaction(TransactionType.PURCHASE, share, week);
+    Transaction purchase =
+        TransactionFactory.createTransaction(TransactionType.PURCHASE, share, week);
 
     purchase.commit(player);
 
@@ -195,27 +188,25 @@ public class Exchange implements GameSubject {
     }
 
     return purchase;
-
   }
 
   /**
    * Executes a sale of shares from an existing portfolio position on behalf of the given player.
    *
-   * <p>A new {@link Share} is constructed at the original purchase price and wrapped in a
-   * {@link edu.ntnu.idi.idatt.model.transaction.Sale} transaction, then committed against
-   * the player's account. All registered observers are notified if the transaction commits
-   * successfully.</p>
+   * <p>A new {@link Share} is constructed at the original purchase price and wrapped in a {@link
+   * edu.ntnu.idi.idatt.model.transaction.Sale} transaction, then committed against the player's
+   * account. All registered observers are notified if the transaction commits successfully.
    *
-   * @param share    the portfolio share position from which to sell; used to determine the
-   *                 purchase price
-   * @param quantity the number of shares to sell; must be positive, not {@code null}, and
-   *                 not greater than the quantity held in the position
-   * @param player   the player executing the sale
+   * @param share the portfolio share position from which to sell; used to determine the purchase
+   *     price
+   * @param quantity the number of shares to sell; must be positive, not {@code null}, and not
+   *     greater than the quantity held in the position
+   * @param player the player executing the sale
    * @return the committed {@link Transaction}
-   * @throws IllegalArgumentException                                                      if
-   *         {@code quantity} is {@code null}, not positive, or exceeds the held quantity
-   * @throws edu.ntnu.idi.idatt.model.exception.InsufficientSharesException               if
-   *         the player's portfolio does not contain enough shares
+   * @throws IllegalArgumentException if {@code quantity} is {@code null}, not positive, or exceeds
+   *     the held quantity
+   * @throws edu.ntnu.idi.idatt.model.exception.InsufficientSharesException if the player's
+   *     portfolio does not contain enough shares
    */
   public Transaction sell(Share share, BigDecimal quantity, Player player) {
     if (quantity == null || quantity.compareTo(BigDecimal.ZERO) <= 0) {
@@ -239,9 +230,9 @@ public class Exchange implements GameSubject {
   /**
    * Advances the simulation by one week and randomises every stock's price.
    *
-   * <p>Each stock's price is adjusted by a uniformly distributed random factor in the
-   * range {@code [-7.5%, +7.5%]}. The new price is appended to the stock's price
-   * history. All registered observers are notified after all prices have been updated.</p>
+   * <p>Each stock's price is adjusted by a uniformly distributed random factor in the range {@code
+   * [-7.5%, +7.5%]}. The new price is appended to the stock's price history. All registered
+   * observers are notified after all prices have been updated.
    */
   public void advance() {
     week++;
@@ -249,14 +240,13 @@ public class Exchange implements GameSubject {
     for (Stock stock : stockMap.values()) {
       BigDecimal oldStockPrice = stock.getSalesPrice();
 
-      BigDecimal randomPriceChangeConstant = BigDecimal.valueOf(
-          (random.nextDouble() * 0.15) - 0.075);
+      BigDecimal randomPriceChangeConstant =
+          BigDecimal.valueOf((random.nextDouble() * 0.15) - 0.075);
 
-      BigDecimal newStockPrice = oldStockPrice.add(
-          oldStockPrice.multiply(randomPriceChangeConstant));
+      BigDecimal newStockPrice =
+          oldStockPrice.add(oldStockPrice.multiply(randomPriceChangeConstant));
 
       stock.addNewSalesPrice(newStockPrice);
-
     }
     notifyObservers();
   }
@@ -264,7 +254,7 @@ public class Exchange implements GameSubject {
   /**
    * Overrides the current week counter to the specified value.
    *
-   * <p>Intended for use during game-state restoration (e.g., loading a saved game).</p>
+   * <p>Intended for use during game-state restoration (e.g., loading a saved game).
    *
    * @param week the week number to set; must be at least 1
    * @throws IllegalArgumentException if {@code week} is less than 1
@@ -279,12 +269,12 @@ public class Exchange implements GameSubject {
   /**
    * Retrieves the top-performing stocks ranked by their most recent percentage price gain.
    *
-   * <p>Only stocks with at least two recorded prices (i.e., {@link Stock#hasPriceHistory()}
-   * returns {@code true}) are included in the ranking.</p>
+   * <p>Only stocks with at least two recorded prices (i.e., {@link Stock#hasPriceHistory()} returns
+   * {@code true}) are included in the ranking.
    *
    * @param limit the maximum number of stocks to return; must be at least 1
-   * @return a list of up to {@code limit} stocks sorted in descending order by latest
-   *         percentage price change
+   * @return a list of up to {@code limit} stocks sorted in descending order by latest percentage
+   *     price change
    * @throws IllegalArgumentException if {@code limit} is less than 1
    */
   public List<Stock> getGainers(int limit) {
@@ -296,18 +286,17 @@ public class Exchange implements GameSubject {
         .sorted(Comparator.comparing(Stock::getLatestPriceChangePercent).reversed())
         .limit(limit)
         .toList();
-
   }
 
   /**
    * Retrieves the worst-performing stocks ranked by their most recent percentage price decline.
    *
-   * <p>Only stocks with at least two recorded prices (i.e., {@link Stock#hasPriceHistory()}
-   * returns {@code true}) are included in the ranking.</p>
+   * <p>Only stocks with at least two recorded prices (i.e., {@link Stock#hasPriceHistory()} returns
+   * {@code true}) are included in the ranking.
    *
    * @param limit the maximum number of stocks to return; must be at least 1
-   * @return a list of up to {@code limit} stocks sorted in ascending order by latest
-   *         percentage price change
+   * @return a list of up to {@code limit} stocks sorted in ascending order by latest percentage
+   *     price change
    * @throws IllegalArgumentException if {@code limit} is less than 1
    */
   public List<Stock> getLosers(int limit) {
@@ -320,5 +309,4 @@ public class Exchange implements GameSubject {
         .limit(limit)
         .toList();
   }
-
 }

@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * Controller providing data and actions for the portfolio view.
  *
- * <p>Exposes the player's current holdings and related financial metrics, and provides
- * the ability to preview the proceeds of a potential sale and execute sell orders.</p>
+ * <p>Exposes the player's current holdings and related financial metrics, and provides the ability
+ * to preview the proceeds of a potential sale and execute sell orders.
  */
 public class PortfolioController extends BaseController {
 
@@ -24,7 +24,7 @@ public class PortfolioController extends BaseController {
    * Constructs a new {@code PortfolioController} for the given exchange and player.
    *
    * @param exchange the stock exchange for this game session; must not be {@code null}
-   * @param player   the player for this game session; must not be {@code null}
+   * @param player the player for this game session; must not be {@code null}
    */
   public PortfolioController(Exchange exchange, Player player) {
     super(exchange, player);
@@ -79,19 +79,20 @@ public class PortfolioController extends BaseController {
    * Calculates a proceeds breakdown for a hypothetical sale without committing the transaction.
    *
    * <p>The preview is computed using the stock's current market price and includes the gross
-   * proceeds, broker commission, capital-gains tax (if applicable), and net total.</p>
+   * proceeds, broker commission, capital-gains tax (if applicable), and net total.
    *
-   * @param share    the portfolio share position from which to simulate the sale
-   * @param quantity the number of shares to include in the preview; must be positive and
-   *                 not greater than the quantity held
+   * @param share the portfolio share position from which to simulate the sale
+   * @param quantity the number of shares to include in the preview; must be positive and not
+   *     greater than the quantity held
    * @return a {@link TransactionPreview} containing the proceeds breakdown
-   * @throws IllegalArgumentException if {@code share} or {@code quantity} is {@code null},
-   *                                  or if {@code quantity} is not positive
+   * @throws IllegalArgumentException if {@code share} or {@code quantity} is {@code null}, or if
+   *     {@code quantity} is not positive
    */
   public TransactionPreview previewSell(Share share, BigDecimal quantity) {
     Share previewShare = new Share(share.getStock(), quantity, share.getPurchasePrice());
-    Transaction previewSell = TransactionFactory.createTransaction(
-        TransactionType.SALE, previewShare, exchange.getWeek());
+    Transaction previewSell =
+        TransactionFactory.createTransaction(
+            TransactionType.SALE, previewShare, exchange.getWeek());
     TransactionCalculator previewCalculator = previewSell.getCalculator();
     return new TransactionPreview(
         previewCalculator.calculateGross(),
@@ -103,12 +104,12 @@ public class PortfolioController extends BaseController {
   /**
    * Executes a sell order for the specified share position and quantity on behalf of the player.
    *
-   * @param share    the portfolio share position to sell from
-   * @param quantity the number of shares to sell; must be positive and not greater than
-   *                 the quantity held
+   * @param share the portfolio share position to sell from
+   * @param quantity the number of shares to sell; must be positive and not greater than the
+   *     quantity held
    * @return a {@link TransactionReceipt} summarising the committed sale
-   * @throws edu.ntnu.idi.idatt.model.exception.InsufficientSharesException if the portfolio
-   *         does not contain enough shares to satisfy the requested quantity
+   * @throws edu.ntnu.idi.idatt.model.exception.InsufficientSharesException if the portfolio does
+   *     not contain enough shares to satisfy the requested quantity
    */
   public TransactionReceipt executeSell(Share share, BigDecimal quantity) {
     return TransactionReceipt.from(exchange.sell(share, quantity, player));

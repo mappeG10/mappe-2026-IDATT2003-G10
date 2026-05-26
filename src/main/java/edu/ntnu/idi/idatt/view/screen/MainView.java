@@ -1,13 +1,13 @@
 package edu.ntnu.idi.idatt.view.screen;
 
 import edu.ntnu.idi.idatt.controller.GameController;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.GameTab;
 import edu.ntnu.idi.idatt.view.component.FinishGameWidget;
 import edu.ntnu.idi.idatt.view.util.FormatUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,13 +23,13 @@ import javafx.scene.layout.VBox;
 /**
  * The primary shell of the game screen, providing a top navigation bar and a left sidebar.
  *
- * <p>Extends {@link BorderPane}: the top region holds a navbar with the current week,
- * cash balance, player name, and status badge; the left region holds a sidebar with
- * tab navigation buttons and the "Finish Game" action. The centre region is swapped
- * by {@link #setContent(Parent)} each time the active tab changes.</p>
+ * <p>Extends {@link BorderPane}: the top region holds a navbar with the current week, cash balance,
+ * player name, and status badge; the left region holds a sidebar with tab navigation buttons and
+ * the "Finish Game" action. The centre region is swapped by {@link #setContent(Parent)} each time
+ * the active tab changes.
  *
- * <p>Implements {@link GameObserver} so the navbar labels refresh automatically whenever
- * the exchange advances a week or a transaction is committed.</p>
+ * <p>Implements {@link GameObserver} so the navbar labels refresh automatically whenever the
+ * exchange advances a week or a transaction is committed.
  */
 public class MainView extends BorderPane implements GameObserver {
 
@@ -45,12 +45,13 @@ public class MainView extends BorderPane implements GameObserver {
    * Constructs the main game view and registers it as a game observer.
    *
    * @param gameController the top-level controller for this session; must not be {@code null}
-   * @param onTabSelected  a callback invoked with the selected {@link GameTab} when the
-   *                       player clicks a sidebar navigation button
-   * @param onFinish       a callback invoked when the player clicks "Finish Game" and
-   *                       confirms the action in the resulting dialog
+   * @param onTabSelected a callback invoked with the selected {@link GameTab} when the player
+   *     clicks a sidebar navigation button
+   * @param onFinish a callback invoked when the player clicks "Finish Game" and confirms the action
+   *     in the resulting dialog
    */
-  public MainView(GameController gameController, Consumer<GameTab> onTabSelected, Runnable onFinish) {
+  public MainView(
+      GameController gameController, Consumer<GameTab> onTabSelected, Runnable onFinish) {
     this.gameController = gameController;
 
     this.weekLabel = new Label();
@@ -66,8 +67,8 @@ public class MainView extends BorderPane implements GameObserver {
   }
 
   /**
-   * Replaces the centre content with the given panel, unregistering the previous panel
-   * as an observer if it implemented {@link GameObserver}.
+   * Replaces the centre content with the given panel, unregistering the previous panel as an
+   * observer if it implemented {@link GameObserver}.
    *
    * @param content the new content panel to display; must not be {@code null}
    */
@@ -83,24 +84,44 @@ public class MainView extends BorderPane implements GameObserver {
    * Builds the left sidebar containing tab navigation buttons and the finish-game button.
    *
    * @param onTabSelected a callback for tab selection events
-   * @param onFinish      a callback triggered by the finish-game confirmation
+   * @param onFinish a callback triggered by the finish-game confirmation
    * @return the assembled sidebar {@link VBox}
    */
   private VBox buildSidebar(Consumer<GameTab> onTabSelected, Runnable onFinish) {
     Button dashboardBtn = new Button("Dashboard");
-    Button marketBtn    = new Button("Market");
+    Button marketBtn = new Button("Market");
     Button portfolioBtn = new Button("Portfolio");
-    Button historyBtn   = new Button("History");
-    Button settingsBtn  = new Button("Settings");
+    Button historyBtn = new Button("History");
+    Button settingsBtn = new Button("Settings");
 
     sidebarBtns.addAll(List.of(dashboardBtn, marketBtn, portfolioBtn, historyBtn, settingsBtn));
     sidebarBtns.forEach(b -> b.getStyleClass().add("sidebar-btn"));
 
-    dashboardBtn.setOnAction(e -> { activateSidebarBtn(dashboardBtn); onTabSelected.accept(GameTab.DASHBOARD); });
-    marketBtn.setOnAction(e ->    { activateSidebarBtn(marketBtn);    onTabSelected.accept(GameTab.MARKET);    });
-    portfolioBtn.setOnAction(e -> { activateSidebarBtn(portfolioBtn); onTabSelected.accept(GameTab.PORTFOLIO); });
-    historyBtn.setOnAction(e ->   { activateSidebarBtn(historyBtn);   onTabSelected.accept(GameTab.HISTORY);   });
-    settingsBtn.setOnAction(e ->  { activateSidebarBtn(settingsBtn);  onTabSelected.accept(GameTab.SETTINGS);  });
+    dashboardBtn.setOnAction(
+        e -> {
+          activateSidebarBtn(dashboardBtn);
+          onTabSelected.accept(GameTab.DASHBOARD);
+        });
+    marketBtn.setOnAction(
+        e -> {
+          activateSidebarBtn(marketBtn);
+          onTabSelected.accept(GameTab.MARKET);
+        });
+    portfolioBtn.setOnAction(
+        e -> {
+          activateSidebarBtn(portfolioBtn);
+          onTabSelected.accept(GameTab.PORTFOLIO);
+        });
+    historyBtn.setOnAction(
+        e -> {
+          activateSidebarBtn(historyBtn);
+          onTabSelected.accept(GameTab.HISTORY);
+        });
+    settingsBtn.setOnAction(
+        e -> {
+          activateSidebarBtn(settingsBtn);
+          onTabSelected.accept(GameTab.SETTINGS);
+        });
 
     activateSidebarBtn(marketBtn);
 
@@ -113,7 +134,9 @@ public class MainView extends BorderPane implements GameObserver {
 
     VBox sidebar = new VBox();
     sidebar.getStyleClass().add("sidebar");
-    sidebar.getChildren().addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, settingsBtn, finishBtn);
+    sidebar
+        .getChildren()
+        .addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, settingsBtn, finishBtn);
     return sidebar;
   }
 
@@ -168,14 +191,16 @@ public class MainView extends BorderPane implements GameObserver {
     navbar.getStyleClass().add("navbar");
     navbar.setAlignment(Pos.CENTER_LEFT);
     HBox.setMargin(statusLabel, new Insets(0, 0, 0, 16));
-    navbar.getChildren().addAll(title, spacer, weekContainer, balanceContainer, playerContainer, statusLabel);
+    navbar
+        .getChildren()
+        .addAll(title, spacer, weekContainer, balanceContainer, playerContainer, statusLabel);
     return navbar;
   }
 
   /**
    * Refreshes all dynamic navbar labels from the controller.
    *
-   * <p>Called automatically whenever the game state changes via the observer mechanism.</p>
+   * <p>Called automatically whenever the game state changes via the observer mechanism.
    */
   @Override
   public void update() {
@@ -188,12 +213,11 @@ public class MainView extends BorderPane implements GameObserver {
   /**
    * Updates the status badge text and CSS class to reflect the player's current status.
    *
-   * @param status the lowercase-compatible name of the current
-   *               {@link edu.ntnu.idi.idatt.model.Player.Status}
+   * @param status the lowercase-compatible name of the current {@link
+   *     edu.ntnu.idi.idatt.model.Player.Status}
    */
   private void applyStatusStyle(String status) {
     statusLabel.setText(status.toUpperCase());
     statusLabel.getStyleClass().setAll("status-badge", "status-badge-" + status.toLowerCase());
   }
-
 }

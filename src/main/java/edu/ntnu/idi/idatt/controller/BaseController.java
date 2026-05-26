@@ -7,11 +7,10 @@ import edu.ntnu.idi.idatt.observer.GameObserver;
 /**
  * Abstract base class providing shared state and observer management for all game controllers.
  *
- * <p>Every concrete controller receives a reference to the same {@link Exchange} and
- * {@link Player} instances, which represent the single source of truth for the game
- * session. This class also provides convenience methods to register and unregister a
- * {@link GameObserver} with both subjects simultaneously, so UI components only need
- * a single call to subscribe to the full game state.</p>
+ * <p>Every concrete controller receives a reference to the same {@link Exchange} and {@link Player}
+ * instances, which represent the single source of truth for the game session. This class also
+ * provides convenience methods to register and unregister a {@link GameObserver} with both subjects
+ * simultaneously, so UI components only need a single call to subscribe to the full game state.
  */
 public abstract class BaseController {
 
@@ -22,7 +21,7 @@ public abstract class BaseController {
    * Constructs a new controller with the given exchange and player.
    *
    * @param exchange the stock exchange for this session; must not be {@code null}
-   * @param player   the player for this session; must not be {@code null}
+   * @param player the player for this session; must not be {@code null}
    */
   protected BaseController(Exchange exchange, Player player) {
     this.exchange = exchange;
@@ -32,9 +31,9 @@ public abstract class BaseController {
   /**
    * Registers an observer with both the {@link Exchange} and the {@link Player}.
    *
-   * <p>The observer will receive update notifications whenever either the exchange state
-   * (e.g., a week advance or a completed trade) or the player state (e.g., a balance
-   * change or a status update) changes.</p>
+   * <p>The observer will receive update notifications whenever either the exchange state (e.g., a
+   * week advance or a completed trade) or the player state (e.g., a balance change or a status
+   * update) changes.
    *
    * @param observer the observer to register; must not be {@code null}
    */
@@ -46,8 +45,8 @@ public abstract class BaseController {
   /**
    * Removes an observer from both the {@link Exchange} and the {@link Player}.
    *
-   * <p>If the observer is not currently registered with either subject, the call has
-   * no effect for that subject.</p>
+   * <p>If the observer is not currently registered with either subject, the call has no effect for
+   * that subject.
    *
    * @param observer the observer to remove
    */
@@ -55,5 +54,4 @@ public abstract class BaseController {
     exchange.unregister(observer);
     player.unregister(observer);
   }
-
 }

@@ -11,10 +11,10 @@ import java.math.BigDecimal;
 /**
  * Top-level controller that orchestrates the entire game session.
  *
- * <p>Acts as the facade through which the view layer accesses all game functionality.
- * It owns and exposes dedicated sub-controllers for each major feature area
- * (dashboard, market, portfolio, transaction history, and end-game summary), and
- * provides cross-cutting concerns such as persisting the game state to disk.</p>
+ * <p>Acts as the facade through which the view layer accesses all game functionality. It owns and
+ * exposes dedicated sub-controllers for each major feature area (dashboard, market, portfolio,
+ * transaction history, and end-game summary), and provides cross-cutting concerns such as
+ * persisting the game state to disk.
  */
 public class GameController extends BaseController {
 
@@ -25,11 +25,11 @@ public class GameController extends BaseController {
   private final SummaryController summaryController;
 
   /**
-   * Constructs a new {@code GameController} for the given exchange and player, and
-   * initialises all sub-controllers.
+   * Constructs a new {@code GameController} for the given exchange and player, and initialises all
+   * sub-controllers.
    *
    * @param exchange the stock exchange for this game session; must not be {@code null}
-   * @param player   the player for this game session; must not be {@code null}
+   * @param player the player for this game session; must not be {@code null}
    */
   public GameController(Exchange exchange, Player player) {
     super(exchange, player);
@@ -43,8 +43,8 @@ public class GameController extends BaseController {
   /**
    * Serialises the current game state and writes it to the specified file path.
    *
-   * @param path the absolute or relative destination path for the save file; must not be
-   *             {@code null} or blank
+   * @param path the absolute or relative destination path for the save file; must not be {@code
+   *     null} or blank
    * @throws DataAccessException if the game state cannot be written to the specified path
    */
   public void save(String path) throws DataAccessException {
@@ -128,11 +128,9 @@ public class GameController extends BaseController {
   /**
    * Retrieves the name of the player's current activity status.
    *
-   * @return the string name of the {@link edu.ntnu.idi.idatt.model.Player.Status} enum
-   *         constant
+   * @return the string name of the {@link edu.ntnu.idi.idatt.model.Player.Status} enum constant
    */
   public String getPlayerStatus() {
     return player.getStatus().name();
   }
-
 }

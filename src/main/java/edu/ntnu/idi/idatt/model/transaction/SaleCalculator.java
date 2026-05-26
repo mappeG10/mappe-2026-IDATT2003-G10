@@ -7,10 +7,9 @@ import java.math.BigDecimal;
  * Implements the financial calculations for a stock-sale transaction.
  *
  * <p>The commission rate is <strong>1%</strong> of the gross proceeds. A capital-gains tax of
- * <strong>30%</strong> is levied on any realised profit, where profit is defined as
- * {@code gross - commission - (purchasePrice × quantity)}. If the position is sold at a loss,
- * the tax is zero. The net proceeds credited to the player are therefore
- * {@code gross - commission - tax}.</p>
+ * <strong>30%</strong> is levied on any realised profit, where profit is defined as {@code gross -
+ * commission - (purchasePrice × quantity)}. If the position is sold at a loss, the tax is zero. The
+ * net proceeds credited to the player are therefore {@code gross - commission - tax}.
  */
 public class SaleCalculator implements TransactionCalculator {
 
@@ -21,8 +20,8 @@ public class SaleCalculator implements TransactionCalculator {
   /**
    * Constructs a new {@code SaleCalculator} for the given share position.
    *
-   * <p>The current market price is captured from the share's underlying stock at construction
-   * time and used as the sale price for all subsequent calculations.</p>
+   * <p>The current market price is captured from the share's underlying stock at construction time
+   * and used as the sale price for all subsequent calculations.
    *
    * @param share the share being sold; must not be {@code null}
    * @throws IllegalArgumentException if {@code share} is {@code null}
@@ -59,9 +58,9 @@ public class SaleCalculator implements TransactionCalculator {
   /**
    * Calculates the capital-gains tax at a rate of 30% on any realised profit.
    *
-   * <p>Profit is computed as {@code gross - commission - (purchasePrice × quantity)}.
-   * If the result is zero or negative (i.e., the position is sold at a loss), no tax
-   * is applied and {@link BigDecimal#ZERO} is returned.</p>
+   * <p>Profit is computed as {@code gross - commission - (purchasePrice × quantity)}. If the result
+   * is zero or negative (i.e., the position is sold at a loss), no tax is applied and {@link
+   * BigDecimal#ZERO} is returned.
    *
    * @return the tax amount; {@link BigDecimal#ZERO} if no profit was realised
    */
@@ -78,7 +77,7 @@ public class SaleCalculator implements TransactionCalculator {
   /**
    * Calculates the net proceeds credited to the player after all deductions.
    *
-   * <p>Computed as {@code gross - commission - tax}.</p>
+   * <p>Computed as {@code gross - commission - tax}.
    *
    * @return the total net proceeds of the sale
    */

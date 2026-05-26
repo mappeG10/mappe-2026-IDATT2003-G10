@@ -9,37 +9,36 @@ import javafx.scene.layout.VBox;
 /**
  * Modal dialog widget for displaying an informational message to the player.
  *
- * <p>Rendered with a blue-tinted header, an "i" badge, and two buttons:
- * "Cancel" and "OK". Used to confirm successful operations such as saving
- * the game or loading a save file. The dialog is opened via
- * {@link #openDialog(javafx.stage.Window)} inherited from {@link BaseModal}.</p>
+ * <p>Rendered with a blue-tinted header, an "i" badge, and two buttons: "Cancel" and "OK". Used to
+ * confirm successful operations such as saving the game or loading a save file. The dialog is
+ * opened via {@link #openDialog(javafx.stage.Window)} inherited from {@link BaseModal}.
  *
- * <p>Convenience method: {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showSuccessAlert}.</p>
+ * <p>Convenience method: {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showSuccessAlert}.
  */
 public class InfoWidget extends BaseModal<String> {
 
   /**
    * Constructs and immediately lays out an informational dialog with the given title and message.
    *
-   * @param title   the heading displayed in the coloured alert header
+   * @param title the heading displayed in the coloured alert header
    * @param message the informational text shown in the alert body
    */
   public InfoWidget(String title, String message) {
     super(message);
-    setupUI();
+    setupUi();
     titleLabel.setText(title);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().add("widget-root");
     setSpacing(0);
 
     Label badgeLabel = new Label("i");
-    badgeLabel.getStyleClass().addAll("alert-icon-badge", "alert-icon-badge-info", "alert-badge-text");
+    badgeLabel
+        .getStyleClass()
+        .addAll("alert-icon-badge", "alert-icon-badge-info", "alert-badge-text");
 
     this.titleLabel = new Label("Info");
     this.titleLabel.getStyleClass().add("alert-title");

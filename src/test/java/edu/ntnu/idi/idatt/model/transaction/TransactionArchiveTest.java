@@ -15,24 +15,22 @@ import org.junit.jupiter.api.Test;
 
 public class TransactionArchiveTest {
 
-
   private Stock stock;
   private Player player;
   private BigDecimal startingMoney;
   private Share share;
   private TransactionArchive transactionArchive;
 
-
-
   @BeforeEach
   void setUp() {
 
-    stock = new Stock("AAPL",
-        "Apple",
-        new ArrayList<>(List.of(
-            new BigDecimal("182.50"),
-            new BigDecimal("183.75"),
-            new BigDecimal("181.20"))));
+    stock =
+        new Stock(
+            "AAPL",
+            "Apple",
+            new ArrayList<>(
+                List.of(
+                    new BigDecimal("182.50"), new BigDecimal("183.75"), new BigDecimal("181.20"))));
 
     startingMoney = BigDecimal.valueOf(10000);
     player = new Player("Player test", startingMoney);
@@ -43,14 +41,12 @@ public class TransactionArchiveTest {
     share = new Share(stock, quantity, purchasePrice);
 
     transactionArchive = player.getTransactionArchive();
-
   }
 
   @Test
   void testTransactionArchiveConstructor() {
     assertTrue(transactionArchive.isEmpty(), "Should be empty on creation");
   }
-
 
   @Test
   void testValidSaleAdd() {
@@ -59,10 +55,8 @@ public class TransactionArchiveTest {
     Sale sale = new Sale(share, 1);
     sale.commit(player);
 
-
     assertTrue(player.getTransactionArchive().getTransactions(1).contains(sale));
     assertEquals(1, player.getTransactionArchive().getTransactions(1).size());
-
   }
 
   @Test
@@ -71,13 +65,9 @@ public class TransactionArchiveTest {
 
     purchase.commit(player);
 
-
     assertTrue(player.getTransactionArchive().getTransactions(1).contains(purchase));
     assertEquals(1, player.getTransactionArchive().getTransactions(1).size());
-
-
   }
-
 
   @Test
   void testGetTransactions() {
@@ -90,47 +80,52 @@ public class TransactionArchiveTest {
     List<Transaction> transactions = new ArrayList<>(List.of(purchase, sale));
 
     assertEquals(transactions, player.getTransactionArchive().getTransactions(1));
-
   }
 
   @Test
   void testCountDistinctWeeks() {
 
-    Purchase firstWeekFirstPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1);
-    Purchase secondWeekFirstPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2);
-    Purchase thirdWeekFirstPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3);
-    Purchase thirdWeekSecondPurchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3);
-
+    Purchase firstWeekFirstPurchase =
+        new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1);
+    Purchase secondWeekFirstPurchase =
+        new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2);
+    Purchase thirdWeekFirstPurchase =
+        new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3);
+    Purchase thirdWeekSecondPurchase =
+        new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3);
 
     firstWeekFirstPurchase.commit(player);
     secondWeekFirstPurchase.commit(player);
     thirdWeekFirstPurchase.commit(player);
     thirdWeekSecondPurchase.commit(player);
 
-
-    assertEquals(3, transactionArchive.countDistinctWeeks(),
+    assertEquals(
+        3,
+        transactionArchive.countDistinctWeeks(),
         "Should be 3 distinct weeks in the transaction archive");
-
   }
-
 
   @Test
   void testIsEmpty() {
-    assertTrue(transactionArchive.isEmpty(), "Transaction archive should be empty when constructed");
+    assertTrue(
+        transactionArchive.isEmpty(), "Transaction archive should be empty when constructed");
   }
 
   @Test
   void testIsNotEmpty() {
-    Purchase purchase = new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1);
+    Purchase purchase =
+        new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1);
 
     purchase.commit(player);
 
-    assertFalse(transactionArchive.isEmpty(), "Transaction archive should not be empty after a commit");
+    assertFalse(
+        transactionArchive.isEmpty(), "Transaction archive should not be empty after a commit");
   }
 
   @Test
   void testGetDistinctWeeksAsListIsEmptyWhenArchiveIsEmpty() {
-    assertTrue(transactionArchive.getDistinctWeeksAsList().isEmpty(),
+    assertTrue(
+        transactionArchive.getDistinctWeeksAsList().isEmpty(),
         "Should return empty list when archive has no transactions");
   }
 
@@ -139,7 +134,9 @@ public class TransactionArchiveTest {
     new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1).commit(player);
     new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 1).commit(player);
 
-    assertEquals(List.of(1), transactionArchive.getDistinctWeeksAsList(),
+    assertEquals(
+        List.of(1),
+        transactionArchive.getDistinctWeeksAsList(),
         "Should return [1] when all transactions are in week 1");
   }
 
@@ -149,7 +146,9 @@ public class TransactionArchiveTest {
     new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 3).commit(player);
     new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2).commit(player);
 
-    assertEquals(List.of(1, 2, 3), transactionArchive.getDistinctWeeksAsList(),
+    assertEquals(
+        List.of(1, 2, 3),
+        transactionArchive.getDistinctWeeksAsList(),
         "Should return sorted list of distinct weeks");
   }
 
@@ -159,8 +158,9 @@ public class TransactionArchiveTest {
     new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 2).commit(player);
     new Purchase(new Share(stock, new BigDecimal("10"), stock.getSalesPrice()), 4).commit(player);
 
-    assertEquals(List.of(2, 4), transactionArchive.getDistinctWeeksAsList(),
+    assertEquals(
+        List.of(2, 4),
+        transactionArchive.getDistinctWeeksAsList(),
         "Should not contain duplicate week numbers");
   }
-
 }
