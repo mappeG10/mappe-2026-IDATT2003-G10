@@ -108,6 +108,8 @@
         <configuration>
           <show>private</show>
           <nohelp>true</nohelp>
+          <doclint>all,-missing</doclint>
+          <failOnWarnings>false</failOnWarnings>
         </configuration>
       </plugin>
 
