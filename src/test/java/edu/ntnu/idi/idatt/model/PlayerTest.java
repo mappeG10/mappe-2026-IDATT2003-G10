@@ -286,6 +286,20 @@ class PlayerTest {
   }
 
   @Test
+  void testSetMoneyWithInvalidArguments() {
+    assertThrows(IllegalArgumentException.class, () -> player.setMoney(null),
+        "setMoney should throw IllegalArgumentException for null input");
+    assertThrows(IllegalArgumentException.class, () -> player.setMoney(new BigDecimal("-1")),
+        "setMoney should throw IllegalArgumentException for negative input");
+  }
+
+  @Test
+  void testSetStatusWithInvalidArguments() {
+    assertThrows(IllegalArgumentException.class, () -> player.setStatus(null),
+        "setStatus should throw IllegalArgumentException for null input");
+  }
+
+  @Test
   void testRegisterObserver() {
     AtomicInteger count = new AtomicInteger(0);
     GameObserver observer = count::incrementAndGet;

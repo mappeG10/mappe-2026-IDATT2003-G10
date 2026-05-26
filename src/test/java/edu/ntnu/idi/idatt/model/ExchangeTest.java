@@ -278,6 +278,20 @@ class ExchangeTest {
   }
 
   @Test
+  void testSetWeek() {
+    exchange.setWeek(5);
+    assertEquals(5, exchange.getWeek(), "Week should be updated to 5");
+  }
+
+  @Test
+  void testSetWeekWithInvalidArguments() {
+    assertThrows(IllegalArgumentException.class, () -> exchange.setWeek(0),
+        "setWeek should throw IllegalArgumentException for week less than 1");
+    assertThrows(IllegalArgumentException.class, () -> exchange.setWeek(-1),
+        "setWeek should throw IllegalArgumentException for negative week");
+  }
+
+  @Test
   void testRegisterObserver() {
     AtomicInteger count = new AtomicInteger(0);
     GameObserver observer = count::incrementAndGet;
