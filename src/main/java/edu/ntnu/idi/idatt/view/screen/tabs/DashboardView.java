@@ -92,51 +92,46 @@ public class DashboardView extends VBox implements GameObserver {
    * @return the assembled stat-cards {@link HBox}
    */
   private HBox buildTopContainer() {
+    Label startSubLabel =
+        new Label("Start: " + FormatUtil.formatCurrency(dashboardController.getStartingCapital()));
+    Label cashSubLabel = new Label("Available to invest");
+    Label portfolioSubLabel = new Label("Invested assets");
+
     HBox topContainer = new HBox(16);
     topContainer.getStyleClass().add("stat-cards-row");
-
-    VBox firstCard = new VBox(4);
-    firstCard.getStyleClass().add("stat-card");
-    Label firstCardTitle = new Label("Net Worth");
-    firstCardTitle.getStyleClass().add("stat-card-title");
-    netWorthLabel.getStyleClass().add("stat-card-value");
-    Label firstCardSubLabel =
-        new Label("Start: " + FormatUtil.formatCurrency(dashboardController.getStartingCapital()));
-    firstCardSubLabel.getStyleClass().add("stat-card-sub");
-    firstCard.getChildren().addAll(firstCardTitle, netWorthLabel, firstCardSubLabel);
-
-    VBox secondCard = new VBox(4);
-    secondCard.getStyleClass().add("stat-card");
-    Label secondCardTitle = new Label("Cash Balance");
-    secondCardTitle.getStyleClass().add("stat-card-title");
-    cashBalanceLabel.getStyleClass().add("stat-card-value");
-    Label secondCardSubLabel = new Label("Available to invest");
-    secondCardSubLabel.getStyleClass().add("stat-card-sub");
-    secondCard.getChildren().addAll(secondCardTitle, cashBalanceLabel, secondCardSubLabel);
-
-    VBox thirdCard = new VBox(4);
-    thirdCard.getStyleClass().add("stat-card");
-    Label thirdCardTitle = new Label("Portfolio Value");
-    thirdCardTitle.getStyleClass().add("stat-card-title");
-    portfolioValueLabel.getStyleClass().add("stat-card-value");
-    Label thirdCardSubLabel = new Label("Invested assets");
-    thirdCardSubLabel.getStyleClass().add("stat-card-sub");
-    thirdCard.getChildren().addAll(thirdCardTitle, portfolioValueLabel, thirdCardSubLabel);
-
-    VBox fourthCard = new VBox(4);
-    fourthCard.getStyleClass().add("stat-card");
-    Label fourthCardTitle = new Label("Total Gain/Loss");
-    fourthCardTitle.getStyleClass().add("stat-card-title");
-    totalGainLossLabel.getStyleClass().add("stat-card-value");
-    fourthCardSubLabel.getStyleClass().add("stat-card-sub");
-    fourthCard.getChildren().addAll(fourthCardTitle, totalGainLossLabel, fourthCardSubLabel);
-
-    HBox.setHgrow(firstCard, Priority.ALWAYS);
-    HBox.setHgrow(secondCard, Priority.ALWAYS);
-    HBox.setHgrow(thirdCard, Priority.ALWAYS);
-    HBox.setHgrow(fourthCard, Priority.ALWAYS);
-    topContainer.getChildren().addAll(firstCard, secondCard, thirdCard, fourthCard);
+    topContainer
+        .getChildren()
+        .addAll(
+            buildStatCard("Net Worth", netWorthLabel, startSubLabel),
+            buildStatCard("Cash Balance", cashBalanceLabel, cashSubLabel),
+            buildStatCard("Portfolio Value", portfolioValueLabel, portfolioSubLabel),
+            buildStatCard("Total Gain/Loss", totalGainLossLabel, fourthCardSubLabel));
     return topContainer;
+  }
+
+  /**
+   * Builds a single labelled stat card containing a title, a dynamic value label, and a sub-label.
+   *
+   * <p>The value and sub-labels are shared with field-level references so that {@link #update()}
+   * can update their text and CSS classes directly without traversing the scene graph. The card
+   * is configured to grow horizontally to fill available space in the stat-cards row.
+   *
+   * @param titleText the descriptive title displayed above the value
+   * @param valueLabel the pre-constructed label whose text will be set on each update
+   * @param subLabel the pre-constructed sub-label shown below the value
+   * @return the assembled stat-card {@link VBox}
+   */
+  private VBox buildStatCard(String titleText, Label valueLabel, Label subLabel) {
+    Label titleLabel = new Label(titleText);
+    titleLabel.getStyleClass().add("stat-card-title");
+    valueLabel.getStyleClass().add("stat-card-value");
+    subLabel.getStyleClass().add("stat-card-sub");
+
+    VBox card = new VBox(4);
+    card.getStyleClass().add("stat-card");
+    card.getChildren().addAll(titleLabel, valueLabel, subLabel);
+    HBox.setHgrow(card, Priority.ALWAYS);
+    return card;
   }
 
   /**
