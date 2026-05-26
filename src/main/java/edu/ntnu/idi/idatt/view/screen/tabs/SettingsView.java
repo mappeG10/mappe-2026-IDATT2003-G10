@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.view.screen.tabs;
 
 import edu.ntnu.idi.idatt.controller.GameController;
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
+import edu.ntnu.idi.idatt.view.component.HowToPlayWidget;
 import edu.ntnu.idi.idatt.view.util.ViewUtility;
 import java.io.File;
 import javafx.scene.control.Button;
@@ -59,9 +60,14 @@ public class SettingsView extends VBox {
         createSettingCard(
             "Save Game", "Save your progress to a file", "Save", this::handleSaveGame);
 
+    VBox helpCard =
+        createSettingCard(
+            "How to Play", "Game rules and rank information", "Show", this::handleShowHelp);
+
     HBox.setHgrow(fullscreenCard, Priority.ALWAYS);
     HBox.setHgrow(saveGameCard, Priority.ALWAYS);
-    cardsContainer.getChildren().addAll(fullscreenCard, saveGameCard);
+    HBox.setHgrow(helpCard, Priority.ALWAYS);
+    cardsContainer.getChildren().addAll(fullscreenCard, saveGameCard, helpCard);
 
     this.getChildren().addAll(headerContainer, cardsContainer);
   }
@@ -102,6 +108,11 @@ public class SettingsView extends VBox {
     if (getScene() != null && getScene().getWindow() instanceof Stage stage) {
       stage.setFullScreen(!stage.isFullScreen());
     }
+  }
+
+  /** Opens the {@link HelpWidget} dialog anchored to the current window. */
+  private void handleShowHelp() {
+    HowToPlayWidget.open(getScene().getWindow());
   }
 
   /**
