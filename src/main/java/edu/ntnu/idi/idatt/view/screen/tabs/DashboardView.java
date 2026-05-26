@@ -139,9 +139,17 @@ public class DashboardView extends VBox implements GameObserver {
     VBox.setVgrow(gainersSection, Priority.ALWAYS);
     advanceAndGainersContainer.getChildren().addAll(advanceBtn, gainersSection);
 
-    HBox.setHgrow(portfolioTable,             Priority.ALWAYS);
+    Label portfolioTitle = new Label("My Portfolio");
+    portfolioTitle.getStyleClass().add("table-container-title");
+
+    VBox portfolioContainer = new VBox(12);
+    portfolioContainer.getStyleClass().add("table-container");
+    VBox.setVgrow(portfolioTable, Priority.ALWAYS);
+    portfolioContainer.getChildren().addAll(portfolioTitle, portfolioTable);
+
+    HBox.setHgrow(portfolioContainer,          Priority.ALWAYS);
     HBox.setHgrow(advanceAndGainersContainer,  Priority.SOMETIMES);
-    middleContainer.getChildren().addAll(portfolioTable, advanceAndGainersContainer);
+    middleContainer.getChildren().addAll(portfolioContainer, advanceAndGainersContainer);
 
     return middleContainer;
   }

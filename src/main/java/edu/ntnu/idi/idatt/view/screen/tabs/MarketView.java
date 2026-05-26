@@ -33,9 +33,18 @@ public class MarketView extends VBox implements GameObserver {
     this.searchField = new TextField();
 
     getStyleClass().add("content-view");
+
+    Label tableTitle = new Label("Available Stocks");
+    tableTitle.getStyleClass().add("table-container-title");
+
+    VBox tableContainer = new VBox(12);
+    tableContainer.getStyleClass().add("table-container");
     VBox.setVgrow(marketTable, Priority.ALWAYS);
+    tableContainer.getChildren().addAll(tableTitle, marketTable);
+    VBox.setVgrow(tableContainer, Priority.ALWAYS);
+
     getChildren().add(buildTopContainer());
-    getChildren().add(marketTable);
+    getChildren().add(tableContainer);
     marketController.registerObserver(this);
     update();
   }

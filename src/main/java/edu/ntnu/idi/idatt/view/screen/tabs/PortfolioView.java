@@ -42,8 +42,17 @@ public class PortfolioView extends VBox implements GameObserver {
     this.portfolioTable = buildPortfolioTable();
 
     getStyleClass().add("content-view");
+
+    Label holdingsTitle = new Label("Holdings");
+    holdingsTitle.getStyleClass().add("table-container-title");
+
+    VBox tableContainer = new VBox(12);
+    tableContainer.getStyleClass().add("table-container");
     VBox.setVgrow(portfolioTable, Priority.ALWAYS);
-    getChildren().addAll(buildTopContainer(), portfolioTable);
+    tableContainer.getChildren().addAll(holdingsTitle, portfolioTable);
+    VBox.setVgrow(tableContainer, Priority.ALWAYS);
+
+    getChildren().addAll(buildTopContainer(), tableContainer);
     portfolioController.registerObserver(this);
     update();
   }
