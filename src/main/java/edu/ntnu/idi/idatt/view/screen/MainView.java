@@ -38,7 +38,6 @@ public class MainView extends BorderPane implements GameObserver {
   private final Label balanceLabel;
   private final Label playerNameLabel;
   private final Label statusLabel;
-
   private final List<Button> sidebarBtns = new ArrayList<>();
   private Button activeBtn;
 

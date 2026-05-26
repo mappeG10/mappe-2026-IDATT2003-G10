@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
  */
 public final class TableColumnFactory {
 
+  /** Prevents instantiation of this static utility class. */
   private TableColumnFactory() {}
 
   /**

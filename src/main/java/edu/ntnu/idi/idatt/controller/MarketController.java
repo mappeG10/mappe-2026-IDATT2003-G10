@@ -63,6 +63,7 @@ public class MarketController extends BaseController {
    * @return a {@link TransactionPreview} containing the cost breakdown
    * @throws edu.ntnu.idi.idatt.model.exception.StockNotFoundException if no stock with the
    *         given symbol is listed on the exchange
+   *         @throws IllegalArgumentException if {@code quantity} is {@code null} or not positive
    */
   public TransactionPreview previewBuy(String symbol, BigDecimal quantity) {
     Stock stock = exchange.getStock(symbol);

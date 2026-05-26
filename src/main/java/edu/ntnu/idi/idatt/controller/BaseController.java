@@ -15,10 +15,7 @@ import edu.ntnu.idi.idatt.observer.GameObserver;
  */
 public abstract class BaseController {
 
-  /** The stock exchange for the current game session. */
   protected final Exchange exchange;
-
-  /** The player participating in the current game session. */
   protected final Player player;
 
   /**

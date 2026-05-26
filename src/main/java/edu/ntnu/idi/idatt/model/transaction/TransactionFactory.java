@@ -11,6 +11,9 @@ import edu.ntnu.idi.idatt.model.Share;
  */
 public class TransactionFactory {
 
+  /** Prevents instantiation of this static utility class. */
+  private TransactionFactory() {}
+
   /**
    * Creates a new {@link Transaction} of the specified type.
    *
@@ -19,7 +22,8 @@ public class TransactionFactory {
    * @param share the share position involved in the transaction; must not be {@code null}
    * @param week  the game week in which the transaction takes place; must be at least 1
    * @return a new, uncommitted {@link Transaction} instance
-   * @throws IllegalArgumentException if {@code type} is {@code null}
+   * @throws IllegalArgumentException if {@code type} or {@code share} is {@code null}, or if
+   *                                  {@code week} is less than 1
    */
   public static Transaction createTransaction(TransactionType type, Share share, int week) {
     if (type == null) {

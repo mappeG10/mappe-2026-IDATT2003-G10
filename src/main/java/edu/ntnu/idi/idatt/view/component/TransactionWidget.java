@@ -21,13 +21,8 @@ import javafx.scene.control.TextField;
  */
 public abstract class TransactionWidget<T> extends BaseModal<T> {
 
-  /** The text field in which the player enters the quantity to trade. */
   protected TextField quantityField;
-
-  /** The label that displays the running net total for the transaction. */
   protected Label totalLabel;
-
-  /** The button that, when clicked, commits the transaction. */
   protected Button actionButton;
 
   /**

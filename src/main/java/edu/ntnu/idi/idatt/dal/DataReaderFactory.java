@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class DataReaderFactory {
 
+  /** Prevents instantiation of this static utility class. */
   private DataReaderFactory() {}
 
   /**

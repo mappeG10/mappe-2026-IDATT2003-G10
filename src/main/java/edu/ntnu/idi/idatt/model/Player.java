@@ -48,9 +48,7 @@ public class Player implements GameSubject {
   private BigDecimal money;
   private final Portfolio portfolio;
   private final TransactionArchive transactionArchive;
-
   private Status status;
-
   private final List<GameObserver> observers = new ArrayList<>();
 
   /**
@@ -251,6 +249,7 @@ public class Player implements GameSubject {
    * Adds a share position to this player's portfolio.
    *
    * @param share the share to add; must not be {@code null}
+   * @throws IllegalArgumentException if {@code share} is {@code null}
    */
   public void addShareToPortfolio(Share share) {
     portfolio.addShare(share);

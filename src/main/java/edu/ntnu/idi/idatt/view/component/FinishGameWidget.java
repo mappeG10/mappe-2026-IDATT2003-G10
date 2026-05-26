@@ -19,8 +19,8 @@ public class FinishGameWidget extends BaseModal<Void> {
   /**
    * Constructs and immediately lays out the finish-game confirmation dialog.
    *
-   * @param onConfirm the action to execute when the player confirms; typically delegates
-   *                  to {@link edu.ntnu.idi.idatt.view.Navigator#finishGame()}
+   * @param onConfirm the action to execute when the player confirms; typically the
+   * navigator's finish-game handler passed in from {@code MainView}
    */
   public FinishGameWidget(Runnable onConfirm) {
     super(null);

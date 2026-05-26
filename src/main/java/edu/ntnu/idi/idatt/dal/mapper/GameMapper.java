@@ -23,6 +23,9 @@ import java.util.stream.Collectors;
  */
 public class GameMapper {
 
+  /** Prevents instantiation of this static utility class. */
+  private GameMapper() {}
+
   /**
    * Serialises the current game state into a {@link GameStateDto}.
    *

@@ -31,7 +31,6 @@ public class Exchange implements GameSubject {
   private int week;
   private final Map<String, Stock> stockMap;
   private final Random random;
-
   private final List<GameObserver> observers = new ArrayList<>();
 
   /**

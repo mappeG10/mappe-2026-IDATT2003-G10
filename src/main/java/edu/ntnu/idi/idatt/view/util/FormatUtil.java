@@ -11,6 +11,7 @@ import java.math.BigDecimal;
  */
 public final class FormatUtil {
 
+  /** Prevents instantiation of this static utility class. */
   private FormatUtil() {}
 
   /**

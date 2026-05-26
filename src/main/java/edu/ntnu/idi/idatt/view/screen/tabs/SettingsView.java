@@ -29,7 +29,6 @@ import java.io.File;
  */
 public class SettingsView extends VBox {
 
-  /** Controller used to retrieve the player name and to persist the game state. */
   private final GameController controller;
 
   /**

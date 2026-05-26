@@ -42,22 +42,11 @@ import javafx.stage.Window;
  */
 public class PortfolioView extends VBox implements GameObserver {
 
-  /** Controller providing portfolio data and sale operations. */
   private final PortfolioController portfolioController;
-
-  /** Table displaying the player's current share positions. */
   private final TableView<Share> portfolioTable;
-
-  /** Label showing the current total market value of all holdings. */
   private final Label portfolioValueLabel;
-
-  /** Label showing the total amount invested (sum of purchase prices). */
   private final Label totalInvestedLabel;
-
-  /** Label showing the unrealised profit or loss; colour-coded by sign. */
   private final Label unrealisedPnLLabel;
-
-  /** Label showing the number of distinct stock positions held. */
   private final Label stockAmountLabel;
 
   /**

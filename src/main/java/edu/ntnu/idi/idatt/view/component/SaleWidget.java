@@ -29,6 +29,7 @@ public class SaleWidget extends TransactionWidget<Share> {
 
   private final PortfolioController controller;
   private Label grossValueLabel;
+
   private Label taxValueLabel;
 
   /**

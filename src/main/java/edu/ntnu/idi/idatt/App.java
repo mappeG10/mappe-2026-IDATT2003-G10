@@ -13,6 +13,12 @@ import javafx.stage.Stage;
 public class App extends Application {
 
   /**
+   * Constructs a new {@code App} instance. Invoked by the JavaFX launcher.
+   */
+  public App() {
+  }
+
+  /**
    * Initialises the primary stage and navigates to the start screen.
    *
    * @param primaryStage the main window provided by the JavaFX runtime; must not be
