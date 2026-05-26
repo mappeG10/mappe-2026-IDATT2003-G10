@@ -9,78 +9,120 @@
   <version>0.0.1</version>
 
   <properties>
+    <!-- Java compiler -->
     <maven.compiler.source>25</maven.compiler.source>
     <maven.compiler.target>25</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Application main class -->
+    <app.main.class>edu.ntnu.idi.idatt.App</app.main.class>
+
+    <!-- Third-party library versions -->
+    <javafx.version>25.0.1</javafx.version>
+    <junit.version>6.0.1</junit.version>
+    <jackson.version>2.21.3</jackson.version>
+
+    <!-- Maven plugin versions -->
+    <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+    <maven.surefire.plugin.version>3.5.4</maven.surefire.plugin.version>
+    <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+    <maven.javadoc.plugin.version>3.12.0</maven.javadoc.plugin.version>
+    <jacoco.maven.plugin.version>0.8.14</jacoco.maven.plugin.version>
   </properties>
 
+  <!-- ===== Dependencies ===== -->
+  <dependencies>
 
-    <dependencies>
-      <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-controls</artifactId>
-        <version>25.0.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>6.0.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.21.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-jdk8</artifactId>
-        <version>2.21.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-jsr310</artifactId>
-        <version>2.21.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.module</groupId>
-        <artifactId>jackson-module-parameter-names</artifactId>
-        <version>2.21.3</version>
-      </dependency>
+    <!--
+    JavaFX controls for JavaFX elements
+    Source: https://mvnrepository.com/artifact/org.openjfx/javafx-controls
+    -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+
+    <!--
+    JUnit Jupiter for unit tests
+    Source: https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--
+      Jackson modules used by the save/load layer
+      https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
   </dependencies>
 
+  <!-- ===== Build configuration ===== -->
   <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.4</version>
-        </plugin>
-        <plugin>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-maven-plugin</artifactId>
-          <version>0.0.8</version>
-          <configuration>
-            <mainClass>edu.ntnu.idi.idatt.App</mainClass>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.12.0</version>
-          <configuration>
-            <show>private</show>
-            <nohelp>true</nohelp>
-          </configuration>
-        </plugin>
-        <plugin>
+    <plugins>
+
+      <!-- Compiles Java sources -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+      </plugin>
+
+      <!-- Runs JUnit Jupiter tests during the `test` phase. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.plugin.version}</version>
+      </plugin>
+
+      <!--
+        JavaFX launcher: `mvn javafx:run` starts the application using the
+        main class declared via the app.main.class property.
+      -->
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>${javafx.maven.plugin.version}</version>
+        <configuration>
+          <mainClass>${app.main.class}</mainClass>
+        </configuration>
+      </plugin>
+
+      <!--
+        Generates Javadoc into target/reports/apidocs. The `show=private`
+        setting includes private members so internal helper methods are
+        documented as well; `nohelp` strips the boilerplate help page.
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven.javadoc.plugin.version}</version>
+        <configuration>
+          <show>private</show>
+          <nohelp>true</nohelp>
+        </configuration>
+      </plugin>
+
+      <!--
+        JaCoCo code-coverage agent.
+          - `prepare-agent` wires the agent into the surefire JVM so that
+            coverage data is captured while the tests run.
+          - `report`  bound to the `verify` phase  renders the HTML/CSV
+            report into target/jacoco/coverage-reports/. The CI workflow
+            uploads this folder to GitHub Pages.
+      -->
+      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.14</version>
+        <version>${jacoco.maven.plugin.version}</version>
         <executions>
           <execution>
             <id>prepare-agent</id>
@@ -99,8 +141,9 @@
             </configuration>
           </execution>
         </executions>
-        </plugin>
-      </plugins>
+      </plugin>
+
+    </plugins>
   </build>
 
 </project>
