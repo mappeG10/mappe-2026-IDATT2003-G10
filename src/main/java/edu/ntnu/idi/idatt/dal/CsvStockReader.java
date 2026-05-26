@@ -24,9 +24,6 @@ public class CsvStockReader implements DataReader<List<Stock>> {
   public List<Stock> read(String source) throws IOException, StockParsingException {
     Path path = Path.of(source);
 
-    if (!Files.exists(path)) {
-      throw new IOException("File not found: " + source);
-    }
     if (!Files.isReadable(path)) {
       throw new IOException("File is not readable: " + source);
     }
