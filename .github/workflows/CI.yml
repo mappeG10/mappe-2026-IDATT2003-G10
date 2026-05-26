@@ -30,8 +30,8 @@ jobs:
       run: mvn clean verify javadoc:javadoc --batch-mode
 
 
-    #- name: Run CheckStyle
-    #  run: mvn checkstyle:check
+    - name: Run CheckStyle
+      run: mvn checkstyle:check
 
     - name: Prepare Pages folder
       run: |

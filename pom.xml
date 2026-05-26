@@ -123,6 +123,21 @@
       </plugin>
 
       <!--
+        Checkstyle enforces Google Java Style so mvn checkstyle:check uses the
+        same ruleset as the IntelliJ Checkstyle-IDEA plugin (Google Checks).
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+          <failsOnError>true</failsOnError>
+          <consoleOutput>true</consoleOutput>
+        </configuration>
+      </plugin>
+
+      <!--
         JaCoCo code-coverage agent.
           - `prepare-agent` wires the agent into the surefire JVM so that
             coverage data is captured while the tests run.
