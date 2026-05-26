@@ -378,6 +378,19 @@
 
 
 /* ── 7c. Dashboard Section Containers ────────────────────────── */
+.table-container {
+    -fx-background-color: bg-surface;
+    -fx-background-radius: 12;
+    -fx-padding: 16 16 0 16;
+    -fx-spacing: 12;
+}
+
+.table-container-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: text-primary;
+}
+
 .gainers-losers-section {
     -fx-background-color: bg-surface;
     -fx-background-radius: 8;
