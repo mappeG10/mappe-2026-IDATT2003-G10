@@ -27,14 +27,6 @@ public class MarketController extends BaseController {
     return exchange.findStock(searchTerm);
   }
 
-  public List<Stock> getGainers(int limit) {
-    return exchange.getGainers(limit);
-  }
-
-  public List<Stock> getLosers(int limit) {
-    return exchange.getLosers(limit);
-  }
-
   public TransactionPreview previewBuy(String symbol, BigDecimal quantity) {
     Stock stock = exchange.getStock(symbol);
     Share sharePreview = new Share(stock, quantity, stock.getSalesPrice());
