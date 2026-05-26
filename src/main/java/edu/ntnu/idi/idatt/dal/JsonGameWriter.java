@@ -2,8 +2,6 @@ package edu.ntnu.idi.idatt.dal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import edu.ntnu.idi.idatt.dal.dto.GameStateDto;
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
 import java.io.File;
@@ -14,8 +12,6 @@ public class JsonGameWriter {
 
   public JsonGameWriter() {
     this.mapper = new ObjectMapper()
-        .registerModule(new Jdk8Module())
-        .registerModule(new JavaTimeModule())
         .enable(SerializationFeature.INDENT_OUTPUT);
   }
 
