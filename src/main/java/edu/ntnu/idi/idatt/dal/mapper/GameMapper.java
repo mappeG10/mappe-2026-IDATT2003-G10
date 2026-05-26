@@ -7,8 +7,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Converts between domain model objects and their data transfer object (DTO) representations.
+ *
+ * <p>This class handles the two primary mapping directions required for game persistence:
+ * <ul>
+ *   <li>{@link #toDto(Player, Exchange)} — serialises the live game state into a
+ *       {@link GameStateDto} that can be written to disk.</li>
+ *   <li>{@link #fromDto(GameStateDto)} — deserialises a {@link GameStateDto} back into
+ *       fully wired domain objects, including re-linking share positions and archived
+ *       transactions to their stock references.</li>
+ * </ul>
+ *
+ * <p>This class is not instantiable; all methods are static.</p>
+ */
 public class GameMapper {
 
+  /**
+   * Serialises the current game state into a {@link GameStateDto}.
+   *
+   * <p>The resulting DTO captures the complete state of both the player (balance, portfolio,
+   * transaction archive, and status) and the exchange (name, current week, and full price
+   * history for every listed stock).</p>
+   *
+   * @param player   the player whose state should be serialised; must not be {@code null}
+   * @param exchange the exchange whose state should be serialised; must not be {@code null}
+   * @return a {@link GameStateDto} representing the current game state; never {@code null}
+   */
   public static GameStateDto toDto(Player player, Exchange exchange) {
     ExchangeDto exchangeDto = new ExchangeDto(
         exchange.getName(),
@@ -24,7 +49,8 @@ public class GameMapper {
             .toList()
     );
 
-    List<TransactionDto> transactionDtos = player.getTransactionArchive().getDistinctWeeksAsList().stream()
+    List<TransactionDto> transactionDtos = player
+        .getTransactionArchive().getDistinctWeeksAsList().stream()
         .flatMap(w -> player.getTransactionArchive().getTransactions(w).stream())
         .map(t -> new TransactionDto(
             t.getTransactionType(),
@@ -47,6 +73,17 @@ public class GameMapper {
     return new GameStateDto(playerDto, exchangeDto);
   }
 
+  /**
+   * Deserialises a {@link GameStateDto} into a fully constructed {@link GameState}.
+   *
+   * <p>Stock references are resolved from the reconstructed exchange by symbol, then used
+   * to rebuild portfolio share positions and the transaction archive. All reconstructed
+   * transactions are marked as committed so they cannot be accidentally re-applied.</p>
+   *
+   * @param dto the game state DTO to deserialise; must not be {@code null}
+   * @return a {@link GameState} containing the fully wired {@link Player} and
+   *         {@link Exchange}; never {@code null}
+   */
   public static GameState fromDto(GameStateDto dto) {
     List<Stock> stocks = dto.exchange().stocks().stream()
         .map(s -> new Stock(s.symbol(), s.company(), s.prices()))
@@ -63,7 +100,8 @@ public class GameMapper {
 
     for (ShareDto shareDto : dto.player().portfolio().shares()) {
       Stock stock = stockMap.get(shareDto.stockSymbol());
-      player.getPortfolio().addShare(new Share(stock, shareDto.quantity(), shareDto.purchasePrice()));
+      player.getPortfolio().
+          addShare(new Share(stock, shareDto.quantity(), shareDto.purchasePrice()));
     }
 
     for (TransactionDto txDto : dto.player().transactions()) {
@@ -77,5 +115,12 @@ public class GameMapper {
     return new GameState(player, exchange);
   }
 
+  /**
+   * A value object pairing a reconstructed {@link Player} with its associated
+   * {@link Exchange} after deserialisation.
+   *
+   * @param player   the fully reconstructed player
+   * @param exchange the fully reconstructed exchange
+   */
   public record GameState(Player player, Exchange exchange) {}
 }

@@ -19,38 +19,124 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * Tab view displaying the committed transaction log, grouped by week with styled week-header
+ * rows separating each group.
+ *
+ * <p>The layout is arranged vertically:
+ * <ol>
+ *   <li>A top container with a title, subtitle, and a horizontal filter bar of
+ *       {@link ToggleButton}s — one for "All Weeks" and one per distinct week that
+ *       has at least one committed transaction.</li>
+ *   <li>A full-height table with nine columns: Week, Type, Symbol, Company, Qty, Price,
+ *       Commission, Tax, and Net Total. When no week filter is active, each week group
+ *       is preceded by a header row styled with the {@code week-header-row} CSS class.</li>
+ * </ol>
+ *
+ * <p>Implements {@link GameObserver}: the filter bar and table are rebuilt automatically
+ * whenever the exchange advances a week or a transaction is committed.</p>
+ */
 public class TransactionHistoryView extends VBox implements GameObserver {
 
+  /** Controller providing the transaction log and distinct-week list. */
   private final TransactionHistoryController transactionHistoryController;
+
+  /** Table displaying transaction rows and week-header separator rows. */
   private final TableView<TransactionRow> mainTable;
+
+  /** Horizontal bar holding the "All Weeks" button and one button per distinct week. */
   private final HBox weekFilterBar;
+
+  /** Toggle group ensuring only one week filter button is active at a time. */
   private final ToggleGroup weekFilter;
+
+  /**
+   * The currently selected week filter, or {@code null} when "All Weeks" is active.
+   */
   private Integer selectedWeek;
 
+  /**
+   * Flat table row that represents either a week-group header or a single transaction.
+   *
+   * <p>The table mixes two logical row types in one flat list so that week headings
+   * can be rendered inline using a custom {@link TableRow} factory. Header rows carry
+   * only the week number; data rows carry the full {@link Transaction} reference.</p>
+   */
   private static class TransactionRow {
+
+    /** {@code true} if this row is a week-group header; {@code false} for data rows. */
     private final boolean isHeader;
+
+    /** The game week this row belongs to. */
     private final int week;
+
+    /**
+     * The transaction for data rows, or {@code null} for header rows.
+     */
     private final Transaction transaction;
 
+    /**
+     * Creates a week-group header row for the given week.
+     *
+     * @param week the game week number to display as a heading
+     * @return a new header {@link TransactionRow}
+     */
     static TransactionRow weekHeader(int week) {
       return new TransactionRow(true, week, null);
     }
 
+    /**
+     * Creates a data row wrapping the given committed transaction.
+     *
+     * @param tx the committed transaction to represent; must not be {@code null}
+     * @return a new data {@link TransactionRow}
+     */
     static TransactionRow fromTransaction(Transaction tx) {
       return new TransactionRow(false, tx.getWeek(), tx);
     }
 
+    /**
+     * Constructs a transaction row with explicit field values.
+     *
+     * @param isHeader    {@code true} for a week-group header row
+     * @param week        the game week this row belongs to
+     * @param transaction the transaction for data rows; {@code null} for header rows
+     */
     private TransactionRow(boolean isHeader, int week, Transaction transaction) {
       this.isHeader = isHeader;
       this.week = week;
       this.transaction = transaction;
     }
 
+    /**
+     * Returns whether this row is a week-group header.
+     *
+     * @return {@code true} if this row is a header row; {@code false} for data rows
+     */
     boolean isHeader() { return isHeader; }
+
+    /**
+     * Returns the game week this row belongs to.
+     *
+     * @return the game week number
+     */
     int getWeek() { return week; }
+
+    /**
+     * Returns the transaction associated with this data row.
+     *
+     * @return the committed transaction, or {@code null} if this is a header row
+     */
     Transaction getTransaction() { return transaction; }
   }
 
+  /**
+   * Constructs the transaction history view, builds the table and top container, registers
+   * as a game observer, and performs an initial data refresh.
+   *
+   * @param transactionHistoryController the controller providing the transaction log;
+   *                                     must not be {@code null}
+   */
   public TransactionHistoryView(TransactionHistoryController transactionHistoryController) {
     this.transactionHistoryController = transactionHistoryController;
     this.mainTable = buildTable();
@@ -65,6 +151,17 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     update();
   }
 
+  /**
+   * Builds the nine-column transaction table with a custom row factory that applies the
+   * {@code week-header-row} CSS class to header rows.
+   *
+   * <p>Each column uses a header-aware cell factory that renders the heading text for
+   * header rows and the appropriate transaction field for data rows. The tax column
+   * shows a dash ({@code -}) for purchase rows, since purchases incur no capital-gains
+   * tax.</p>
+   *
+   * @return the fully configured transaction {@link TableView}
+   */
   private TableView<TransactionRow> buildTable() {
     TableColumn<TransactionRow, String> weekCol = TableColumnFactory.createHeaderAwareColumn(
         "Week",
@@ -145,6 +242,14 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     return table;
   }
 
+  /**
+   * Rebuilds the week-filter toggle bar to reflect the current set of distinct weeks.
+   *
+   * <p>Clears all existing toggle buttons and adds a fresh "All Weeks" button followed
+   * by one button per distinct week returned by the controller. If no toggle is currently
+   * selected (e.g., on first load), the "All Weeks" button is pre-selected and
+   * {@link #selectedWeek} is reset to {@code null}.</p>
+   */
   private void refreshFilterButtons() {
     weekFilter.getToggles().clear();
     weekFilterBar.getChildren().clear();
@@ -166,10 +271,17 @@ public class TransactionHistoryView extends VBox implements GameObserver {
 
     if (weekFilter.getSelectedToggle() == null) {
       allWeeksBtn.setSelected(true);
-      selectedWeek= null;
+      selectedWeek = null;
     }
   }
 
+  /**
+   * Repopulates the table based on the current {@link #selectedWeek} filter.
+   *
+   * <p>When {@link #selectedWeek} is {@code null} (all weeks), a {@link TransactionRow}
+   * week-header is inserted before each week's transactions. When a specific week is
+   * selected, only the transactions for that week are shown — without a header row.</p>
+   */
   private void refreshTable() {
     List<TransactionRow> rows = new ArrayList<>();
     if (selectedWeek == null) {
@@ -185,6 +297,11 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     mainTable.setItems(FXCollections.observableArrayList(rows));
   }
 
+  /**
+   * Builds the top section containing the view title, subtitle, and the week-filter bar.
+   *
+   * @return the assembled top-section {@link VBox}
+   */
   private VBox buildTopContainer() {
     Label title = new Label("Transaction History");
     title.getStyleClass().add("view-title");
@@ -199,6 +316,12 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     return topContainer;
   }
 
+  /**
+   * Rebuilds the filter bar and refreshes the table from the controller.
+   *
+   * <p>Called automatically via the observer mechanism whenever the exchange advances a
+   * week or a transaction is committed.</p>
+   */
   @Override
   public void update() {
     refreshFilterButtons();

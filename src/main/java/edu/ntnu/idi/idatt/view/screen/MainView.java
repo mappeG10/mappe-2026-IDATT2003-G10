@@ -20,6 +20,17 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * The primary shell of the game screen, providing a top navigation bar and a left sidebar.
+ *
+ * <p>Extends {@link BorderPane}: the top region holds a navbar with the current week,
+ * cash balance, player name, and status badge; the left region holds a sidebar with
+ * tab navigation buttons and the "Finish Game" action. The centre region is swapped
+ * by {@link #setContent(Parent)} each time the active tab changes.</p>
+ *
+ * <p>Implements {@link GameObserver} so the navbar labels refresh automatically whenever
+ * the exchange advances a week or a transaction is committed.</p>
+ */
 public class MainView extends BorderPane implements GameObserver {
 
   private final GameController gameController;
@@ -31,6 +42,15 @@ public class MainView extends BorderPane implements GameObserver {
   private final List<Button> sidebarBtns = new ArrayList<>();
   private Button activeBtn;
 
+  /**
+   * Constructs the main game view and registers it as a game observer.
+   *
+   * @param gameController the top-level controller for this session; must not be {@code null}
+   * @param onTabSelected  a callback invoked with the selected {@link GameTab} when the
+   *                       player clicks a sidebar navigation button
+   * @param onFinish       a callback invoked when the player clicks "Finish Game" and
+   *                       confirms the action in the resulting dialog
+   */
   public MainView(GameController gameController, Consumer<GameTab> onTabSelected, Runnable onFinish) {
     this.gameController = gameController;
 
@@ -46,6 +66,12 @@ public class MainView extends BorderPane implements GameObserver {
     update();
   }
 
+  /**
+   * Replaces the centre content with the given panel, unregistering the previous panel
+   * as an observer if it implemented {@link GameObserver}.
+   *
+   * @param content the new content panel to display; must not be {@code null}
+   */
   public void setContent(Parent content) {
     Node current = getCenter();
     if (current instanceof GameObserver observer) {
@@ -54,6 +80,13 @@ public class MainView extends BorderPane implements GameObserver {
     setCenter(content);
   }
 
+  /**
+   * Builds the left sidebar containing tab navigation buttons and the finish-game button.
+   *
+   * @param onTabSelected a callback for tab selection events
+   * @param onFinish      a callback triggered by the finish-game confirmation
+   * @return the assembled sidebar {@link VBox}
+   */
   private VBox buildSidebar(Consumer<GameTab> onTabSelected, Runnable onFinish) {
     Button dashboardBtn = new Button("Dashboard");
     Button marketBtn    = new Button("Market");
@@ -85,12 +118,24 @@ public class MainView extends BorderPane implements GameObserver {
     return sidebar;
   }
 
+  /**
+   * Marks the given sidebar button as active and deactivates the previously active button.
+   *
+   * @param target the button to activate
+   */
   private void activateSidebarBtn(Button target) {
-    if (activeBtn != null) activeBtn.getStyleClass().remove("active");
+    if (activeBtn != null) {
+      activeBtn.getStyleClass().remove("active");
+    }
     target.getStyleClass().add("active");
     activeBtn = target;
   }
 
+  /**
+   * Builds the top navigation bar displaying session metadata.
+   *
+   * @return the assembled navbar {@link HBox}
+   */
   private HBox buildNavbar() {
     Label title = new Label("Millions");
     title.getStyleClass().add("navbar-title");
@@ -128,6 +173,11 @@ public class MainView extends BorderPane implements GameObserver {
     return navbar;
   }
 
+  /**
+   * Refreshes all dynamic navbar labels from the controller.
+   *
+   * <p>Called automatically whenever the game state changes via the observer mechanism.</p>
+   */
   @Override
   public void update() {
     weekLabel.setText("Week " + gameController.getCurrentWeek());
@@ -136,6 +186,12 @@ public class MainView extends BorderPane implements GameObserver {
     applyStatusStyle(gameController.getPlayerStatus());
   }
 
+  /**
+   * Updates the status badge text and CSS class to reflect the player's current status.
+   *
+   * @param status the lowercase-compatible name of the current
+   *               {@link edu.ntnu.idi.idatt.model.Player.Status}
+   */
   private void applyStatusStyle(String status) {
     statusLabel.setText(status.toUpperCase());
     statusLabel.getStyleClass().setAll("status-badge", "status-badge-" + status.toLowerCase());

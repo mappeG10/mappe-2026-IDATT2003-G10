@@ -17,11 +17,30 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * Modal dialog for entering a share-sale order.
+ *
+ * <p>Pre-populates the quantity field with the total quantity held and displays a live
+ * proceeds preview (gross, capital-gains tax, net total) via
+ * {@link PortfolioController#previewSell(Share, BigDecimal)}. When the player confirms,
+ * the sale is executed, this dialog closes, and a {@link ReceiptWidget} is opened.</p>
+ */
 public class SaleWidget extends TransactionWidget<Share> {
+
   private final PortfolioController controller;
   private Label grossValueLabel;
   private Label taxValueLabel;
 
+  /**
+   * Constructs and immediately lays out a sale dialog for the given share position.
+   *
+   * <p>The quantity field is pre-filled with the full position size and an initial preview
+   * is computed immediately.</p>
+   *
+   * @param target     the share position to sell from; must not be {@code null}
+   * @param controller the portfolio controller used to preview and execute the sale;
+   *                   must not be {@code null}
+   */
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
     this.controller = controller;
@@ -30,6 +49,9 @@ public class SaleWidget extends TransactionWidget<Share> {
     updatedPreview(target.getQuantity().toPlainString());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");
@@ -65,6 +87,11 @@ public class SaleWidget extends TransactionWidget<Share> {
     );
   }
 
+  /**
+   * Builds the proceeds summary panel showing gross proceeds, capital-gains tax, and net total.
+   *
+   * @return an {@link HBox} containing the aligned key-value rows
+   */
   private HBox buildSummaryRow() {
     Label grossKey = new Label("Gross Proceeds");
     grossKey.getStyleClass().add("widget-label-key");
@@ -84,6 +111,12 @@ public class SaleWidget extends TransactionWidget<Share> {
     return row;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Updates the gross proceeds, tax, and net total labels by previewing the sale at the
+   * entered quantity. Resets all labels to {@code $0.00} if the input is not valid.</p>
+   */
   @Override
   protected void updatedPreview(String quantityStr) {
     try {
@@ -99,6 +132,13 @@ public class SaleWidget extends TransactionWidget<Share> {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Parses the quantity field, executes the sale via the controller, closes this dialog,
+   * and opens a {@link ReceiptWidget} on success. Shows an error alert for invalid input or
+   * business-rule violations.</p>
+   */
   @Override
   protected void handleAction() {
     try {

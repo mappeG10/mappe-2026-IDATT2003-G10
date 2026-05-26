@@ -5,16 +5,32 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
+/**
+ * Confirmation dialog displayed before the player ends the game session.
+ *
+ * <p>Informs the player that all remaining shares will be sold at market price. The
+ * "Confirm" button invokes the provided {@code onConfirm} callback and then closes
+ * the dialog. The "Cancel" button closes without taking any action.</p>
+ */
 public class FinishGameWidget extends BaseModal<Void> {
 
   private final Runnable onConfirm;
 
+  /**
+   * Constructs and immediately lays out the finish-game confirmation dialog.
+   *
+   * @param onConfirm the action to execute when the player confirms; typically delegates
+   *                  to {@link edu.ntnu.idi.idatt.view.Navigator#finishGame()}
+   */
   public FinishGameWidget(Runnable onConfirm) {
     super(null);
     setupUI();
     this.onConfirm = onConfirm;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");

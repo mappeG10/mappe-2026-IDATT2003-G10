@@ -6,14 +6,32 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * Modal dialog widget for displaying an error message to the player.
+ *
+ * <p>Rendered with a red-tinted header, an exclamation-mark badge, and two buttons:
+ * "Cancel" (closes without action) and "OK" (also closes). The dialog is opened via
+ * {@link #openDialog(javafx.stage.Window)} inherited from {@link BaseModal}.</p>
+ *
+ * <p>Convenience method: {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showErrorAlert}.</p>
+ */
 public class ErrorWidget extends BaseModal<String> {
 
+  /**
+   * Constructs and immediately lays out an error dialog with the given title and message.
+   *
+   * @param title   the heading displayed in the coloured alert header
+   * @param message the error description shown in the alert body
+   */
   public ErrorWidget(String title, String message) {
     super(message);
     setupUI();
     titleLabel.setText(title);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");

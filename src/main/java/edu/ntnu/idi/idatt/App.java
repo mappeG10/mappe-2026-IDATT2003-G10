@@ -4,8 +4,21 @@ import edu.ntnu.idi.idatt.view.Navigator;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * Entry point for the Millions stock-market simulation application.
+ *
+ * <p>Bootstraps the JavaFX runtime and hands control over to the {@link Navigator},
+ * which manages all screen transitions for the lifetime of the application.</p>
+ */
 public class App extends Application {
 
+  /**
+   * Initialises the primary stage and navigates to the start screen.
+   *
+   * @param primaryStage the main window provided by the JavaFX runtime; must not be
+   *                     {@code null}
+   * @throws Exception if any unchecked initialisation error occurs during startup
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -15,6 +28,12 @@ public class App extends Application {
     primaryStage.show();
 
   }
+
+  /**
+   * Launches the JavaFX application.
+   *
+   * @param args command-line arguments forwarded to the JavaFX launcher; not currently used
+   */
   public static void main(String[] args) {
     launch(args);
   }

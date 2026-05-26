@@ -12,9 +12,32 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 
+/**
+ * Tab view exposing session-level settings: fullscreen toggle and save-game export.
+ *
+ * <p>Each setting is presented as a card with a title, a short description, and an
+ * action button:
+ * <ul>
+ *   <li><strong>Fullscreen</strong> — toggles the primary {@link Stage} between
+ *       windowed and fullscreen mode.</li>
+ *   <li><strong>Save Game</strong> — opens a {@link FileChooser} filtered to
+ *       {@code .millions} files, pre-filling the filename with a sanitised version of
+ *       the player's name (lowercased, spaces replaced by underscores, non-alphanumeric
+ *       characters removed). On success a confirmation alert is shown; on failure an
+ *       error alert is shown.</li>
+ * </ul>
+ */
 public class SettingsView extends VBox {
+
+  /** Controller used to retrieve the player name and to persist the game state. */
   private final GameController controller;
 
+  /**
+   * Constructs the settings view and assembles the fullscreen and save-game cards.
+   *
+   * @param controller the top-level game controller used for save operations and player-name
+   *                   retrieval; must not be {@code null}
+   */
   public SettingsView(GameController controller) {
     this.controller = controller;
     getStyleClass().add("content-view");
@@ -48,10 +71,18 @@ public class SettingsView extends VBox {
     HBox.setHgrow(saveGameCard,   Priority.ALWAYS);
     cardsContainer.getChildren().addAll(fullscreenCard, saveGameCard);
 
-
     this.getChildren().addAll(headerContainer, cardsContainer);
   }
 
+  /**
+   * Creates a setting card containing a title label, a description label, and an action button.
+   *
+   * @param title       the heading displayed at the top of the card
+   * @param description the short explanatory text displayed beneath the title
+   * @param buttonText  the label on the action button
+   * @param action      the callback invoked when the action button is clicked
+   * @return the assembled setting-card {@link VBox}
+   */
   private VBox createSettingCard(String title, String description, String buttonText, Runnable action) {
     VBox card = new VBox(12);
     card.getStyleClass().add("settings-card");
@@ -69,12 +100,28 @@ public class SettingsView extends VBox {
     return card;
   }
 
+  /**
+   * Toggles the primary window between fullscreen and windowed mode.
+   *
+   * <p>Has no effect if the current scene or its window is not a {@link Stage}.</p>
+   */
   private void handleFullscreenToggle() {
     if (getScene() != null && getScene().getWindow() instanceof Stage stage) {
       stage.setFullScreen(!stage.isFullScreen());
     }
   }
 
+  /**
+   * Opens a save-file dialog pre-filled with a sanitised player name and writes the current
+   * game state to the chosen path.
+   *
+   * <p>The suggested filename is derived by lowercasing the player's name, replacing runs of
+   * whitespace with underscores, and stripping any character that is not a lowercase letter,
+   * digit, hyphen, or underscore. The dialog is filtered to {@code *.millions} files.</p>
+   *
+   * <p>Displays a success alert if the save completes, or an error alert if a
+   * {@link DataAccessException} or any other exception is thrown during the write.</p>
+   */
   private void handleSaveGame() {
     String formattedSavePlayerName =
         controller.getPlayerName().toLowerCase()
@@ -92,7 +139,7 @@ public class SettingsView extends VBox {
       try {
         controller.save(file.getAbsolutePath());
         ViewUtility.showSuccessAlert("Save Successful", "Game saved successfully.");
-      } catch (DataAccessException e){
+      } catch (DataAccessException e) {
         ViewUtility.showErrorAlert("Save Error",
             "Could not save game: " + e.getMessage());
       } catch (Exception e) {

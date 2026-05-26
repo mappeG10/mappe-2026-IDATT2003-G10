@@ -14,13 +14,34 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * End-game summary screen displaying the player's final performance statistics.
+ *
+ * <p>Shown after the player confirms the "Finish Game" action. Displays a centred card
+ * containing the player's name, final status badge, and four stat cards (starting capital,
+ * final balance, total gain/loss, and weeks played). "Back To Start" resets the application
+ * to the start screen; "Exit" terminates the JavaFX application.</p>
+ */
 public class SummaryView extends StackPane {
 
+  /**
+   * Constructs the summary view from the given end-game statistics.
+   *
+   * @param summary       the player's final performance data; must not be {@code null}
+   * @param onBackToStart a callback invoked when the player clicks "Back To Start"
+   */
   public SummaryView(GameSummary summary, Runnable onBackToStart) {
     getStyleClass().add("start-view");
     getChildren().add(buildCard(summary, onBackToStart));
   }
 
+  /**
+   * Builds the centred summary card.
+   *
+   * @param summary       the performance data to display
+   * @param onBackToStart the back-to-start callback
+   * @return the assembled card {@link VBox}
+   */
   private VBox buildCard(GameSummary summary, Runnable onBackToStart) {
     Region headerSpacer = new Region();
     headerSpacer.setPrefHeight(16);
@@ -39,6 +60,12 @@ public class SummaryView extends StackPane {
     return card;
   }
 
+  /**
+   * Builds the header section showing the player's name and earned status badge.
+   *
+   * @param summary the performance data to display
+   * @return the assembled header {@link VBox}
+   */
   private VBox buildHeader(GameSummary summary) {
     Label title = new Label("Session Complete");
     title.getStyleClass().add("start-title");
@@ -59,6 +86,12 @@ public class SummaryView extends StackPane {
     return header;
   }
 
+  /**
+   * Builds the row of four summary stat cards.
+   *
+   * @param summary the performance data to display
+   * @return the assembled stat-cards {@link HBox}
+   */
   private HBox buildStatRow(GameSummary summary) {
     VBox startCard = buildStatCard("Starting Capital",
         FormatUtil.formatCurrency(summary.startingCapital()), null);
@@ -89,6 +122,14 @@ public class SummaryView extends StackPane {
     return row;
   }
 
+  /**
+   * Builds a single labelled stat card.
+   *
+   * @param title the card title
+   * @param value the primary value to display
+   * @param sub   an optional sub-label, or {@code null} to omit it
+   * @return the assembled stat card {@link VBox}
+   */
   private VBox buildStatCard(String title, String value, String sub) {
     VBox card = new VBox(4);
     card.getStyleClass().add("stat-card");
@@ -108,6 +149,12 @@ public class SummaryView extends StackPane {
     return card;
   }
 
+  /**
+   * Builds the secondary info label showing active weeks vs. total weeks played.
+   *
+   * @param summary the performance data to display
+   * @return the assembled info {@link Label}
+   */
   private Label buildSecondaryInfo(GameSummary summary) {
     Label label = new Label(
         "Active weeks: " + summary.activeWeeks() + " of " + summary.weeksPlayed());
@@ -115,6 +162,12 @@ public class SummaryView extends StackPane {
     return label;
   }
 
+  /**
+   * Builds the action button row with "Exit" and "Back To Start" buttons.
+   *
+   * @param onBackToStart the callback invoked when the player clicks "Back To Start"
+   * @return the assembled button row {@link HBox}
+   */
   private HBox buildActionButtons(Runnable onBackToStart) {
     Button exitBtn = new Button("Exit");
     exitBtn.getStyleClass().add("btn-secondary");
