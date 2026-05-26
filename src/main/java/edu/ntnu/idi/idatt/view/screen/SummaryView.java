@@ -95,10 +95,10 @@ public class SummaryView extends StackPane {
    * @return the assembled stat-cards {@link HBox}
    */
   private HBox buildStatRow(GameSummary summary) {
-    VBox startCard =
+    final VBox startCard =
         buildStatCard(
             "Starting Capital", FormatUtil.formatCurrency(summary.startingCapital()), null);
-    VBox finalCard =
+    final VBox finalCard =
         buildStatCard("Final Balance", FormatUtil.formatCurrency(summary.finalBalance()), null);
 
     Label gainLossLabel = new Label(FormatUtil.formatPriceChange(summary.totalGainLoss()));
@@ -116,7 +116,7 @@ public class SummaryView extends StackPane {
 
     VBox weeksCard = buildStatCard("Weeks Played", String.valueOf(summary.weeksPlayed()), null);
 
-    HBox row = new HBox(16, startCard, finalCard, gainLossCard, weeksCard);
+    final HBox row = new HBox(16, startCard, finalCard, gainLossCard, weeksCard);
     HBox.setHgrow(startCard, Priority.ALWAYS);
     HBox.setHgrow(finalCard, Priority.ALWAYS);
     HBox.setHgrow(gainLossCard, Priority.ALWAYS);

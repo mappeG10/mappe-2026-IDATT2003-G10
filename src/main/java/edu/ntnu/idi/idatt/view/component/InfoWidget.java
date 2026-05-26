@@ -25,13 +25,13 @@ public class InfoWidget extends BaseModal<String> {
    */
   public InfoWidget(String title, String message) {
     super(message);
-    setupUI();
+    setupUi();
     titleLabel.setText(title);
   }
 
   /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().add("widget-root");
     setSpacing(0);
 

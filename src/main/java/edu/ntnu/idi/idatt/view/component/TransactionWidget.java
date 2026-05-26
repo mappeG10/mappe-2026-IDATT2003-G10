@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
  * handler that commits the trade.
  *
  * <p>Listeners are not attached during construction; subclasses must call {@link
- * #setupTransactionListeners()} after {@link #setupUI()} has populated {@link #quantityField} and
+ * #setupTransactionListeners()} after {@link #setupUi()} has populated {@link #quantityField} and
  * {@link #actionButton}.
  *
  * @param <T> the type of the subject the transaction operates on (e.g., {@link
@@ -37,7 +37,7 @@ public abstract class TransactionWidget<T> extends BaseModal<T> {
   /**
    * Wires the quantity field and action button to their respective handlers.
    *
-   * <p>Must be called by the subclass after {@link #setupUI()} has assigned {@link #quantityField}
+   * <p>Must be called by the subclass after {@link #setupUi()} has assigned {@link #quantityField}
    * and {@link #actionButton}.
    */
   protected void setupTransactionListeners() {

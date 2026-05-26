@@ -65,12 +65,12 @@ public class StockChartWidget extends BaseModal<Stock> {
    */
   public StockChartWidget(Stock target) {
     super(target);
-    setupUI();
+    setupUi();
   }
 
   /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().addAll("widget-root", "stock-chart-widget");
 
     this.titleLabel = new Label(target.getSymbol() + " — " + target.getCompany());
@@ -122,18 +122,18 @@ public class StockChartWidget extends BaseModal<Stock> {
    * @return a configured {@link AreaChart} containing one data series for this stock
    */
   private AreaChart<Number, Number> buildChart() {
-    NumberAxis xAxis = new NumberAxis();
-    xAxis.setLabel("Week");
-    xAxis.setAutoRanging(false);
-    xAxis.setLowerBound(1);
-    xAxis.setUpperBound(Math.max(target.getHistoricalPrices().size(), 2));
-    xAxis.setTickUnit(1);
-    xAxis.setMinorTickVisible(false);
+    NumberAxis weekAxis = new NumberAxis();
+    weekAxis.setLabel("Week");
+    weekAxis.setAutoRanging(false);
+    weekAxis.setLowerBound(1);
+    weekAxis.setUpperBound(Math.max(target.getHistoricalPrices().size(), 2));
+    weekAxis.setTickUnit(1);
+    weekAxis.setMinorTickVisible(false);
 
-    NumberAxis yAxis = new NumberAxis();
-    yAxis.setLabel("Price ($)");
+    NumberAxis priceAxis = new NumberAxis();
+    priceAxis.setLabel("Price ($)");
 
-    AreaChart<Number, Number> chart = new AreaChart<>(xAxis, yAxis);
+    AreaChart<Number, Number> chart = new AreaChart<>(weekAxis, priceAxis);
     chart.setLegendVisible(false);
     chart.setAnimated(false);
     chart.setCreateSymbols(false);

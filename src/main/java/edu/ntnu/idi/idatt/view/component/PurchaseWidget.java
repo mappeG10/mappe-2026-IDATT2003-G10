@@ -42,13 +42,13 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
   public PurchaseWidget(Stock target, MarketController controller) {
     super(target);
     this.controller = controller;
-    setupUI();
+    setupUi();
     setupTransactionListeners();
   }
 
   /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().add("widget-root");
 
     this.titleLabel = new Label("Buy: " + target.getSymbol());

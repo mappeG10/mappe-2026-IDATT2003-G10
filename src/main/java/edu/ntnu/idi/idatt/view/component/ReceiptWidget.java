@@ -27,12 +27,12 @@ public class ReceiptWidget extends BaseModal<TransactionReceipt> {
    */
   public ReceiptWidget(TransactionReceipt receipt) {
     super(receipt);
-    setupUI();
+    setupUi();
   }
 
   /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().add("widget-root");
 
     this.titleLabel =
@@ -50,9 +50,9 @@ public class ReceiptWidget extends BaseModal<TransactionReceipt> {
     Label detailLabel =
         new Label(
             switch (target.type()) {
-              case PURCHASE -> "Bought ";
-              case SALE -> "Sold ";
-            }
+                  case PURCHASE -> "Bought ";
+                  case SALE -> "Sold ";
+                }
                 + FormatUtil.formatBigDecimalToString(target.quantity())
                 + " share(s) of "
                 + target.symbol()

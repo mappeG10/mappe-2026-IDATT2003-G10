@@ -24,13 +24,13 @@ public class FinishGameWidget extends BaseModal<Void> {
    */
   public FinishGameWidget(Runnable onConfirm) {
     super(null);
-    setupUI();
+    setupUi();
     this.onConfirm = onConfirm;
   }
 
   /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().add("widget-root");
 
     this.titleLabel = new Label("Finish Game");

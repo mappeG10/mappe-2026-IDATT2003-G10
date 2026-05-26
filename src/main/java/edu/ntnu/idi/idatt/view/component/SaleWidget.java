@@ -45,14 +45,14 @@ public class SaleWidget extends TransactionWidget<Share> {
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
     this.controller = controller;
-    setupUI();
+    setupUi();
     setupTransactionListeners();
     updatedPreview(target.getQuantity().toPlainString());
   }
 
   /** {@inheritDoc} */
   @Override
-  protected void setupUI() {
+  protected void setupUi() {
     getStyleClass().add("widget-root");
 
     this.titleLabel = new Label("Sell: " + target.getSymbol());

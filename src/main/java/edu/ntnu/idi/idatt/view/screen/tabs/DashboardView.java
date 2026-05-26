@@ -176,7 +176,7 @@ public class DashboardView extends VBox implements GameObserver {
    * @return the assembled middle {@link HBox}
    */
   private HBox buildMiddleContainer() {
-    HBox middleContainer = new HBox(12);
+    final HBox middleContainer = new HBox(12);
 
     Button advanceBtn = new Button("Advance to the next week →");
     advanceBtn.getStyleClass().add("btn-advance");

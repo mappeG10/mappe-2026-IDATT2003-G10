@@ -46,7 +46,7 @@ public class SettingsView extends VBox {
     Label subtitleLabel = new Label("Manage your game session");
     subtitleLabel.getStyleClass().add("view-subtitle");
 
-    VBox headerContainer = new VBox(4, titleLabel, subtitleLabel);
+    final VBox headerContainer = new VBox(4, titleLabel, subtitleLabel);
 
     HBox cardsContainer = new HBox();
     cardsContainer.getStyleClass().add("settings-cards-row");
