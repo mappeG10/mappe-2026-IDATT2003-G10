@@ -1,15 +1,15 @@
-package edu.ntnu.idi.idatt.model;
+package edu.ntnu.idi.idatt.model.transaction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Share;
+import edu.ntnu.idi.idatt.model.Stock;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import edu.ntnu.idi.idatt.model.transaction.Purchase;
-import edu.ntnu.idi.idatt.model.transaction.Sale;
-import edu.ntnu.idi.idatt.model.transaction.Transaction;
-import edu.ntnu.idi.idatt.model.transaction.TransactionArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
