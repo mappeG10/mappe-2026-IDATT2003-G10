@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.view.screen;
 import edu.ntnu.idi.idatt.controller.GameController;
 import edu.ntnu.idi.idatt.observer.GameObserver;
 import edu.ntnu.idi.idatt.view.GameTab;
+import edu.ntnu.idi.idatt.view.component.ExitGameWidget;
 import edu.ntnu.idi.idatt.view.component.FinishGameWidget;
 import edu.ntnu.idi.idatt.view.util.FormatUtil;
 import java.util.ArrayList;
@@ -81,7 +82,8 @@ public class MainView extends BorderPane implements GameObserver {
   }
 
   /**
-   * Builds the left sidebar containing tab navigation buttons and the finish-game button.
+   * Builds the left sidebar containing tab navigation buttons, an exit button, and the finish-game
+   * button.
    *
    * @param onTabSelected a callback for tab selection events
    * @param onFinish a callback triggered by the finish-game confirmation
@@ -125,6 +127,10 @@ public class MainView extends BorderPane implements GameObserver {
 
     activateSidebarBtn(marketBtn);
 
+    Button exitBtn = new Button("Exit");
+    exitBtn.getStyleClass().addAll("sidebar-btn", "sidebar-btn-danger");
+    exitBtn.setOnAction(e -> ExitGameWidget.open(getScene().getWindow()));
+
     Button finishBtn = new Button("Finish Game");
     finishBtn.getStyleClass().addAll("sidebar-btn", "sidebar-btn-secondary");
     finishBtn.setOnAction(e -> new FinishGameWidget(onFinish).openDialog(getScene().getWindow()));
@@ -136,7 +142,7 @@ public class MainView extends BorderPane implements GameObserver {
     sidebar.getStyleClass().add("sidebar");
     sidebar
         .getChildren()
-        .addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, settingsBtn, finishBtn);
+        .addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, exitBtn, settingsBtn, finishBtn);
     return sidebar;
   }
 
