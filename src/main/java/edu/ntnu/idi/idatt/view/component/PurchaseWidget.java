@@ -18,11 +18,27 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * Modal dialog for entering a stock purchase order.
+ *
+ * <p>Displays the stock's current price and provides a quantity input field whose value
+ * is used to compute a live cost preview (gross, commission, total) via
+ * {@link MarketController#previewBuy(String, BigDecimal)}. When the player confirms, the
+ * purchase is executed, this dialog closes, and a {@link ReceiptWidget} is opened.</p>
+ */
 public class PurchaseWidget extends TransactionWidget<Stock> {
+
   private final MarketController controller;
   private Label grossValueLabel;
   private Label commissionValueLabel;
 
+  /**
+   * Constructs and immediately lays out a purchase dialog for the given stock.
+   *
+   * @param target     the stock to be purchased; must not be {@code null}
+   * @param controller the market controller used to preview and execute the purchase;
+   *                   must not be {@code null}
+   */
   public PurchaseWidget(Stock target, MarketController controller) {
     super(target);
     this.controller = controller;
@@ -30,6 +46,9 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     setupTransactionListeners();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");
@@ -65,6 +84,11 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     );
   }
 
+  /**
+   * Builds the cost summary panel showing gross cost, commission, and total.
+   *
+   * @return an {@link HBox} containing the aligned key-value rows
+   */
   private HBox buildSummaryRow() {
     Label grossKey = new Label("Gross Cost");
     grossKey.getStyleClass().add("widget-label-key");
@@ -84,6 +108,13 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     return row;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Updates the gross, commission, and total labels by previewing the purchase at the
+   * entered quantity. Resets all labels to {@code $0.00} if the input is not a valid
+   * positive number.</p>
+   */
   @Override
   protected void updatedPreview(String quantityStr) {
     try {
@@ -100,6 +131,13 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Parses the quantity field, executes the purchase via the controller, closes this
+   * dialog, and opens a {@link ReceiptWidget} on success. Shows an error alert for invalid
+   * input or business-rule violations.</p>
+   */
   @Override
   protected void handleAction() {
     try {

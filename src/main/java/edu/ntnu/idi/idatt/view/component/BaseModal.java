@@ -10,18 +10,50 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
+/**
+ * Abstract base class for all modal dialog widgets in the application.
+ *
+ * <p>A modal is a transparent {@link VBox} that is displayed in its own
+ * {@link Stage} with {@link Modality#WINDOW_MODAL} blocking. Subclasses
+ * are responsible for building their own UI in {@link #setupUI()} and may
+ * expose a {@link #closeButton} that this class wires to {@link #requestClose()}
+ * automatically when the dialog is opened.</p>
+ *
+ * @param <T> the type of the primary data object this widget operates on
+ */
 public abstract class BaseModal<T> extends VBox {
 
+  /** The primary data object this widget is built around. */
   protected final T target;
+
+  /** The title label rendered at the top of the widget; set by subclasses in {@link #setupUI()}. */
   protected Label titleLabel;
+
+  /** The primary close/dismiss button; wired to {@link #requestClose()} by {@link #openDialog}. */
   protected Button closeButton;
 
   private Runnable onCloseRequested;
 
+  /**
+   * Constructs a new modal with the given target data object.
+   *
+   * @param target the data object the widget will display or operate on; may be {@code null}
+   *               for widgets that require no input (e.g., confirmation dialogs)
+   */
   protected BaseModal(T target) {
     this.target = target;
   }
 
+  /**
+   * Opens this widget as a modal dialog window anchored to the given owner.
+   *
+   * <p>The dialog is displayed with a transparent background and centred over the owner
+   * window. If a {@link #closeButton} was configured in {@link #setupUI()}, it is
+   * automatically wired to close the dialog.</p>
+   *
+   * @param owner the parent window the modal is attached to; may be {@code null}, in which
+   *              case the dialog is not centred
+   */
   public void openDialog(Window owner) {
     Stage stage = new Stage();
     stage.initStyle(StageStyle.TRANSPARENT);
@@ -46,15 +78,31 @@ public abstract class BaseModal<T> extends VBox {
     requestFocus();
   }
 
+  /**
+   * Registers a callback to be invoked when the dialog is requested to close.
+   *
+   * @param callback the action to perform when the dialog closes; must not be {@code null}
+   */
   public void setOnCloseRequested(Runnable callback) {
     this.onCloseRequested = callback;
   }
 
+  /**
+   * Invokes the registered close callback to dismiss this dialog.
+   *
+   * <p>Has no effect if no callback has been registered.</p>
+   */
   protected void requestClose() {
     if (onCloseRequested != null) {
       onCloseRequested.run();
     }
   }
 
+  /**
+   * Constructs and arranges the UI components for this modal dialog.
+   *
+   * <p>Subclasses must implement this method and typically assign values to
+   * {@link #titleLabel} and {@link #closeButton} within it.</p>
+   */
   protected abstract void setupUI();
 }

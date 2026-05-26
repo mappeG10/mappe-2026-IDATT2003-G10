@@ -10,13 +10,29 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Modal dialog displaying the confirmed details of a committed transaction.
+ *
+ * <p>Shows the transaction type (buy/sell), the stock traded, the per-share price,
+ * and a fee breakdown (gross, commission, optionally tax, net total). A single "Done"
+ * button closes the dialog. The caption colours and labels adapt based on whether the
+ * transaction was a purchase or a sale.</p>
+ */
 public class ReceiptWidget extends BaseModal<TransactionReceipt> {
 
+  /**
+   * Constructs and immediately lays out a receipt dialog for the given transaction.
+   *
+   * @param receipt the committed transaction details to display; must not be {@code null}
+   */
   public ReceiptWidget(TransactionReceipt receipt) {
     super(receipt);
     setupUI();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");
@@ -57,6 +73,12 @@ public class ReceiptWidget extends BaseModal<TransactionReceipt> {
     );
   }
 
+  /**
+   * Builds the fee breakdown panel, conditionally including a capital-gains tax row for
+   * profitable sales.
+   *
+   * @return an {@link HBox} containing the aligned key-value rows
+   */
   private HBox buildSummaryRow() {
     Label grossKey = new Label(switch (target.type()) {
       case PURCHASE -> "Gross Cost";
