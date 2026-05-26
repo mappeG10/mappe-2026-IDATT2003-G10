@@ -1,14 +1,14 @@
 package edu.ntnu.idi.idatt.dal;
 
-import edu.ntnu.idi.idatt.dal.dto.GameStateDto;
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idi.idatt.dal.exception.DataAccessException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class JsonGameReaderTest {
   @TempDir Path tempDir;
@@ -23,7 +23,7 @@ class JsonGameReaderTest {
   void testReadInvalidJsonThrowsException() throws IOException {
     Path path = tempDir.resolve("bad.json");
     Files.writeString(path, "{ \"invalid\": \"json\" "); // Missing closing brace
-    
+
     assertThrows(DataAccessException.class, () -> reader.read(path.toString()));
   }
 

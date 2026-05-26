@@ -20,10 +20,10 @@ import javafx.stage.Window;
 /**
  * Modal dialog for entering a share-sale order.
  *
- * <p>Pre-populates the quantity field with the total quantity held and displays a live
- * proceeds preview (gross, capital-gains tax, net total) via
- * {@link PortfolioController#previewSell(Share, BigDecimal)}. When the player confirms,
- * the sale is executed, this dialog closes, and a {@link ReceiptWidget} is opened.</p>
+ * <p>Pre-populates the quantity field with the total quantity held and displays a live proceeds
+ * preview (gross, capital-gains tax, net total) via {@link PortfolioController#previewSell(Share,
+ * BigDecimal)}. When the player confirms, the sale is executed, this dialog closes, and a {@link
+ * ReceiptWidget} is opened.
  */
 public class SaleWidget extends TransactionWidget<Share> {
 
@@ -35,12 +35,12 @@ public class SaleWidget extends TransactionWidget<Share> {
   /**
    * Constructs and immediately lays out a sale dialog for the given share position.
    *
-   * <p>The quantity field is pre-filled with the full position size and an initial preview
-   * is computed immediately.</p>
+   * <p>The quantity field is pre-filled with the full position size and an initial preview is
+   * computed immediately.
    *
-   * @param target     the share position to sell from; must not be {@code null}
-   * @param controller the portfolio controller used to preview and execute the sale;
-   *                   must not be {@code null}
+   * @param target the share position to sell from; must not be {@code null}
+   * @param controller the portfolio controller used to preview and execute the sale; must not be
+   *     {@code null}
    */
   public SaleWidget(Share target, PortfolioController controller) {
     super(target);
@@ -50,9 +50,7 @@ public class SaleWidget extends TransactionWidget<Share> {
     updatedPreview(target.getQuantity().toPlainString());
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");
@@ -60,8 +58,11 @@ public class SaleWidget extends TransactionWidget<Share> {
     this.titleLabel = new Label("Sell: " + target.getSymbol());
     this.titleLabel.getStyleClass().add("widget-title");
 
-    Label subtitleLabel = new Label(target.getCompany() + " · Current price: "
-        + FormatUtil.formatCurrency(target.getCurrentPrice()));
+    Label subtitleLabel =
+        new Label(
+            target.getCompany()
+                + " · Current price: "
+                + FormatUtil.formatCurrency(target.getCurrentPrice()));
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField(target.getQuantity().toPlainString());
@@ -78,14 +79,14 @@ public class SaleWidget extends TransactionWidget<Share> {
 
     this.setSpacing(12);
 
-    this.getChildren().addAll(
-        titleLabel,
-        subtitleLabel,
-        new Label("Quantity (max: " + target.getQuantity().toPlainString() + "):"),
-        quantityField,
-        buildSummaryRow(),
-        new HBox(8, actionButton, closeButton)
-    );
+    this.getChildren()
+        .addAll(
+            titleLabel,
+            subtitleLabel,
+            new Label("Quantity (max: " + target.getQuantity().toPlainString() + "):"),
+            quantityField,
+            buildSummaryRow(),
+            new HBox(8, actionButton, closeButton));
   }
 
   /**
@@ -105,7 +106,7 @@ public class SaleWidget extends TransactionWidget<Share> {
     taxValueLabel.getStyleClass().add("widget-label-value");
     totalLabel.getStyleClass().add("widget-label-total");
 
-    VBox keys   = new VBox(6, grossKey, taxKey, totalKey);
+    VBox keys = new VBox(6, grossKey, taxKey, totalKey);
     VBox values = new VBox(6, grossValueLabel, taxValueLabel, totalLabel);
     HBox row = new HBox(24, keys, values);
     row.getStyleClass().add("widget-summary");
@@ -115,8 +116,8 @@ public class SaleWidget extends TransactionWidget<Share> {
   /**
    * {@inheritDoc}
    *
-   * <p>Updates the gross proceeds, tax, and net total labels by previewing the sale at the
-   * entered quantity. Resets all labels to {@code $0.00} if the input is not valid.</p>
+   * <p>Updates the gross proceeds, tax, and net total labels by previewing the sale at the entered
+   * quantity. Resets all labels to {@code $0.00} if the input is not valid.
    */
   @Override
   protected void updatedPreview(String quantityStr) {
@@ -136,9 +137,9 @@ public class SaleWidget extends TransactionWidget<Share> {
   /**
    * {@inheritDoc}
    *
-   * <p>Parses the quantity field, executes the sale via the controller, closes this dialog,
-   * and opens a {@link ReceiptWidget} on success. Shows an error alert for invalid input or
-   * business-rule violations.</p>
+   * <p>Parses the quantity field, executes the sale via the controller, closes this dialog, and
+   * opens a {@link ReceiptWidget} on success. Shows an error alert for invalid input or
+   * business-rule violations.
    */
   @Override
   protected void handleAction() {

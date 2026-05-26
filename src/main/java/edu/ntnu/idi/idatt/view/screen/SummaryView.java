@@ -17,17 +17,17 @@ import javafx.scene.layout.VBox;
 /**
  * End-game summary screen displaying the player's final performance statistics.
  *
- * <p>Shown after the player confirms the "Finish Game" action. Displays a centred card
- * containing the player's name, final status badge, and four stat cards (starting capital,
- * final balance, total gain/loss, and weeks played). "Back To Start" resets the application
- * to the start screen; "Exit" terminates the JavaFX application.</p>
+ * <p>Shown after the player confirms the "Finish Game" action. Displays a centred card containing
+ * the player's name, final status badge, and four stat cards (starting capital, final balance,
+ * total gain/loss, and weeks played). "Back To Start" resets the application to the start screen;
+ * "Exit" terminates the JavaFX application.
  */
 public class SummaryView extends StackPane {
 
   /**
    * Constructs the summary view from the given end-game statistics.
    *
-   * @param summary       the player's final performance data; must not be {@code null}
+   * @param summary the player's final performance data; must not be {@code null}
    * @param onBackToStart a callback invoked when the player clicks "Back To Start"
    */
   public SummaryView(GameSummary summary, Runnable onBackToStart) {
@@ -38,7 +38,7 @@ public class SummaryView extends StackPane {
   /**
    * Builds the centred summary card.
    *
-   * @param summary       the performance data to display
+   * @param summary the performance data to display
    * @param onBackToStart the back-to-start callback
    * @return the assembled card {@link VBox}
    */
@@ -50,13 +50,13 @@ public class SummaryView extends StackPane {
     card.getStyleClass().add("summary-card");
     card.setAlignment(Pos.CENTER);
     card.setMaxHeight(Region.USE_PREF_SIZE);
-    card.getChildren().addAll(
-        buildHeader(summary),
-        headerSpacer,
-        buildStatRow(summary),
-        buildSecondaryInfo(summary),
-        buildActionButtons(onBackToStart)
-    );
+    card.getChildren()
+        .addAll(
+            buildHeader(summary),
+            headerSpacer,
+            buildStatRow(summary),
+            buildSecondaryInfo(summary),
+            buildActionButtons(onBackToStart));
     return card;
   }
 
@@ -76,7 +76,9 @@ public class SummaryView extends StackPane {
     playerName.getStyleClass().add("view-title");
 
     Label statusBadge = new Label(summary.finalStatus().name());
-    statusBadge.getStyleClass().setAll("status-badge", "status-badge-" + summary.finalStatus().name().toLowerCase());
+    statusBadge
+        .getStyleClass()
+        .setAll("status-badge", "status-badge-" + summary.finalStatus().name().toLowerCase());
 
     HBox nameRow = new HBox(12, playerName, statusBadge);
     nameRow.setAlignment(Pos.CENTER);
@@ -93,15 +95,17 @@ public class SummaryView extends StackPane {
    * @return the assembled stat-cards {@link HBox}
    */
   private HBox buildStatRow(GameSummary summary) {
-    VBox startCard = buildStatCard("Starting Capital",
-        FormatUtil.formatCurrency(summary.startingCapital()), null);
-    VBox finalCard = buildStatCard("Final Balance",
-        FormatUtil.formatCurrency(summary.finalBalance()), null);
+    VBox startCard =
+        buildStatCard(
+            "Starting Capital", FormatUtil.formatCurrency(summary.startingCapital()), null);
+    VBox finalCard =
+        buildStatCard("Final Balance", FormatUtil.formatCurrency(summary.finalBalance()), null);
 
     Label gainLossLabel = new Label(FormatUtil.formatPriceChange(summary.totalGainLoss()));
     gainLossLabel.getStyleClass().add("stat-card-value");
     ViewUtility.applySignStyleClass(gainLossLabel, summary.totalGainLoss());
-    Label gainLossSub = new Label(FormatUtil.formatPercentage(summary.totalGainLossPercent()) + " all time");
+    Label gainLossSub =
+        new Label(FormatUtil.formatPercentage(summary.totalGainLossPercent()) + " all time");
     gainLossSub.getStyleClass().add("stat-card-sub");
     ViewUtility.applySignStyleClass(gainLossSub, summary.totalGainLossPercent());
     VBox gainLossCard = new VBox(4);
@@ -110,14 +114,13 @@ public class SummaryView extends StackPane {
     gainLossTitle.getStyleClass().add("stat-card-title");
     gainLossCard.getChildren().addAll(gainLossTitle, gainLossLabel, gainLossSub);
 
-    VBox weeksCard = buildStatCard("Weeks Played",
-        String.valueOf(summary.weeksPlayed()), null);
+    VBox weeksCard = buildStatCard("Weeks Played", String.valueOf(summary.weeksPlayed()), null);
 
     HBox row = new HBox(16, startCard, finalCard, gainLossCard, weeksCard);
-    HBox.setHgrow(startCard,    Priority.ALWAYS);
-    HBox.setHgrow(finalCard,    Priority.ALWAYS);
+    HBox.setHgrow(startCard, Priority.ALWAYS);
+    HBox.setHgrow(finalCard, Priority.ALWAYS);
     HBox.setHgrow(gainLossCard, Priority.ALWAYS);
-    HBox.setHgrow(weeksCard,    Priority.ALWAYS);
+    HBox.setHgrow(weeksCard, Priority.ALWAYS);
     row.getStyleClass().add("stat-cards-row");
     return row;
   }
@@ -127,7 +130,7 @@ public class SummaryView extends StackPane {
    *
    * @param title the card title
    * @param value the primary value to display
-   * @param sub   an optional sub-label, or {@code null} to omit it
+   * @param sub an optional sub-label, or {@code null} to omit it
    * @return the assembled stat card {@link VBox}
    */
   private VBox buildStatCard(String title, String value, String sub) {
@@ -156,8 +159,8 @@ public class SummaryView extends StackPane {
    * @return the assembled info {@link Label}
    */
   private Label buildSecondaryInfo(GameSummary summary) {
-    Label label = new Label(
-        "Active weeks: " + summary.activeWeeks() + " of " + summary.weeksPlayed());
+    Label label =
+        new Label("Active weeks: " + summary.activeWeeks() + " of " + summary.weeksPlayed());
     label.getStyleClass().add("view-subtitle");
     return label;
   }

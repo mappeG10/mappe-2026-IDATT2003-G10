@@ -21,10 +21,10 @@ import javafx.stage.Window;
 /**
  * Modal dialog for entering a stock purchase order.
  *
- * <p>Displays the stock's current price and provides a quantity input field whose value
- * is used to compute a live cost preview (gross, commission, total) via
- * {@link MarketController#previewBuy(String, BigDecimal)}. When the player confirms, the
- * purchase is executed, this dialog closes, and a {@link ReceiptWidget} is opened.</p>
+ * <p>Displays the stock's current price and provides a quantity input field whose value is used to
+ * compute a live cost preview (gross, commission, total) via {@link
+ * MarketController#previewBuy(String, BigDecimal)}. When the player confirms, the purchase is
+ * executed, this dialog closes, and a {@link ReceiptWidget} is opened.
  */
 public class PurchaseWidget extends TransactionWidget<Stock> {
 
@@ -35,9 +35,9 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
   /**
    * Constructs and immediately lays out a purchase dialog for the given stock.
    *
-   * @param target     the stock to be purchased; must not be {@code null}
-   * @param controller the market controller used to preview and execute the purchase;
-   *                   must not be {@code null}
+   * @param target the stock to be purchased; must not be {@code null}
+   * @param controller the market controller used to preview and execute the purchase; must not be
+   *     {@code null}
    */
   public PurchaseWidget(Stock target, MarketController controller) {
     super(target);
@@ -46,9 +46,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     setupTransactionListeners();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");
@@ -56,7 +54,11 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     this.titleLabel = new Label("Buy: " + target.getSymbol());
     this.titleLabel.getStyleClass().add("widget-title");
 
-    Label subtitleLabel = new Label(target.getCompany() + " · Current price: " + FormatUtil.formatCurrency(target.getSalesPrice()));
+    Label subtitleLabel =
+        new Label(
+            target.getCompany()
+                + " · Current price: "
+                + FormatUtil.formatCurrency(target.getSalesPrice()));
     subtitleLabel.getStyleClass().add("widget-subtitle");
 
     this.quantityField = new TextField();
@@ -74,14 +76,14 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
 
     this.setSpacing(12);
 
-    this.getChildren().addAll(
-        titleLabel,
-        subtitleLabel,
-        new Label("Quantity:"),
-        quantityField,
-        buildSummaryRow(),
-        new HBox(8, actionButton, closeButton)
-    );
+    this.getChildren()
+        .addAll(
+            titleLabel,
+            subtitleLabel,
+            new Label("Quantity:"),
+            quantityField,
+            buildSummaryRow(),
+            new HBox(8, actionButton, closeButton));
   }
 
   /**
@@ -101,7 +103,7 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
     commissionValueLabel.getStyleClass().add("widget-label-value");
     totalLabel.getStyleClass().add("widget-label-total");
 
-    VBox keys   = new VBox(6, grossKey, commKey, totalKey);
+    VBox keys = new VBox(6, grossKey, commKey, totalKey);
     VBox values = new VBox(6, grossValueLabel, commissionValueLabel, totalLabel);
     HBox row = new HBox(24, keys, values);
     row.getStyleClass().add("widget-summary");
@@ -111,9 +113,8 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
   /**
    * {@inheritDoc}
    *
-   * <p>Updates the gross, commission, and total labels by previewing the purchase at the
-   * entered quantity. Resets all labels to {@code $0.00} if the input is not a valid
-   * positive number.</p>
+   * <p>Updates the gross, commission, and total labels by previewing the purchase at the entered
+   * quantity. Resets all labels to {@code $0.00} if the input is not a valid positive number.
    */
   @Override
   protected void updatedPreview(String quantityStr) {
@@ -134,9 +135,9 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
   /**
    * {@inheritDoc}
    *
-   * <p>Parses the quantity field, executes the purchase via the controller, closes this
-   * dialog, and opens a {@link ReceiptWidget} on success. Shows an error alert for invalid
-   * input or business-rule violations.</p>
+   * <p>Parses the quantity field, executes the purchase via the controller, closes this dialog, and
+   * opens a {@link ReceiptWidget} on success. Shows an error alert for invalid input or
+   * business-rule violations.
    */
   @Override
   protected void handleAction() {

@@ -3,9 +3,8 @@ package edu.ntnu.idi.idatt.model.exception;
 /**
  * Thrown when a requested stock symbol cannot be located in the exchange.
  *
- * <p>This unchecked exception is raised by {@link edu.ntnu.idi.idatt.model.Exchange} whenever
- * a look-up by ticker symbol produces no matching
- * {@link edu.ntnu.idi.idatt.model.Stock} entry.</p>
+ * <p>This unchecked exception is raised by {@link edu.ntnu.idi.idatt.model.Exchange} whenever a
+ * look-up by ticker symbol produces no matching {@link edu.ntnu.idi.idatt.model.Stock} entry.
  */
 public class StockNotFoundException extends RuntimeException {
 

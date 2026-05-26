@@ -1,24 +1,26 @@
 package edu.ntnu.idi.idatt.model;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idi.idatt.model.exception.StockNotFoundException;
 import edu.ntnu.idi.idatt.model.transaction.Purchase;
 import edu.ntnu.idi.idatt.model.transaction.Sale;
 import edu.ntnu.idi.idatt.model.transaction.Transaction;
 import edu.ntnu.idi.idatt.observer.GameObserver;
-import java.util.concurrent.atomic.AtomicInteger;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ExchangeTest {
   String name = "NASDAQ";
   List<Stock> stockList = new ArrayList<>();
 
   Stock stock1 = new Stock("APPL", "Apple", new ArrayList<>(List.of(new BigDecimal("150.00"))));
-  Stock stock2 = new Stock("GOOG", "Alphabet ", new ArrayList<>(List.of(new BigDecimal("2500.00"))));
+  Stock stock2 =
+      new Stock("GOOG", "Alphabet ", new ArrayList<>(List.of(new BigDecimal("2500.00"))));
   Stock stock3;
 
   Exchange exchange;
@@ -41,28 +43,42 @@ class ExchangeTest {
 
   @Test
   void testConstructorWithInvalidArguments() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      new Exchange(null, stockList);
-    }, "Exchange should throw IllegalArgumentException when name is null");
-    assertThrows(IllegalArgumentException.class, () -> {
-      new Exchange("  ", stockList);
-    }, "Exchange should throw IllegalArgumentException when name is empty");
-    assertThrows(IllegalArgumentException.class, () -> {
-      new Exchange(name, null);
-    }, "Exchange should throw IllegalArgumentException when stocklist is null");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Exchange(null, stockList);
+        },
+        "Exchange should throw IllegalArgumentException when name is null");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Exchange("  ", stockList);
+        },
+        "Exchange should throw IllegalArgumentException when name is empty");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Exchange(name, null);
+        },
+        "Exchange should throw IllegalArgumentException when stocklist is null");
   }
 
   @Test
   void testFindStocksBySearchTerm() {
-    assertEquals(stock1, exchange.findStock("apple").getFirst(),
+    assertEquals(
+        stock1,
+        exchange.findStock("apple").getFirst(),
         "Exchange should match after finding first stock");
-    assertEquals(1,exchange.findStock("alpHAb").size(),
-        "Size of the list with returned list should be 1");
+    assertEquals(
+        1, exchange.findStock("alpHAb").size(), "Size of the list with returned list should be 1");
   }
 
   @Test
   void testGetStockBySymbol() {
-    assertEquals(stock1, exchange.getStock(stock1.getSymbol()), "Should return the correct stock for an existing symbol");
+    assertEquals(
+        stock1,
+        exchange.getStock(stock1.getSymbol()),
+        "Should return the correct stock for an existing symbol");
     assertThrows(StockNotFoundException.class, () -> exchange.getStock("MSFT"));
   }
 
@@ -99,8 +115,10 @@ class ExchangeTest {
     BigDecimal lowerBound = oldPrice.multiply(new BigDecimal("0.925"));
     BigDecimal upperBound = oldPrice.multiply(new BigDecimal("1.075"));
 
-    assertTrue(newPrice.compareTo(lowerBound) >= 0, "New price should not be less than lower bound");
-    assertTrue(newPrice.compareTo(upperBound) <= 0, "New price should not be greater than upper bound");
+    assertTrue(
+        newPrice.compareTo(lowerBound) >= 0, "New price should not be less than lower bound");
+    assertTrue(
+        newPrice.compareTo(upperBound) <= 0, "New price should not be greater than upper bound");
   }
 
   @Test
@@ -111,21 +129,38 @@ class ExchangeTest {
 
     assertNotNull(purchase, "Purchase transaction should not be null");
     assertInstanceOf(Purchase.class, purchase, "Transaction should be an instance of Purchase");
-    assertEquals(0, player.getMoney().compareTo(startingMoney.subtract(cost)), "Player's money should decrease by cost of purchase");
-    assertEquals(1, player.getPortfolio().getShares().size(), "Player's portfolio should contain one share");
-    assertEquals(stock1, player.getPortfolio().getShares("APPL").getFirst().getStock(), "Correct stock should be in player's portfolio");
-    assertEquals(0, quantity.compareTo(player.getPortfolio().getShares("APPL").getFirst().getQuantity()), "Correct quantity should be in player's portfolio");
+    assertEquals(
+        0,
+        player.getMoney().compareTo(startingMoney.subtract(cost)),
+        "Player's money should decrease by cost of purchase");
+    assertEquals(
+        1, player.getPortfolio().getShares().size(), "Player's portfolio should contain one share");
+    assertEquals(
+        stock1,
+        player.getPortfolio().getShares("APPL").getFirst().getStock(),
+        "Correct stock should be in player's portfolio");
+    assertEquals(
+        0,
+        quantity.compareTo(player.getPortfolio().getShares("APPL").getFirst().getQuantity()),
+        "Correct quantity should be in player's portfolio");
   }
 
   @Test
   void testBuyNonExistentStock() {
-    assertThrows(StockNotFoundException.class, () -> exchange.buy("MSFT", new BigDecimal("10"), player));
+    assertThrows(
+        StockNotFoundException.class, () -> exchange.buy("MSFT", new BigDecimal("10"), player));
   }
 
   @Test
   void testBuyWithInvalidQuantity() {
-    assertThrows(IllegalArgumentException.class, () -> exchange.buy("APPL", BigDecimal.ZERO, player), "Buying with zero quantity should throw IllegalArgumentException");
-    assertThrows(IllegalArgumentException.class, () -> exchange.buy("APPL", new BigDecimal("-1"), player), "Buying with negative quantity should throw IllegalArgumentException");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> exchange.buy("APPL", BigDecimal.ZERO, player),
+        "Buying with zero quantity should throw IllegalArgumentException");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> exchange.buy("APPL", new BigDecimal("-1"), player),
+        "Buying with negative quantity should throw IllegalArgumentException");
   }
 
   @Test
@@ -141,8 +176,13 @@ class ExchangeTest {
 
     assertNotNull(sale, "Sale transaction should not be null");
     assertInstanceOf(Sale.class, sale, "Transaction should be an instance of Sale");
-    assertEquals(0, player.getMoney().compareTo(moneyBeforeSale.add(saleValue)), "Player's money should increase by sale value");
-    assertTrue(player.getPortfolio().getShares("APPL").isEmpty(), "Player's portfolio should no longer contain the sold share");
+    assertEquals(
+        0,
+        player.getMoney().compareTo(moneyBeforeSale.add(saleValue)),
+        "Player's money should increase by sale value");
+    assertTrue(
+        player.getPortfolio().getShares("APPL").isEmpty(),
+        "Player's portfolio should no longer contain the sold share");
   }
 
   @Test
@@ -151,10 +191,12 @@ class ExchangeTest {
     Share shareToSell = new Share(stock1, quantity, stock1.getSalesPrice());
     player.getPortfolio().addShare(shareToSell);
 
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(
+        IllegalArgumentException.class,
         () -> exchange.sell(shareToSell, BigDecimal.ZERO, player),
         "Selling zero quantity should throw IllegalArgumentException");
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(
+        IllegalArgumentException.class,
         () -> exchange.sell(shareToSell, new BigDecimal("11"), player),
         "Selling more than owned should throw IllegalArgumentException");
   }
@@ -164,8 +206,7 @@ class ExchangeTest {
     Exchange exchange = setupTestExchangeForGainersAndLosers();
     List<Stock> gainersList = exchange.getGainers(3);
 
-    assertEquals(3, gainersList.size(),
-    "Gainers list should only have 3 stocks");
+    assertEquals(3, gainersList.size(), "Gainers list should only have 3 stocks");
     assertEquals(stock1, gainersList.getFirst(), "Stock 1 should be first");
     assertEquals(stock2, gainersList.get(1), "Stock 2 should be second");
     assertEquals(stock3, gainersList.get(2), "Stock 3 should be third");
@@ -176,8 +217,7 @@ class ExchangeTest {
     Exchange exchange = setupTestExchangeForGainersAndLosers();
     List<Stock> losersList = exchange.getLosers(3);
 
-    assertEquals(3, losersList.size(),
-        "Losers list should only have 3 stocks");
+    assertEquals(3, losersList.size(), "Losers list should only have 3 stocks");
     assertEquals(stock3, losersList.getFirst(), "Stock 3 should be first");
     assertEquals(stock2, losersList.get(1), "Stock 2 should be second");
     assertEquals(stock1, losersList.get(2), "Stock 1 should be third");
@@ -205,13 +245,21 @@ class ExchangeTest {
 
   @Test
   void testGetGainersAndLosersThrowOnInvalidLimit() {
-    assertThrows(IllegalArgumentException.class, () -> exchange.getGainers(-2),
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> exchange.getGainers(-2),
         "Get gainers should throw exception when limit is negative");
-    assertThrows(IllegalArgumentException.class, () -> exchange.getGainers(0),
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> exchange.getGainers(0),
         "Get gainers should throw exception when limit is zero");
-    assertThrows(IllegalArgumentException.class, () -> exchange.getLosers(-2),
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> exchange.getLosers(-2),
         "Get losers should throw exception when limit is negative");
-    assertThrows(IllegalArgumentException.class, () -> exchange.getLosers(0),
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> exchange.getLosers(0),
         "Get losers should throw exception when limit is zero");
   }
 
@@ -219,8 +267,14 @@ class ExchangeTest {
   void testGetGainersAndLosersLimitExceedingStockList() {
     Exchange exchange = setupTestExchangeForGainersAndLosers();
 
-    assertEquals(3, exchange.getGainers(10).size(), "Gainers should return all stocks when limit exceeds stock count");
-    assertEquals(3, exchange.getLosers(10).size(), "Losers should return all stocks when limit exceeds stock count");
+    assertEquals(
+        3,
+        exchange.getGainers(10).size(),
+        "Gainers should return all stocks when limit exceeds stock count");
+    assertEquals(
+        3,
+        exchange.getLosers(10).size(),
+        "Losers should return all stocks when limit exceeds stock count");
   }
 
   @Test
@@ -236,7 +290,10 @@ class ExchangeTest {
     // Test idempotency
     exchange.register(observer);
     exchange.advance();
-    assertEquals(2, count.get(), "Observer should still be notified once (total 2) after duplicate registration and advance");
+    assertEquals(
+        2,
+        count.get(),
+        "Observer should still be notified once (total 2) after duplicate registration and advance");
   }
 
   @Test
@@ -287,7 +344,6 @@ class ExchangeTest {
     assertEquals(1, count.get(), "Observer should be notified on successful sell");
   }
 
-
   private Exchange setupTestExchangeForGainersAndLosers() {
 
     stock3 = new Stock("TEST", "TestAS", new ArrayList<>(List.of(new BigDecimal("1500.00"))));
@@ -304,6 +360,5 @@ class ExchangeTest {
     stock3.addNewSalesPrice(new BigDecimal("1450.00"));
 
     return exchange;
-
   }
 }

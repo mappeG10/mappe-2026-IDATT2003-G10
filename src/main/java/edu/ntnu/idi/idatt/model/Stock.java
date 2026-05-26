@@ -9,10 +9,10 @@ import java.util.List;
 /**
  * Represents a publicly traded stock with a full price history.
  *
- * <p>A stock is identified by its ticker {@code symbol} and the name of the issuing
- * {@code company}. Prices are stored in chronological order; the most recently appended
- * price is treated as the current market (sales) price. The price history is used to derive
- * performance metrics such as the latest absolute change and percentage change.</p>
+ * <p>A stock is identified by its ticker {@code symbol} and the name of the issuing {@code
+ * company}. Prices are stored in chronological order; the most recently appended price is treated
+ * as the current market (sales) price. The price history is used to derive performance metrics such
+ * as the latest absolute change and percentage change.
  */
 public class Stock {
 
@@ -23,12 +23,12 @@ public class Stock {
   /**
    * Constructs a new stock with the given symbol, company name, and initial price history.
    *
-   * @param symbol  the ticker symbol identifying this stock; must not be {@code null} or blank
+   * @param symbol the ticker symbol identifying this stock; must not be {@code null} or blank
    * @param company the full name of the issuing company; must not be {@code null} or blank
-   * @param prices  the initial list of historical prices in chronological order; must not be
-   *                {@code null}, but may be empty
-   * @throws IllegalArgumentException if {@code symbol} or {@code company} is {@code null} or
-   *                                  blank, or if {@code prices} is {@code null}
+   * @param prices the initial list of historical prices in chronological order; must not be {@code
+   *     null}, but may be empty
+   * @throws IllegalArgumentException if {@code symbol} or {@code company} is {@code null} or blank,
+   *     or if {@code prices} is {@code null}
    */
   public Stock(String symbol, String company, List<BigDecimal> prices) {
     if (symbol == null || symbol.isBlank()) {
@@ -80,8 +80,7 @@ public class Stock {
   /**
    * Appends a new market price to this stock's price history.
    *
-   * <p>The appended price becomes the new current sales price returned by
-   * {@link #getSalesPrice()}.</p>
+   * <p>The appended price becomes the new current sales price returned by {@link #getSalesPrice()}.
    *
    * @param price the new price to record; must not be {@code null}
    * @throws IllegalArgumentException if {@code price} is {@code null}
@@ -131,8 +130,8 @@ public class Stock {
   /**
    * Calculates the absolute price change between the two most recent prices.
    *
-   * <p>Returns {@link BigDecimal#ZERO} if only one price has been recorded, as no
-   * prior period exists for comparison.</p>
+   * <p>Returns {@link BigDecimal#ZERO} if only one price has been recorded, as no prior period
+   * exists for comparison.
    *
    * @return the difference between the latest and the second-to-last recorded price
    * @throws IllegalStateException if the price history is empty
@@ -150,8 +149,8 @@ public class Stock {
   /**
    * Calculates the percentage price change between the two most recent prices.
    *
-   * <p>Returns {@link BigDecimal#ZERO} if only one price has been recorded. The result
-   * is scaled to four decimal places using {@link RoundingMode#HALF_UP}.</p>
+   * <p>Returns {@link BigDecimal#ZERO} if only one price has been recorded. The result is scaled to
+   * four decimal places using {@link RoundingMode#HALF_UP}.
    *
    * @return the percentage change relative to the previous price
    * @throws IllegalStateException if the price history is empty
@@ -172,11 +171,9 @@ public class Stock {
   /**
    * Indicates whether this stock has at least two recorded prices, enabling trend calculations.
    *
-   * @return {@code true} if the price history contains more than one entry; {@code false}
-   *         otherwise
+   * @return {@code true} if the price history contains more than one entry; {@code false} otherwise
    */
   public boolean hasPriceHistory() {
     return prices.size() > 1;
   }
-
 }

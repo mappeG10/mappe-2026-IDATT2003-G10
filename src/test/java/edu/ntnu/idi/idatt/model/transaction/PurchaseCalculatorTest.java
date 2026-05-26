@@ -1,13 +1,14 @@
 package edu.ntnu.idi.idatt.model.transaction;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class PurchaseCalculatorTest {
 
@@ -24,28 +25,36 @@ class PurchaseCalculatorTest {
 
   @Test
   void testConstructorThrowsExceptionOnNull() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      new PurchaseCalculator(null);
-    });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new PurchaseCalculator(null);
+        });
   }
 
   @Test
   void testCalculateGross() {
     BigDecimal expectedGross = new BigDecimal("1000.00");
-    assertEquals(0, expectedGross.compareTo(calculator.calculateGross()),
+    assertEquals(
+        0,
+        expectedGross.compareTo(calculator.calculateGross()),
         "Gross should be purchase price multiplied by quantity");
   }
 
   @Test
   void testCalculateCommission() {
     BigDecimal expectedCommission = new BigDecimal("5.00");
-    assertEquals(0, expectedCommission.compareTo(calculator.calculateCommission()),
+    assertEquals(
+        0,
+        expectedCommission.compareTo(calculator.calculateCommission()),
         "Commission should be 0.5% of the gross amount");
   }
 
   @Test
   void testCalculateTax() {
-    assertEquals(0, BigDecimal.ZERO.compareTo(calculator.calculateTax()),
+    assertEquals(
+        0,
+        BigDecimal.ZERO.compareTo(calculator.calculateTax()),
         "Tax on purchases should always be zero");
   }
 
@@ -53,7 +62,9 @@ class PurchaseCalculatorTest {
   void testCalculateTotal() {
     BigDecimal expectedTotal = new BigDecimal("1005.00");
 
-    assertEquals(0, expectedTotal.compareTo(calculator.calculateTotal()),
+    assertEquals(
+        0,
+        expectedTotal.compareTo(calculator.calculateTotal()),
         "Total should correctly combine gross, commission, and tax");
   }
 }

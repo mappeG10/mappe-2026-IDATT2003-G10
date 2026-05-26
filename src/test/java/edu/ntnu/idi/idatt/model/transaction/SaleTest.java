@@ -1,16 +1,17 @@
 package edu.ntnu.idi.idatt.model.transaction;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Share;
 import edu.ntnu.idi.idatt.model.Stock;
 import edu.ntnu.idi.idatt.model.exception.InsufficientSharesException;
 import edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import static org.junit.jupiter.api.Assertions.*;
 
 class SaleTest {
 
@@ -20,18 +21,16 @@ class SaleTest {
   private Share share;
   private Sale sale;
 
-
-
-
   @BeforeEach
   void setUp() {
 
-    stock = new Stock("AAPL",
-        "Apple",
-        new ArrayList<>(List.of(
-            new BigDecimal("182.50"),
-            new BigDecimal("183.75"),
-            new BigDecimal("181.20"))));
+    stock =
+        new Stock(
+            "AAPL",
+            "Apple",
+            new ArrayList<>(
+                List.of(
+                    new BigDecimal("182.50"), new BigDecimal("183.75"), new BigDecimal("181.20"))));
 
     startingMoney = new BigDecimal(10000);
     player = new Player("Player test", startingMoney);
@@ -43,8 +42,6 @@ class SaleTest {
 
     player.getPortfolio().addShare(share);
     sale = new Sale(share, 1);
-
-
   }
 
   @Test
@@ -57,11 +54,9 @@ class SaleTest {
 
   @Test
   void testConstructorThrowsExceptions() {
-    assertThrows(IllegalArgumentException.class,
-        () -> new Sale(null, 1));
+    assertThrows(IllegalArgumentException.class, () -> new Sale(null, 1));
 
-    assertThrows(IllegalArgumentException.class,
-        () -> new Sale(share, 0));
+    assertThrows(IllegalArgumentException.class, () -> new Sale(share, 0));
   }
 
   @Test
@@ -69,23 +64,21 @@ class SaleTest {
 
     BigDecimal expectedMoney = startingMoney.add(sale.getCalculator().calculateTotal());
 
-
     sale.commit(player);
 
-
-
-    assertEquals(0, player.getMoney().compareTo(expectedMoney),
+    assertEquals(
+        0,
+        player.getMoney().compareTo(expectedMoney),
         "Player should receive correct amount of money");
 
-    assertFalse(player.getPortfolio().contains(share),
-        "Player should not own share after selling it");
+    assertFalse(
+        player.getPortfolio().contains(share), "Player should not own share after selling it");
 
-    assertTrue(player.getTransactionArchive().getTransactions(1).contains(sale),
+    assertTrue(
+        player.getTransactionArchive().getTransactions(1).contains(sale),
         "The transaction archive should contain the sale after selling it");
 
-    assertTrue(sale.isCommitted(),
-        "isCommited flag should be set to true after commiting");
-
+    assertTrue(sale.isCommitted(), "isCommited flag should be set to true after commiting");
   }
 
   @Test
@@ -96,7 +89,8 @@ class SaleTest {
 
   @Test
   void testCommitingWhenNotOwningShare() {
-    Stock differentStock = new Stock("MSFT", "Microsoft", new ArrayList<>(List.of(new BigDecimal("300.00"))));
+    Stock differentStock =
+        new Stock("MSFT", "Microsoft", new ArrayList<>(List.of(new BigDecimal("300.00"))));
     Share shareNotOwned = new Share(differentStock, new BigDecimal(10), new BigDecimal(99));
 
     Sale saleThatIsIllegal = new Sale(shareNotOwned, 1);
@@ -114,8 +108,11 @@ class SaleTest {
 
     assertTrue(partialSale.isCommitted(), "Partial sale should be committed");
 
-    BigDecimal remaining = player.getPortfolio().getShares(stock.getSymbol()).getFirst().getQuantity();
-    assertEquals(0, new BigDecimal("60").compareTo(remaining),
+    BigDecimal remaining =
+        player.getPortfolio().getShares(stock.getSymbol()).getFirst().getQuantity();
+    assertEquals(
+        0,
+        new BigDecimal("60").compareTo(remaining),
         "Portfolio should have 60 shares remaining after selling 40");
   }
 
@@ -126,22 +123,33 @@ class SaleTest {
 
   @Test
   void testDelegateMethods() {
-    assertEquals(share.getSymbol(), sale.getSymbol(),
-        "getSymbol() should delegate to the inner Share");
-    assertEquals(share.getCompany(), sale.getCompany(),
-        "getCompany() should delegate to the inner Share");
-    assertEquals(0, share.getQuantity().compareTo(sale.getQuantity()),
+    assertEquals(
+        share.getSymbol(), sale.getSymbol(), "getSymbol() should delegate to the inner Share");
+    assertEquals(
+        share.getCompany(), sale.getCompany(), "getCompany() should delegate to the inner Share");
+    assertEquals(
+        0,
+        share.getQuantity().compareTo(sale.getQuantity()),
         "getQuantity() should delegate to the inner Share");
-    assertEquals(0, sale.getCalculator().calculateCommission().compareTo(sale.getCommission()),
+    assertEquals(
+        0,
+        sale.getCalculator().calculateCommission().compareTo(sale.getCommission()),
         "getCommission() should delegate to the calculator");
-    assertEquals(0, sale.getCalculator().calculateTax().compareTo(sale.getTax()),
+    assertEquals(
+        0,
+        sale.getCalculator().calculateTax().compareTo(sale.getTax()),
         "getTax() should delegate to the calculator");
-    assertEquals(0, sale.getCalculator().calculateTotal().compareTo(sale.getTotalCost()),
+    assertEquals(
+        0,
+        sale.getCalculator().calculateTotal().compareTo(sale.getTotalCost()),
         "getTotalCost() should delegate to the calculator");
-    assertEquals(0, sale.getCalculator().calculateGross().compareTo(sale.getGross()),
+    assertEquals(
+        0,
+        sale.getCalculator().calculateGross().compareTo(sale.getGross()),
         "getGross() should delegate to the calculator");
-    assertEquals(0, share.getPurchasePrice().compareTo(sale.getPurchasePrice()),
+    assertEquals(
+        0,
+        share.getPurchasePrice().compareTo(sale.getPurchasePrice()),
         "getPurchasePrice() should delegate to the inner Share");
   }
-
 }

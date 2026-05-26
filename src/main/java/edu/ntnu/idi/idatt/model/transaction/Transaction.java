@@ -7,13 +7,13 @@ import java.math.BigDecimal;
 /**
  * Represents an immutable, single-use stock transaction in the game.
  *
- * <p>A transaction encapsulates a {@link Share}, the trading week in which it occurs,
- * and a {@link TransactionCalculator} that determines fees and taxes. Concrete
- * sub-classes ({@link Purchase} and {@link Sale}) implement {@link #commit(Player)},
- * which applies the financial effects to the player's balance and portfolio.</p>
+ * <p>A transaction encapsulates a {@link Share}, the trading week in which it occurs, and a {@link
+ * TransactionCalculator} that determines fees and taxes. Concrete sub-classes ({@link Purchase} and
+ * {@link Sale}) implement {@link #commit(Player)}, which applies the financial effects to the
+ * player's balance and portfolio.
  *
- * <p>Each instance may be committed exactly once; a second call to {@code commit} raises
- * a {@link edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException}.</p>
+ * <p>Each instance may be committed exactly once; a second call to {@code commit} raises a {@link
+ * edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException}.
  */
 public abstract class Transaction {
 
@@ -25,12 +25,12 @@ public abstract class Transaction {
   /**
    * Constructs a new transaction with the given share, week, and financial calculator.
    *
-   * @param share      the share position involved in this transaction; must not be {@code null}
-   * @param week       the game week in which this transaction takes place; must be at least 1
-   * @param calculator the financial calculator used to derive costs and fees; must not be
-   *                   {@code null}
-   * @throws IllegalArgumentException if {@code share} or {@code calculator} is {@code null},
-   *                                  or if {@code week} is less than 1
+   * @param share the share position involved in this transaction; must not be {@code null}
+   * @param week the game week in which this transaction takes place; must be at least 1
+   * @param calculator the financial calculator used to derive costs and fees; must not be {@code
+   *     null}
+   * @throws IllegalArgumentException if {@code share} or {@code calculator} is {@code null}, or if
+   *     {@code week} is less than 1
    */
   protected Transaction(Share share, int week, TransactionCalculator calculator) {
     if (share == null) {
@@ -150,8 +150,8 @@ public abstract class Transaction {
   /**
    * Indicates whether this transaction has already been committed to a player's account.
    *
-   * @return {@code true} if {@link #commit(Player)} has been successfully invoked;
-   *         {@code false} otherwise
+   * @return {@code true} if {@link #commit(Player)} has been successfully invoked; {@code false}
+   *     otherwise
    */
   public boolean isCommitted() {
     return committed;
@@ -160,8 +160,8 @@ public abstract class Transaction {
   /**
    * Marks this transaction as committed.
    *
-   * <p>Called internally by concrete sub-classes at the end of a successful
-   * {@link #commit(Player)} execution to prevent double-commitment.</p>
+   * <p>Called internally by concrete sub-classes at the end of a successful {@link #commit(Player)}
+   * execution to prevent double-commitment.
    */
   public void setCommitted() {
     this.committed = true;
@@ -170,14 +170,14 @@ public abstract class Transaction {
   /**
    * Applies the financial effects of this transaction to the given player.
    *
-   * <p>Concrete sub-classes must validate preconditions (sufficient funds or shares),
-   * update the player's balance and portfolio, archive the transaction, and call
-   * {@link #setCommitted()} before returning.</p>
+   * <p>Concrete sub-classes must validate preconditions (sufficient funds or shares), update the
+   * player's balance and portfolio, archive the transaction, and call {@link #setCommitted()}
+   * before returning.
    *
-   * @param player the player against whose account this transaction is executed;
-   *               must not be {@code null}
-   * @throws edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException
-   *         if this transaction has already been committed
+   * @param player the player against whose account this transaction is executed; must not be {@code
+   *     null}
+   * @throws edu.ntnu.idi.idatt.model.exception.TransactionAlreadyCommittedException if this
+   *     transaction has already been committed
    */
   public abstract void commit(Player player);
 

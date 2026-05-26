@@ -8,9 +8,9 @@ import javafx.scene.layout.Priority;
 /**
  * Confirmation dialog displayed before the player ends the game session.
  *
- * <p>Informs the player that all remaining shares will be sold at market price. The
- * "Confirm" button invokes the provided {@code onConfirm} callback and then closes
- * the dialog. The "Cancel" button closes without taking any action.</p>
+ * <p>Informs the player that all remaining shares will be sold at market price. The "Confirm"
+ * button invokes the provided {@code onConfirm} callback and then closes the dialog. The "Cancel"
+ * button closes without taking any action.
  */
 public class FinishGameWidget extends BaseModal<Void> {
 
@@ -19,8 +19,8 @@ public class FinishGameWidget extends BaseModal<Void> {
   /**
    * Constructs and immediately lays out the finish-game confirmation dialog.
    *
-   * @param onConfirm the action to execute when the player confirms; typically the
-   * navigator's finish-game handler passed in from {@code MainView}
+   * @param onConfirm the action to execute when the player confirms; typically the navigator's
+   *     finish-game handler passed in from {@code MainView}
    */
   public FinishGameWidget(Runnable onConfirm) {
     super(null);
@@ -28,9 +28,7 @@ public class FinishGameWidget extends BaseModal<Void> {
     this.onConfirm = onConfirm;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected void setupUI() {
     getStyleClass().add("widget-root");
@@ -38,7 +36,8 @@ public class FinishGameWidget extends BaseModal<Void> {
     this.titleLabel = new Label("Finish Game");
     this.titleLabel.getStyleClass().add("widget-title");
 
-    Label bodyLabel = new Label("This will sell all your shares at market price and end the session.");
+    Label bodyLabel =
+        new Label("This will sell all your shares at market price and end the session.");
     bodyLabel.getStyleClass().add("widget-subtitle");
     bodyLabel.setWrapText(true);
 
@@ -49,10 +48,11 @@ public class FinishGameWidget extends BaseModal<Void> {
     Button confirmBtn = new Button("Confirm");
     confirmBtn.getStyleClass().add("btn-primary");
     confirmBtn.setMaxWidth(Double.MAX_VALUE);
-    confirmBtn.setOnAction(e -> {
-      onConfirm.run();
-      requestClose();
-    });
+    confirmBtn.setOnAction(
+        e -> {
+          onConfirm.run();
+          requestClose();
+        });
 
     HBox.setHgrow(closeButton, Priority.ALWAYS);
     HBox.setHgrow(confirmBtn, Priority.ALWAYS);

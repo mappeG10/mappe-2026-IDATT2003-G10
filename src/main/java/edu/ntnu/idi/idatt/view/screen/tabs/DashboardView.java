@@ -20,23 +20,24 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
- * Overview tab combining four summary stat cards, a portfolio holdings table,
- * a top-gainers table, and a top-losers strip.
+ * Overview tab combining four summary stat cards, a portfolio holdings table, a top-gainers table,
+ * and a top-losers strip.
  *
  * <p>The layout is arranged vertically:
+ *
  * <ol>
- *   <li>A top container with four stat cards: Net Worth, Cash Balance, Portfolio Value,
- *       and Total Gain/Loss (with all-time percentage sub-label).</li>
- *   <li>A middle container with the portfolio holdings table on the left and an
- *       "Advance to the next week" button plus top-gainers table on the right.</li>
- *   <li>A bottom container listing the top {@value #TOP_LOSERS_LIMIT} losers as
- *       individual mini-cards.</li>
+ *   <li>A top container with four stat cards: Net Worth, Cash Balance, Portfolio Value, and Total
+ *       Gain/Loss (with all-time percentage sub-label).
+ *   <li>A middle container with the portfolio holdings table on the left and an "Advance to the
+ *       next week" button plus top-gainers table on the right.
+ *   <li>A bottom container listing the top {@value #TOP_LOSERS_LIMIT} losers as individual
+ *       mini-cards.
  * </ol>
  *
  * <p>Implements {@link GameObserver}: all labels, tables, and the losers strip refresh
- * automatically via {@link #update()} whenever the exchange advances a week or a
- * transaction is committed. The gainers table and losers strip are hidden when no weekly
- * price-change data is available (i.e., on week one before any advance).</p>
+ * automatically via {@link #update()} whenever the exchange advances a week or a transaction is
+ * committed. The gainers table and losers strip are hidden when no weekly price-change data is
+ * available (i.e., on week one before any advance).
  */
 public class DashboardView extends VBox implements GameObserver {
 
@@ -54,11 +55,11 @@ public class DashboardView extends VBox implements GameObserver {
   private static final int TOP_LOSERS_LIMIT = 5;
 
   /**
-   * Constructs the dashboard view, builds all sub-sections, registers as a game observer,
-   * and performs an initial data refresh.
+   * Constructs the dashboard view, builds all sub-sections, registers as a game observer, and
+   * performs an initial data refresh.
    *
-   * @param dashboardController the controller providing all data for this view;
-   *                            must not be {@code null}
+   * @param dashboardController the controller providing all data for this view; must not be {@code
+   *     null}
    */
   public DashboardView(DashboardController dashboardController) {
     this.dashboardController = dashboardController;
@@ -84,9 +85,9 @@ public class DashboardView extends VBox implements GameObserver {
   /**
    * Builds the top row of four summary stat cards.
    *
-   * <p>The four cards display: Net Worth (with starting-capital sub-label), Cash Balance,
-   * Portfolio Value, and Total Gain/Loss (with the all-time percentage sub-label). The
-   * gain/loss value and sub-label are coloured green or red by {@link #update()}.</p>
+   * <p>The four cards display: Net Worth (with starting-capital sub-label), Cash Balance, Portfolio
+   * Value, and Total Gain/Loss (with the all-time percentage sub-label). The gain/loss value and
+   * sub-label are coloured green or red by {@link #update()}.
    *
    * @return the assembled stat-cards {@link HBox}
    */
@@ -99,7 +100,8 @@ public class DashboardView extends VBox implements GameObserver {
     Label firstCardTitle = new Label("Net Worth");
     firstCardTitle.getStyleClass().add("stat-card-title");
     netWorthLabel.getStyleClass().add("stat-card-value");
-    Label firstCardSubLabel = new Label("Start: " + FormatUtil.formatCurrency(dashboardController.getStartingCapital()));
+    Label firstCardSubLabel =
+        new Label("Start: " + FormatUtil.formatCurrency(dashboardController.getStartingCapital()));
     firstCardSubLabel.getStyleClass().add("stat-card-sub");
     firstCard.getChildren().addAll(firstCardTitle, netWorthLabel, firstCardSubLabel);
 
@@ -129,9 +131,9 @@ public class DashboardView extends VBox implements GameObserver {
     fourthCardSubLabel.getStyleClass().add("stat-card-sub");
     fourthCard.getChildren().addAll(fourthCardTitle, totalGainLossLabel, fourthCardSubLabel);
 
-    HBox.setHgrow(firstCard,  Priority.ALWAYS);
+    HBox.setHgrow(firstCard, Priority.ALWAYS);
     HBox.setHgrow(secondCard, Priority.ALWAYS);
-    HBox.setHgrow(thirdCard,  Priority.ALWAYS);
+    HBox.setHgrow(thirdCard, Priority.ALWAYS);
     HBox.setHgrow(fourthCard, Priority.ALWAYS);
     topContainer.getChildren().addAll(firstCard, secondCard, thirdCard, fourthCard);
     return topContainer;
@@ -140,23 +142,26 @@ public class DashboardView extends VBox implements GameObserver {
   /**
    * Builds the portfolio holdings table displayed in the middle-left area.
    *
-   * <p>Columns: symbol + company (combined), quantity, current value, and colour-coded
-   * gain/loss. Double-clicking a row opens a {@link StockChartWidget} for the
-   * underlying stock.</p>
+   * <p>Columns: symbol + company (combined), quantity, current value, and colour-coded gain/loss.
+   * Double-clicking a row opens a {@link StockChartWidget} for the underlying stock.
    *
    * @return the configured portfolio {@link TableView}
    */
   private TableView<Share> buildPortfolioTable() {
     TableView<Share> portfolioTable = new TableView<>();
-    TableColumnFactory.addSymbolAndCompanyColToTable(portfolioTable, Share::getSymbol, Share::getCompany);
+    TableColumnFactory.addSymbolAndCompanyColToTable(
+        portfolioTable, Share::getSymbol, Share::getCompany);
 
-    TableColumn<Share, String> quantityCol = TableColumnFactory.<Share>createTextColumn(
-        "Quantity", s -> FormatUtil.formatBigDecimalToString(s.getQuantity()));
-    TableColumn<Share, String> currentCol = TableColumnFactory.createPriceColumn("Current", Share::getCurrentValue);
-    TableColumn<Share, String> gainLossLCol = TableColumnFactory.<Share>createColoredChangeColumn(
-        "Gain/Loss", s -> FormatUtil.formatPriceChange(s.getGainLoss()));
+    TableColumn<Share, String> quantityCol =
+        TableColumnFactory.<Share>createTextColumn(
+            "Quantity", s -> FormatUtil.formatBigDecimalToString(s.getQuantity()));
+    TableColumn<Share, String> currentCol =
+        TableColumnFactory.createPriceColumn("Current", Share::getCurrentValue);
+    TableColumn<Share, String> gainLossCol =
+        TableColumnFactory.<Share>createColoredChangeColumn(
+            "Gain/Loss", s -> FormatUtil.formatPriceChange(s.getGainLoss()));
 
-    portfolioTable.getColumns().addAll(quantityCol, currentCol, gainLossLCol);
+    portfolioTable.getColumns().addAll(quantityCol, currentCol, gainLossCol);
     portfolioTable.setRowFactory(ViewUtility.doubleClickRowFactory(StockChartWidget::open));
     ViewUtility.applyRoundedClip(portfolioTable, 12);
     return portfolioTable;
@@ -165,9 +170,8 @@ public class DashboardView extends VBox implements GameObserver {
   /**
    * Builds the middle section containing the portfolio table and the advance/gainers panel.
    *
-   * <p>The portfolio table occupies the left side and grows to fill available horizontal
-   * space. The right side holds the "Advance to the next week" button above the top-gainers
-   * table.</p>
+   * <p>The portfolio table occupies the left side and grows to fill available horizontal space. The
+   * right side holds the "Advance to the next week" button above the top-gainers table.
    *
    * @return the assembled middle {@link HBox}
    */
@@ -199,8 +203,8 @@ public class DashboardView extends VBox implements GameObserver {
     VBox.setVgrow(portfolioTable, Priority.ALWAYS);
     portfolioContainer.getChildren().addAll(portfolioTitle, portfolioTable);
 
-    HBox.setHgrow(portfolioContainer,          Priority.ALWAYS);
-    HBox.setHgrow(advanceAndGainersContainer,  Priority.SOMETIMES);
+    HBox.setHgrow(portfolioContainer, Priority.ALWAYS);
+    HBox.setHgrow(advanceAndGainersContainer, Priority.SOMETIMES);
     middleContainer.getChildren().addAll(portfolioContainer, advanceAndGainersContainer);
 
     return middleContainer;
@@ -209,16 +213,17 @@ public class DashboardView extends VBox implements GameObserver {
   /**
    * Builds the top-gainers table shown in the middle-right panel.
    *
-   * <p>Columns: a combined symbol-and-company label and a colour-coded weekly
-   * percentage change.</p>
+   * <p>Columns: a combined symbol-and-company label and a colour-coded weekly percentage change.
    *
    * @return the configured top-gainers {@link TableView}
    */
   private TableView<Stock> buildTopGainersTable() {
-    TableColumn<Stock, String> symbolCol = TableColumnFactory.<Stock>createTextColumn(
-        "Stock", s -> s.getSymbol() + " " + s.getCompany());
-    TableColumn<Stock, String> percentCol = TableColumnFactory.<Stock>createColoredChangeColumn(
-        "Change", s -> FormatUtil.formatPercentage(s.getLatestPriceChangePercent()));
+    TableColumn<Stock, String> symbolCol =
+        TableColumnFactory.<Stock>createTextColumn(
+            "Stock", s -> s.getSymbol() + " " + s.getCompany());
+    TableColumn<Stock, String> percentCol =
+        TableColumnFactory.<Stock>createColoredChangeColumn(
+            "Change", s -> FormatUtil.formatPercentage(s.getLatestPriceChangePercent()));
 
     TableView<Stock> gainersTable = new TableView<>();
     gainersTable.getColumns().addAll(symbolCol, percentCol);
@@ -227,8 +232,8 @@ public class DashboardView extends VBox implements GameObserver {
   }
 
   /**
-   * Builds the bottom container that holds the "TOP LOSERS" heading and the
-   * dynamically populated {@link #topLosersStockRows} strip.
+   * Builds the bottom container that holds the "TOP LOSERS" heading and the dynamically populated
+   * {@link #topLosersStockRows} strip.
    *
    * @return the assembled bottom {@link VBox}
    */
@@ -248,9 +253,9 @@ public class DashboardView extends VBox implements GameObserver {
   /**
    * Rebuilds the top-losers strip from the current controller data.
    *
-   * <p>Clears the existing child nodes in {@link #topLosersStockRows} and adds a
-   * mini-card for each of the top {@value #TOP_LOSERS_LIMIT} losing stocks, with the
-   * percentage change coloured red via {@link ViewUtility#applySignStyleClass}.</p>
+   * <p>Clears the existing child nodes in {@link #topLosersStockRows} and adds a mini-card for each
+   * of the top {@value #TOP_LOSERS_LIMIT} losing stocks, with the percentage change coloured red
+   * via {@link ViewUtility#applySignStyleClass}.
    */
   private void refreshTopLosers() {
     topLosersStockRows.getChildren().clear();
@@ -273,14 +278,14 @@ public class DashboardView extends VBox implements GameObserver {
   /**
    * Refreshes all dynamic labels, tables, and the losers strip from the controller.
    *
-   * <p>Called automatically via the observer mechanism whenever the exchange advances
-   * a week or a transaction is committed. The gainers table and losers container are
-   * hidden when no weekly price-change data is available (i.e., on the first week before
-   * any advance has occurred).</p>
+   * <p>Called automatically via the observer mechanism whenever the exchange advances a week or a
+   * transaction is committed. The gainers table and losers container are hidden when no weekly
+   * price-change data is available (i.e., on the first week before any advance has occurred).
    */
   @Override
   public void update() {
-    portfolioTable.setItems(FXCollections.observableArrayList(dashboardController.getAllSharesFromPortfolio()));
+    portfolioTable.setItems(
+        FXCollections.observableArrayList(dashboardController.getAllSharesFromPortfolio()));
     netWorthLabel.setText(FormatUtil.formatCurrency(dashboardController.getNetWorth()));
     cashBalanceLabel.setText(FormatUtil.formatCurrency(dashboardController.getPlayerMoney()));
     portfolioValueLabel.setText(FormatUtil.formatCurrency(dashboardController.getPortfolioValue()));

@@ -17,14 +17,15 @@ import java.util.List;
  * Factory responsible for constructing a fully initialised {@link GameController}.
  *
  * <p>Supports two creation paths:
+ *
  * <ul>
- *   <li>{@link #createController(GameSetup)} — creates a brand-new game from a
- *       {@link GameSetup} by reading stock data and setting up a fresh player.</li>
- *   <li>{@link #createControllerFromSave(String)} — restores a game session from a
- *       previously saved {@code .millions} file.</li>
+ *   <li>{@link #createController(GameSetup)} — creates a brand-new game from a {@link GameSetup} by
+ *       reading stock data and setting up a fresh player.
+ *   <li>{@link #createControllerFromSave(String)} — restores a game session from a previously saved
+ *       {@code .millions} file.
  * </ul>
  *
- * <p>This class is not instantiable; all methods are static.</p>
+ * <p>This class is not instantiable; all methods are static.
  */
 public class GameFactory {
 
@@ -36,15 +37,15 @@ public class GameFactory {
   /**
    * Creates a new {@link GameController} from the provided setup configuration.
    *
-   * <p>Reads stock data from the source specified in {@code setup}, constructs a new
-   * {@link Exchange} with those stocks, and creates a new {@link Player} with the
-   * configured name and starting capital.</p>
+   * <p>Reads stock data from the source specified in {@code setup}, constructs a new {@link
+   * Exchange} with those stocks, and creates a new {@link Player} with the configured name and
+   * starting capital.
    *
-   * @param setup the game configuration chosen by the player on the start screen;
-   *              must not be {@code null}
+   * @param setup the game configuration chosen by the player on the start screen; must not be
+   *     {@code null}
    * @return a fully initialised {@link GameController} for a new game session
-   * @throws IOException           if the stock data source cannot be opened or read
-   * @throws DataAccessException   if the stock data source exists but cannot be parsed
+   * @throws IOException if the stock data source cannot be opened or read
+   * @throws DataAccessException if the stock data source exists but cannot be parsed
    */
   public static GameController createController(GameSetup setup)
       throws IOException, DataAccessException {
@@ -60,13 +61,13 @@ public class GameFactory {
   /**
    * Restores a {@link GameController} from a previously saved game file.
    *
-   * <p>Reads and deserialises the {@code .millions} save file at the given path, then
-   * reconstructs the domain objects via {@link GameMapper#fromDto(GameStateDto)}.</p>
+   * <p>Reads and deserialises the {@code .millions} save file at the given path, then reconstructs
+   * the domain objects via {@link GameMapper#fromDto(GameStateDto)}.
    *
    * @param source the absolute or relative path to the {@code .millions} save file
    * @return a fully initialised {@link GameController} representing the saved session
-   * @throws IOException           if the save file cannot be opened or read
-   * @throws DataAccessException   if the save file exists but its contents are invalid
+   * @throws IOException if the save file cannot be opened or read
+   * @throws DataAccessException if the save file exists but its contents are invalid
    */
   public static GameController createControllerFromSave(String source)
       throws IOException, DataAccessException {

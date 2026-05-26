@@ -20,21 +20,22 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
- * Tab view displaying the committed transaction log, grouped by week with styled week-header
- * rows separating each group.
+ * Tab view displaying the committed transaction log, grouped by week with styled week-header rows
+ * separating each group.
  *
  * <p>The layout is arranged vertically:
+ *
  * <ol>
- *   <li>A top container with a title, subtitle, and a horizontal filter bar of
- *       {@link ToggleButton}s — one for "All Weeks" and one per distinct week that
- *       has at least one committed transaction.</li>
- *   <li>A full-height table with nine columns: Week, Type, Symbol, Company, Qty, Price,
- *       Commission, Tax, and Net Total. When no week filter is active, each week group
- *       is preceded by a header row styled with the {@code week-header-row} CSS class.</li>
+ *   <li>A top container with a title, subtitle, and a horizontal filter bar of {@link
+ *       ToggleButton}s — one for "All Weeks" and one per distinct week that has at least one
+ *       committed transaction.
+ *   <li>A full-height table with nine columns: Week, Type, Symbol, Company, Qty, Price, Commission,
+ *       Tax, and Net Total. When no week filter is active, each week group is preceded by a header
+ *       row styled with the {@code week-header-row} CSS class.
  * </ol>
  *
- * <p>Implements {@link GameObserver}: the filter bar and table are rebuilt automatically
- * whenever the exchange advances a week or a transaction is committed.</p>
+ * <p>Implements {@link GameObserver}: the filter bar and table are rebuilt automatically whenever
+ * the exchange advances a week or a transaction is committed.
  */
 public class TransactionHistoryView extends VBox implements GameObserver {
 
@@ -47,9 +48,9 @@ public class TransactionHistoryView extends VBox implements GameObserver {
   /**
    * Flat table row that represents either a week-group header or a single transaction.
    *
-   * <p>The table mixes two logical row types in one flat list so that week headings
-   * can be rendered inline using a custom {@link TableRow} factory. Header rows carry
-   * only the week number; data rows carry the full {@link Transaction} reference.</p>
+   * <p>The table mixes two logical row types in one flat list so that week headings can be rendered
+   * inline using a custom {@link TableRow} factory. Header rows carry only the week number; data
+   * rows carry the full {@link Transaction} reference.
    */
   private static class TransactionRow {
 
@@ -80,8 +81,8 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     /**
      * Constructs a transaction row with explicit field values.
      *
-     * @param isHeader    {@code true} for a week-group header row
-     * @param week        the game week this row belongs to
+     * @param isHeader {@code true} for a week-group header row
+     * @param week the game week this row belongs to
      * @param transaction the transaction for data rows; {@code null} for header rows
      */
     private TransactionRow(boolean isHeader, int week, Transaction transaction) {
@@ -95,29 +96,35 @@ public class TransactionHistoryView extends VBox implements GameObserver {
      *
      * @return {@code true} if this row is a header row; {@code false} for data rows
      */
-    boolean isHeader() { return isHeader; }
+    boolean isHeader() {
+      return isHeader;
+    }
 
     /**
      * Returns the game week this row belongs to.
      *
      * @return the game week number
      */
-    int getWeek() { return week; }
+    int getWeek() {
+      return week;
+    }
 
     /**
      * Returns the transaction associated with this data row.
      *
      * @return the committed transaction, or {@code null} if this is a header row
      */
-    Transaction getTransaction() { return transaction; }
+    Transaction getTransaction() {
+      return transaction;
+    }
   }
 
   /**
-   * Constructs the transaction history view, builds the table and top container, registers
-   * as a game observer, and performs an initial data refresh.
+   * Constructs the transaction history view, builds the table and top container, registers as a
+   * game observer, and performs an initial data refresh.
    *
-   * @param transactionHistoryController the controller providing the transaction log;
-   *                                     must not be {@code null}
+   * @param transactionHistoryController the controller providing the transaction log; must not be
+   *     {@code null}
    */
   public TransactionHistoryView(TransactionHistoryController transactionHistoryController) {
     this.transactionHistoryController = transactionHistoryController;
@@ -134,92 +141,112 @@ public class TransactionHistoryView extends VBox implements GameObserver {
   }
 
   /**
-   * Builds the nine-column transaction table with a custom row factory that applies the
-   * {@code week-header-row} CSS class to header rows.
+   * Builds the nine-column transaction table with a custom row factory that applies the {@code
+   * week-header-row} CSS class to header rows.
    *
-   * <p>Each column uses a header-aware cell factory that renders the heading text for
-   * header rows and the appropriate transaction field for data rows. The tax column
-   * shows a dash ({@code -}) for purchase rows, since purchases incur no capital-gains
-   * tax.</p>
+   * <p>Each column uses a header-aware cell factory that renders the heading text for header rows
+   * and the appropriate transaction field for data rows. The tax column shows a dash ({@code -})
+   * for purchase rows, since purchases incur no capital-gains tax.
    *
    * @return the fully configured transaction {@link TableView}
    */
   private TableView<TransactionRow> buildTable() {
-    TableColumn<TransactionRow, String> weekCol = TableColumnFactory.createHeaderAwareColumn(
-        "Week",
-        TransactionRow::isHeader,
-        row -> "Week " + row.getWeek(),
-        row -> String.valueOf(row.getTransaction().getWeek()));
+    TableColumn<TransactionRow, String> weekCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Week",
+            TransactionRow::isHeader,
+            row -> "Week " + row.getWeek(),
+            row -> String.valueOf(row.getTransaction().getWeek()));
 
-    TableColumn<TransactionRow, String> typeCol = TableColumnFactory.createHeaderAwareColumn(
-        "Type",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> switch (row.getTransaction().getTransactionType()) {
-          case PURCHASE -> "BUY";
-          case SALE -> "SELL";
-        });
+    TableColumn<TransactionRow, String> typeCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Type",
+            TransactionRow::isHeader,
+            row -> "",
+            row ->
+                switch (row.getTransaction().getTransactionType()) {
+                  case PURCHASE -> "BUY";
+                  case SALE -> "SELL";
+                });
 
-    TableColumn<TransactionRow, String> symbolCol = TableColumnFactory.createHeaderAwareColumn(
-        "Symbol",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> row.getTransaction().getSymbol());
+    TableColumn<TransactionRow, String> symbolCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Symbol", TransactionRow::isHeader, row -> "", row -> row.getTransaction().getSymbol());
 
-    TableColumn<TransactionRow, String> companyCol = TableColumnFactory.createHeaderAwareColumn(
-        "Company",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> row.getTransaction().getCompany());
+    TableColumn<TransactionRow, String> companyCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Company",
+            TransactionRow::isHeader,
+            row -> "",
+            row -> row.getTransaction().getCompany());
 
-    TableColumn<TransactionRow, String> quantityCol = TableColumnFactory.createHeaderAwareColumn(
-        "Qty",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> FormatUtil.formatBigDecimalToString(row.getTransaction().getQuantity()));
+    TableColumn<TransactionRow, String> quantityCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Qty",
+            TransactionRow::isHeader,
+            row -> "",
+            row -> FormatUtil.formatBigDecimalToString(row.getTransaction().getQuantity()));
 
-    TableColumn<TransactionRow, String> priceCol = TableColumnFactory.createHeaderAwareColumn(
-        "Price",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> FormatUtil.formatCurrency(row.getTransaction().getPurchasePrice()));
+    TableColumn<TransactionRow, String> priceCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Price",
+            TransactionRow::isHeader,
+            row -> "",
+            row -> FormatUtil.formatCurrency(row.getTransaction().getPurchasePrice()));
 
-    TableColumn<TransactionRow, String> commissionCol = TableColumnFactory.createHeaderAwareColumn(
-        "Commission",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> FormatUtil.formatCurrency(row.getTransaction().getCommission()));
+    TableColumn<TransactionRow, String> commissionCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Commission",
+            TransactionRow::isHeader,
+            row -> "",
+            row -> FormatUtil.formatCurrency(row.getTransaction().getCommission()));
 
-    TableColumn<TransactionRow, String> taxCol = TableColumnFactory.createHeaderAwareColumn(
-        "Tax",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> switch (row.getTransaction().getTransactionType()) {
-          case PURCHASE -> "-";
-          case SALE -> FormatUtil.formatCurrency(row.getTransaction().getTax());
-        });
+    TableColumn<TransactionRow, String> taxCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Tax",
+            TransactionRow::isHeader,
+            row -> "",
+            row ->
+                switch (row.getTransaction().getTransactionType()) {
+                  case PURCHASE -> "-";
+                  case SALE -> FormatUtil.formatCurrency(row.getTransaction().getTax());
+                });
 
-    TableColumn<TransactionRow, String> netTotalCol = TableColumnFactory.createHeaderAwareColumn(
-        "Net Total",
-        TransactionRow::isHeader,
-        row -> "",
-        row -> FormatUtil.formatCurrency(row.getTransaction().getTotalCost()));
+    TableColumn<TransactionRow, String> netTotalCol =
+        TableColumnFactory.createHeaderAwareColumn(
+            "Net Total",
+            TransactionRow::isHeader,
+            row -> "",
+            row -> FormatUtil.formatCurrency(row.getTransaction().getTotalCost()));
 
     TableView<TransactionRow> table = new TableView<>();
-    table.getColumns().addAll(weekCol, typeCol, symbolCol, companyCol, quantityCol, priceCol, commissionCol, taxCol, netTotalCol);
+    table
+        .getColumns()
+        .addAll(
+            weekCol,
+            typeCol,
+            symbolCol,
+            companyCol,
+            quantityCol,
+            priceCol,
+            commissionCol,
+            taxCol,
+            netTotalCol);
     table.setPlaceholder(new Label("No transactions yet. Start trading to see your history here."));
 
-    table.setRowFactory(tv -> new TableRow<>() {
-      /** {@inheritDoc} */
-      @Override
-      protected void updateItem(TransactionRow item, boolean empty) {
-        super.updateItem(item, empty);
-        getStyleClass().remove("week-header-row");
-        if (item != null && item.isHeader()) {
-          getStyleClass().add("week-header-row");
-        }
-      }
-    });
+    table.setRowFactory(
+        tv ->
+            new TableRow<>() {
+              /** {@inheritDoc} */
+              @Override
+              protected void updateItem(TransactionRow item, boolean empty) {
+                super.updateItem(item, empty);
+                getStyleClass().remove("week-header-row");
+                if (item != null && item.isHeader()) {
+                  getStyleClass().add("week-header-row");
+                }
+              }
+            });
 
     ViewUtility.applyRoundedClip(table, 12);
     return table;
@@ -228,10 +255,10 @@ public class TransactionHistoryView extends VBox implements GameObserver {
   /**
    * Rebuilds the week-filter toggle bar to reflect the current set of distinct weeks.
    *
-   * <p>Clears all existing toggle buttons and adds a fresh "All Weeks" button followed
-   * by one button per distinct week returned by the controller. If no toggle is currently
-   * selected (e.g., on first load), the "All Weeks" button is pre-selected and
-   * {@link #selectedWeek} is reset to {@code null}.</p>
+   * <p>Clears all existing toggle buttons and adds a fresh "All Weeks" button followed by one
+   * button per distinct week returned by the controller. If no toggle is currently selected (e.g.,
+   * on first load), the "All Weeks" button is pre-selected and {@link #selectedWeek} is reset to
+   * {@code null}.
    */
   private void refreshFilterButtons() {
     weekFilter.getToggles().clear();
@@ -240,7 +267,11 @@ public class TransactionHistoryView extends VBox implements GameObserver {
     ToggleButton allWeeksBtn = new ToggleButton("All Weeks");
     allWeeksBtn.getStyleClass().add("week-filter-btn");
     allWeeksBtn.setToggleGroup(weekFilter);
-    allWeeksBtn.setOnAction(e -> { selectedWeek = null; refreshTable(); });
+    allWeeksBtn.setOnAction(
+        e -> {
+          selectedWeek = null;
+          refreshTable();
+        });
     weekFilterBar.getChildren().add(allWeeksBtn);
 
     for (int week : transactionHistoryController.getDistinctWeeks()) {
@@ -248,7 +279,11 @@ public class TransactionHistoryView extends VBox implements GameObserver {
       weekBtn.getStyleClass().add("week-filter-btn");
       weekBtn.setToggleGroup(weekFilter);
       weekBtn.setUserData(week);
-      weekBtn.setOnAction(e -> { selectedWeek = week; refreshTable(); });
+      weekBtn.setOnAction(
+          e -> {
+            selectedWeek = week;
+            refreshTable();
+          });
       weekFilterBar.getChildren().add(weekBtn);
     }
 
@@ -261,20 +296,22 @@ public class TransactionHistoryView extends VBox implements GameObserver {
   /**
    * Repopulates the table based on the current {@link #selectedWeek} filter.
    *
-   * <p>When {@link #selectedWeek} is {@code null} (all weeks), a {@link TransactionRow}
-   * week-header is inserted before each week's transactions. When a specific week is
-   * selected, only the transactions for that week are shown — without a header row.</p>
+   * <p>When {@link #selectedWeek} is {@code null} (all weeks), a {@link TransactionRow} week-header
+   * is inserted before each week's transactions. When a specific week is selected, only the
+   * transactions for that week are shown — without a header row.
    */
   private void refreshTable() {
     List<TransactionRow> rows = new ArrayList<>();
     if (selectedWeek == null) {
       for (int week : transactionHistoryController.getDistinctWeeks()) {
         rows.add(TransactionRow.weekHeader(week));
-        transactionHistoryController.getTransactions(week)
+        transactionHistoryController
+            .getTransactions(week)
             .forEach(tx -> rows.add(TransactionRow.fromTransaction(tx)));
       }
     } else {
-      transactionHistoryController.getTransactions(selectedWeek)
+      transactionHistoryController
+          .getTransactions(selectedWeek)
           .forEach(tx -> rows.add(TransactionRow.fromTransaction(tx)));
     }
     mainTable.setItems(FXCollections.observableArrayList(rows));
@@ -302,8 +339,8 @@ public class TransactionHistoryView extends VBox implements GameObserver {
   /**
    * Rebuilds the filter bar and refreshes the table from the controller.
    *
-   * <p>Called automatically via the observer mechanism whenever the exchange advances a
-   * week or a transaction is committed.</p>
+   * <p>Called automatically via the observer mechanism whenever the exchange advances a week or a
+   * transaction is committed.
    */
   @Override
   public void update() {

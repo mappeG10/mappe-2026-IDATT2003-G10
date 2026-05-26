@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 /**
  * Defines the financial calculation contract for a stock transaction.
  *
- * <p>Implementations are responsible for computing the four monetary components
- * of a transaction: gross value, broker commission, applicable tax, and the final
- * net total that is either debited from or credited to the player's balance.</p>
+ * <p>Implementations are responsible for computing the four monetary components of a transaction:
+ * gross value, broker commission, applicable tax, and the final net total that is either debited
+ * from or credited to the player's balance.
  */
 public interface TransactionCalculator {
 
@@ -35,11 +35,10 @@ public interface TransactionCalculator {
   /**
    * Calculates the final net amount settled by this transaction.
    *
-   * <p>For a purchase this equals {@code gross + commission + tax}; for a sale this
-   * equals {@code gross - commission - tax}.</p>
+   * <p>For a purchase this equals {@code gross + commission + tax}; for a sale this equals {@code
+   * gross - commission - tax}.
    *
    * @return the total net amount
    */
   BigDecimal calculateTotal();
-
 }
