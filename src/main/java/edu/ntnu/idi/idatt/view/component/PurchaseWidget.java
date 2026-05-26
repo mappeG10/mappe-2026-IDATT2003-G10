@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -82,32 +81,9 @@ public class PurchaseWidget extends TransactionWidget<Stock> {
             subtitleLabel,
             new Label("Quantity:"),
             quantityField,
-            buildSummaryRow(),
+            buildSummaryRow(
+                "Gross Cost", grossValueLabel, "Commission (0.5%)", commissionValueLabel, "Total"),
             new HBox(8, actionButton, closeButton));
-  }
-
-  /**
-   * Builds the cost summary panel showing gross cost, commission, and total.
-   *
-   * @return an {@link HBox} containing the aligned key-value rows
-   */
-  private HBox buildSummaryRow() {
-    Label grossKey = new Label("Gross Cost");
-    grossKey.getStyleClass().add("widget-label-key");
-    Label commKey = new Label("Commission (0.5%)");
-    commKey.getStyleClass().add("widget-label-key");
-    Label totalKey = new Label("Total");
-    totalKey.getStyleClass().add("widget-label-total");
-
-    grossValueLabel.getStyleClass().add("widget-label-value");
-    commissionValueLabel.getStyleClass().add("widget-label-value");
-    totalLabel.getStyleClass().add("widget-label-total");
-
-    VBox keys = new VBox(6, grossKey, commKey, totalKey);
-    VBox values = new VBox(6, grossValueLabel, commissionValueLabel, totalLabel);
-    HBox row = new HBox(24, keys, values);
-    row.getStyleClass().add("widget-summary");
-    return row;
   }
 
   /**
