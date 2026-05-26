@@ -36,7 +36,6 @@ public class Purchase extends Transaction {
    *   <li>Archives this transaction in the player's transaction history.</li>
    *   <li>Re-evaluates the player's status based on updated activity.</li>
    * </ol>
-   * </p>
    *
    * @param player the player executing the purchase; must not be {@code null}
    * @throws TransactionAlreadyCommittedException if this purchase has already been committed

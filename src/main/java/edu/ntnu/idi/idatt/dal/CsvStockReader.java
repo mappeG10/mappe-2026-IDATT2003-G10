@@ -22,9 +22,10 @@ import java.util.logging.Logger;
  *   <li><strong>company</strong> — the full name of the issuing company</li>
  *   <li><strong>price</strong> — the initial market price as a decimal number</li>
  * </ol>
- * Lines beginning with {@code #} and blank lines are silently skipped. Lines that fail
+ *
+ * <p>Lines beginning with {@code #} and blank lines are silently skipped. Lines that fail
  * to parse are logged as warnings and skipped; only a completely empty result (no valid
- * stocks at all) causes a {@link StockParsingException} to be thrown.</p>
+ * stocks at all) causes a {@link StockParsingException} to be thrown.
  */
 public class CsvStockReader implements DataReader<List<Stock>> {
 

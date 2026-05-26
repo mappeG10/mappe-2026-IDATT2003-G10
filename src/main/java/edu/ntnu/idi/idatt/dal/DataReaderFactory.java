@@ -13,7 +13,6 @@ import java.util.List;
  *   <li>{@code .csv} — stock data, read by {@link CsvStockReader}</li>
  *   <li>{@code .millions} — saved game state, read by {@link JsonGameReader}</li>
  * </ul>
- * </p>
  *
  * <p>This class is not instantiable; all methods are static.</p>
  */

@@ -23,7 +23,6 @@ import java.util.List;
  *   <li>{@link #createControllerFromSave(String)} — restores a game session from a
  *       previously saved {@code .millions} file.</li>
  * </ul>
- * </p>
  *
  * <p>This class is not instantiable; all methods are static.</p>
  */

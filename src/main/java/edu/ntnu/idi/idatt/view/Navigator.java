@@ -28,7 +28,6 @@ import java.io.IOException;
  *   <li><strong>Game</strong> — the main in-game shell with a sidebar and content area.</li>
  *   <li><strong>Summary</strong> — displays end-game statistics after the session ends.</li>
  * </ul>
- * </p>
  */
 public class Navigator {
 

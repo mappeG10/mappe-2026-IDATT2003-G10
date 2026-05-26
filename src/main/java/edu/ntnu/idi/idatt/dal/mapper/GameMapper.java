@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
  *       fully wired domain objects, including re-linking share positions and archived
  *       transactions to their stock references.</li>
  * </ul>
- * </p>
  *
  * <p>This class is not instantiable; all methods are static.</p>
  */

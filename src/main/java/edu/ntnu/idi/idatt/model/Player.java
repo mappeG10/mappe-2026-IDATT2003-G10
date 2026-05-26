@@ -218,8 +218,9 @@ public class Player implements GameSubject {
    *       at least 20%.</li>
    *   <li>{@link Status#NOVICE} — all other cases.</li>
    * </ul>
-   * If the starting balance is zero, status is not updated. All registered observers are
-   * notified after a status change.</p>
+   *
+   * <p>If the starting balance is zero, status is not updated. All registered observers
+   * are notified after a status change.
    */
   public void updateStatus() {
     if (startingMoney.compareTo(BigDecimal.ZERO) <= 0) {
