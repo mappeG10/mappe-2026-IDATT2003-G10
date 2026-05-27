@@ -142,7 +142,8 @@ public class MainView extends BorderPane implements GameObserver {
     sidebar.getStyleClass().add("sidebar");
     sidebar
         .getChildren()
-        .addAll(dashboardBtn, marketBtn, portfolioBtn, historyBtn, spacer, exitBtn, settingsBtn, finishBtn);
+        .addAll(dashboardBtn, marketBtn, portfolioBtn,
+            historyBtn, spacer, exitBtn, settingsBtn, finishBtn);
     return sidebar;
   }
 
