@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -85,32 +84,10 @@ public class SaleWidget extends TransactionWidget<Share> {
             subtitleLabel,
             new Label("Quantity (max: " + target.getQuantity().toPlainString() + "):"),
             quantityField,
-            buildSummaryRow(),
+            buildSummaryRow(
+                "Gross Proceeds", grossValueLabel,
+                "Capital Gains Tax (30%)", taxValueLabel, "Net Proceeds"),
             new HBox(8, actionButton, closeButton));
-  }
-
-  /**
-   * Builds the proceeds summary panel showing gross proceeds, capital-gains tax, and net total.
-   *
-   * @return an {@link HBox} containing the aligned key-value rows
-   */
-  private HBox buildSummaryRow() {
-    Label grossKey = new Label("Gross Proceeds");
-    grossKey.getStyleClass().add("widget-label-key");
-    Label taxKey = new Label("Capital Gains Tax (30%)");
-    taxKey.getStyleClass().add("widget-label-key");
-    Label totalKey = new Label("Net Proceeds");
-    totalKey.getStyleClass().add("widget-label-total");
-
-    grossValueLabel.getStyleClass().add("widget-label-value");
-    taxValueLabel.getStyleClass().add("widget-label-value");
-    totalLabel.getStyleClass().add("widget-label-total");
-
-    VBox keys = new VBox(6, grossKey, taxKey, totalKey);
-    VBox values = new VBox(6, grossValueLabel, taxValueLabel, totalLabel);
-    HBox row = new HBox(24, keys, values);
-    row.getStyleClass().add("widget-summary");
-    return row;
   }
 
   /**

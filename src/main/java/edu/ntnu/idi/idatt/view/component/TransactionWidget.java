@@ -3,6 +3,8 @@ package edu.ntnu.idi.idatt.view.component;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * Abstract base class for buy and sell transaction modal widgets.
@@ -72,4 +74,38 @@ public abstract class TransactionWidget<T> extends BaseModal<T> {
    * via {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showErrorAlert}.
    */
   protected abstract void handleAction();
+
+  /**
+   * Builds a two-column key/value summary panel with a highlighted total row.
+   *
+   * @param grossKeyText label for the gross line
+   * @param grossVal value label for the gross line (will have {@code widget-label-value} applied)
+   * @param deductionKeyText label for the deduction line (commission or tax)
+   * @param deductionVal value label for the deduction line
+   * @param totalKeyText label for the total line
+   * @return an {@link HBox} containing the aligned key-value rows
+   */
+  protected HBox buildSummaryRow(
+      String grossKeyText,
+      Label grossVal,
+      String deductionKeyText,
+      Label deductionVal,
+      String totalKeyText) {
+    Label grossKey = new Label(grossKeyText);
+    grossKey.getStyleClass().add("widget-label-key");
+    Label deductionKey = new Label(deductionKeyText);
+    deductionKey.getStyleClass().add("widget-label-key");
+    Label totalKey = new Label(totalKeyText);
+    totalKey.getStyleClass().add("widget-label-total");
+
+    grossVal.getStyleClass().add("widget-label-value");
+    deductionVal.getStyleClass().add("widget-label-value");
+    totalLabel.getStyleClass().add("widget-label-total");
+
+    VBox keys = new VBox(6, grossKey, deductionKey, totalKey);
+    VBox values = new VBox(6, grossVal, deductionVal, totalLabel);
+    HBox row = new HBox(24, keys, values);
+    row.getStyleClass().add("widget-summary");
+    return row;
+  }
 }

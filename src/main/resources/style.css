@@ -310,6 +310,21 @@
     -fx-background-color: derive(white, -12%);
 }
 
+.sidebar-btn-danger {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #fca5a5;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+.sidebar-btn-danger:hover {
+    -fx-background-color: rgba(220, 38, 38, 0.18);
+    -fx-text-fill: #fca5a5;
+}
+.sidebar-btn-danger:pressed {
+    -fx-background-color: rgba(220, 38, 38, 0.30);
+}
+
 /* ── 5. Content Views ─────────────────────────────────────────── */
 .content-view {
     -fx-background-color: transparent;
@@ -723,6 +738,19 @@
 .btn-cancel:hover {
     -fx-background-color: bg-page;
 }
+
+.btn-danger {
+    -fx-background-color: danger;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+}
+.btn-danger:hover   { -fx-background-color: derive(danger, -10%); }
+.btn-danger:pressed { -fx-background-color: derive(danger, -20%); }
 
 .receipt-total-purchase {
     -fx-text-fill: primary-light;

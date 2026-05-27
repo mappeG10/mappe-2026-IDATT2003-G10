@@ -1,21 +1,15 @@
 package edu.ntnu.idi.idatt.view.component;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-
 /**
  * Modal dialog widget for displaying an error message to the player.
  *
  * <p>Rendered with a red-tinted header, an exclamation-mark badge, and two buttons: "Cancel"
  * (closes without action) and "OK" (also closes). The dialog is opened via {@link
- * #openDialog(javafx.stage.Window)} inherited from {@link BaseModal}.
+ * #openDialog(javafx.stage.Window)} inherited from {@link AlertWidget}.
  *
  * <p>Convenience method: {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showErrorAlert}.
  */
-public class ErrorWidget extends BaseModal<String> {
+public class ErrorWidget extends AlertWidget {
 
   /**
    * Constructs and immediately lays out an error dialog with the given title and message.
@@ -24,47 +18,6 @@ public class ErrorWidget extends BaseModal<String> {
    * @param message the error description shown in the alert body
    */
   public ErrorWidget(String title, String message) {
-    super(message);
-    setupUi();
-    titleLabel.setText(title);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  protected void setupUi() {
-    getStyleClass().add("widget-root");
-    setSpacing(0);
-
-    Label badgeLabel = new Label("!");
-    badgeLabel
-        .getStyleClass()
-        .addAll("alert-icon-badge", "alert-icon-badge-error", "alert-badge-text");
-
-    this.titleLabel = new Label("Error");
-    this.titleLabel.getStyleClass().add("alert-title");
-
-    HBox header = new HBox(12, badgeLabel, titleLabel);
-    header.getStyleClass().addAll("alert-header", "alert-header-error");
-
-    Label messageLabel = new Label(target);
-    messageLabel.getStyleClass().add("alert-message");
-    VBox body = new VBox(messageLabel);
-    body.getStyleClass().add("alert-body");
-
-    Region divider = new Region();
-    divider.getStyleClass().add("alert-divider");
-    divider.setMaxWidth(Double.MAX_VALUE);
-
-    Button cancelButton = new Button("Cancel");
-    cancelButton.getStyleClass().add("btn-alert-cancel");
-    cancelButton.setOnAction(e -> requestClose());
-
-    this.closeButton = new Button("OK");
-    this.closeButton.getStyleClass().add("btn-alert-ok-error");
-
-    HBox btnRow = new HBox(12, cancelButton, closeButton);
-    btnRow.getStyleClass().add("alert-btn-row");
-
-    getChildren().addAll(header, body, divider, btnRow);
+    super(title, message, "!", "error");
   }
 }
