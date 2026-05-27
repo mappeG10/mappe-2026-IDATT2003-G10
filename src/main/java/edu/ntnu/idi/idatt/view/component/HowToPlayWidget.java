@@ -13,10 +13,26 @@ import javafx.stage.Window;
  * Modal dialog widget that explains the game rules and rank system to the player.
  *
  * <p>Displayed as a read-only informational overlay with four sections: objective, how the game
- * works, the rank promotion thresholds, and a short tips line. Opened via {@link
- * #open(Window)}.
+ * works, the rank promotion thresholds, and a short tips line. Opened via {@link #open(Window)}.
  */
 public class HowToPlayWidget extends BaseModal<Void> {
+
+  private static final String DESCRIPTION =
+      "Grow your net worth by buying and selling stocks. "
+          + "Advance weeks from the Dashboard to move prices.";
+
+  private static final String STEPS =
+      "Buy shares from the Market tab.\n"
+          + "Sell positions from the Portfolio tab.\n"
+          + "Track your performance on the Dashboard.";
+
+  private static final String TIP =
+      "Tip: diversify your holdings and save regularly from Settings.";
+
+  private static final String RANKS =
+      "Novice — Starting rank\n"
+          + "Investor — 10+ weeks traded · 20%+ total profit\n"
+          + "Speculator — 20+ weeks traded · 100%+ total profit";
 
   /** Constructs and immediately lays out the how-to-play dialog. */
   public HowToPlayWidget() {
@@ -33,14 +49,16 @@ public class HowToPlayWidget extends BaseModal<Void> {
     new HowToPlayWidget().openDialog(owner);
   }
 
-  /** {@inheritDoc} */
+  /** Builds the how-to-play layout with game rules, rank thresholds, and a tip. */
   @Override
   protected void setupUi() {
     getStyleClass().add("widget-root");
     setSpacing(0);
 
     Label badgeLabel = new Label("i");
-    badgeLabel.getStyleClass().addAll("alert-icon-badge", "alert-icon-badge-info", "alert-badge-text");
+    badgeLabel
+        .getStyleClass()
+        .addAll("alert-icon-badge", "alert-icon-badge-info", "alert-badge-text");
 
     this.titleLabel = new Label("How to Play");
     this.titleLabel.getStyleClass().add("alert-title");
@@ -48,27 +66,24 @@ public class HowToPlayWidget extends BaseModal<Void> {
     HBox header = new HBox(12, badgeLabel, titleLabel);
     header.getStyleClass().addAll("alert-header", "alert-header-info");
 
-    String content =
-        """
-        Grow your net worth by buying and selling stocks. \
-        Advance weeks from the Dashboard to move prices.
+    Label descLabel = new Label(DESCRIPTION);
+    descLabel.getStyleClass().add("alert-message");
+    descLabel.setWrapText(true);
 
-        Buy shares from the Market tab.
-        Sell positions from the Portfolio tab.
-        Track your performance on the Dashboard.
+    Label stepsLabel = new Label(STEPS);
+    stepsLabel.getStyleClass().add("alert-message");
 
-        ── Ranks ──
-        Novice        Starting rank
-        Investor      10+ weeks traded · 20%+ total profit
-        Speculator    20+ weeks traded · 100%+ total profit
+    Label ranksHeader = new Label("── Ranks ──");
+    ranksHeader.getStyleClass().add("alert-message");
 
-        Tip: diversify your holdings and save regularly from Settings.""";
+    Label ranksLabel = new Label(RANKS);
+    ranksLabel.getStyleClass().add("alert-message");
 
-    Label messageLabel = new Label(content);
-    messageLabel.getStyleClass().add("alert-message");
-    messageLabel.setWrapText(true);
+    Label tipLabel = new Label(TIP);
+    tipLabel.getStyleClass().add("alert-message");
+    tipLabel.setWrapText(true);
 
-    VBox body = new VBox(messageLabel);
+    VBox body = new VBox(8, descLabel, stepsLabel, ranksHeader, ranksLabel, tipLabel);
     body.getStyleClass().add("alert-body");
 
     Region divider = new Region();

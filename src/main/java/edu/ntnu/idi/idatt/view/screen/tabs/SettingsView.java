@@ -110,7 +110,7 @@ public class SettingsView extends VBox {
     }
   }
 
-  /** Opens the {@link HelpWidget} dialog anchored to the current window. */
+  /** Opens the {@link HowToPlayWidget} dialog anchored to the current window. */
   private void handleShowHelp() {
     HowToPlayWidget.open(getScene().getWindow());
   }
