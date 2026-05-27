@@ -6,6 +6,11 @@
 This is a JavaFX desktop application implemented as the IDATT2003 group project (Group 10).  
 The application is a stock market simulation game called **Millions**, where the player buys and sells shares from a configurable stock exchange, advances the game one week at a time to trigger random price changes, and tracks net worth, portfolio performance, and transaction history in real time. The application is built around the MVC pattern, uses the Observer pattern for live UI updates, and persists game state to disk as `.millions` JSON files.
 
+
+![Use case diagram of application](usecase.png)
+
+
+
 ## Project structure
 
 Sources and tests follow a standard Maven layout. The model is fully decoupled from JavaFX, controllers expose DTOs to the views, and a dedicated data access layer handles parsing of stock CSV files and serialization of game state.
