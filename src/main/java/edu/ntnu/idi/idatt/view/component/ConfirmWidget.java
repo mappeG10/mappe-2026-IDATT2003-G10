@@ -40,7 +40,7 @@ public abstract class ConfirmWidget extends BaseModal<Void> {
     setupUi();
   }
 
-  /** {@inheritDoc} */
+  /** Builds the confirmation layout using the title, body, and button config supplied at construction. */
   @Override
   protected void setupUi() {
     getStyleClass().add("widget-root");

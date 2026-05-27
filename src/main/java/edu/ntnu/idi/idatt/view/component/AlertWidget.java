@@ -38,7 +38,7 @@ public abstract class AlertWidget extends BaseModal<String> {
     titleLabel.setText(title);
   }
 
-  /** {@inheritDoc} */
+  /** Builds the alert layout using the badge text and variant supplied at construction. */
   @Override
   protected void setupUi() {
     getStyleClass().add("widget-root");

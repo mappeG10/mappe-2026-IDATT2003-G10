@@ -5,7 +5,7 @@ package edu.ntnu.idi.idatt.view.component;
  *
  * <p>Rendered with a red-tinted header, an exclamation-mark badge, and two buttons: "Cancel"
  * (closes without action) and "OK" (also closes). The dialog is opened via {@link
- * #openDialog(javafx.stage.Window)} inherited from {@link BaseModal}.
+ * #openDialog(javafx.stage.Window)} inherited from {@link AlertWidget}.
  *
  * <p>Convenience method: {@link edu.ntnu.idi.idatt.view.util.ViewUtility#showErrorAlert}.
  */
